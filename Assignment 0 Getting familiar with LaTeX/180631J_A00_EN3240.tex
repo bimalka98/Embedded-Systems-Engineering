@@ -1,0 +1,90 @@
+\documentclass[11pt,letterpaper]{article}
+
+\usepackage[letterpaper,margin=0.8in,nohead]{geometry}
+
+\usepackage[colorlinks]{hyperref}
+\usepackage{url}
+\usepackage{breakurl}
+
+\hypersetup{
+    colorlinks,
+    linkcolor={red},
+    citecolor={red},
+    urlcolor={blue}
+}
+
+\usepackage{verbatim}
+\usepackage{fancyvrb}
+\usepackage{scrextend}
+\usepackage{enumitem}
+\usepackage{url}
+
+\usepackage{caption}
+\usepackage{graphicx}
+\usepackage{subcaption}
+
+\usepackage{changepage}   % for the adjustwidth environment
+
+\newenvironment{answer}{\em \color{blue} \begin{adjustwidth}{1cm}{1cm}}{\end{adjustwidth}}
+
+% math
+\usepackage{amsthm,amsmath}
+\usepackage{amsfonts}
+
+\newcommand{\mc}[1]{\mathcal{#1}}	% Mechanisms / Algorithms
+\newcommand{\rv}[1]{\mathbf{#1}}    % Random variable
+
+\newcommand{\pr}[1]{\mathrm{Pr}\{#1\}} % Probability
+
+\newtheorem{corollary}{\bf Corollary}%[theorem]
+\newtheorem{lemma}{\bf Lemma}%[theorem]
+\newtheorem{definition}{\bf Definition}%[section]
+
+\newtheorem{observation}{\bf Observation}%[theorem]
+
+%\include{macros-v2}
+
+% load cleveref last!
+\usepackage[capitalise]{cleveref}
+
+\crefname{observation}{Observation}{Observations}
+
+
+\begin{document}
+
+\title{EN3240: Embedded Systems Engineering \\Assignment 0 --- Student Profile}
+
+%% This is an individual assignment!!
+%% TODO: put your name and index number here!
+\author{Name: Thalagala B. P. \\ Index No: 180631J}
+
+\maketitle
+
+\begin{center}
+	\color{red}\bf This is an individual assignment! \\ Due Date: 25 August 2022 by 11.59 PM
+\end{center}
+
+\section*{Instructions}
+%
+
+For this assignment, give me a bit of information about yourself. Provide a short biography of yourself, your interests within electronics and telecommunications engineering/computer science, what made you interested in embedded systems, how you hope to use the information you learn in this class, and your goals after graduation. This should be between two and three paragraphs in length.
+
+Please do this using LaTeX. Submit the PDF of your output online before the deadline.
+
+There are many good primers on LaTeX around the web, including through Wikipedia. A good reference is the Not so Short Introduction to LaTeX: https://tobi.oetiker.ch/lshort/lshort.pdf. Overleaf is a great tool to edit LaTeX files online.
+
+You may want to use pdflatex rather than latex to generate the file, since regular latex creates PostScript files while pdflatex creates PDFs.
+
+
+\newpage
+\section*{Student Profile}
+%TODO: Add bio here
+I, Bimalka Piyaruwan Thalagala, am a final year engineering student at the University of Moratuwa. I completed my Advanced Level in Royal College, Colombo 7 and Ordinary Level in Dharmapala College, Kottawa in years 2017 and 2014 respectively. I love helping people, sharing knowledge, playing the guitar and of course engineering. Specifically, my areas of interest lie in the fields of Machine Vision, Embedded Systems Design, Computer Architecture and Industrial Automation. In addition to that, I love competitive programming even though I am not `a programmer'.\\
+
+I completed my industrial training at a local Research and Development facility where I worked on Machine Vision based Real Time Motion Planning for an Articulated Robot Arm. It was where I was exposed to the true potential of embedded systems engineering discipline and this internship made me interested in learning further about the field. I believe the class `EN3240: Embedded Systems Engineering' will be a great place for me to get a deeper understanding about the breadth and depth of the field.\\
+
+
+After the graduation, I would like to join the industry and apply what I have already learned to solve real world problems while developing myself through exploring new areas of interest. Because I believe in the philosophy of `learn as needed and apply' to become a more practical engineer rather than keep learning everything in the world. As an industry that I would like to join, `industrial automation with computer vision based systems' can be highlighted.
+
+
+\end{document}
