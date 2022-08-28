@@ -24,9 +24,9 @@
      inkscape:document-units="mm"
      showgrid="false"
      units="in"
-     inkscape:zoom="1.4142136"
-     inkscape:cx="523.61257"
-     inkscape:cy="317.13739"
+     inkscape:zoom="1"
+     inkscape:cx="324.5"
+     inkscape:cy="349.5"
      inkscape:window-width="1920"
      inkscape:window-height="1001"
      inkscape:window-x="-9"
@@ -263,6 +263,48 @@
          d="M 0,0 5,-5 -12.5,0 5,5 Z"
          id="path1823-9" />
     </marker>
+    <marker
+       style="overflow:visible"
+       id="Arrow1Mend-2-6"
+       refX="0"
+       refY="0"
+       orient="auto"
+       inkscape:stockid="Arrow1Mend"
+       inkscape:isstock="true">
+      <path
+         transform="matrix(-0.4,0,0,-0.4,-4,0)"
+         style="fill:context-stroke;fill-rule:evenodd;stroke:context-stroke;stroke-width:1pt"
+         d="M 0,0 5,-5 -12.5,0 5,5 Z"
+         id="path1823-9-5" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="Arrow1Mend-5-2-9-5-4"
+       refX="0"
+       refY="0"
+       orient="auto"
+       inkscape:stockid="Arrow1Mend"
+       inkscape:isstock="true">
+      <path
+         transform="matrix(-0.4,0,0,-0.4,-4,0)"
+         style="fill:context-stroke;fill-rule:evenodd;stroke:context-stroke;stroke-width:1pt"
+         d="M 0,0 5,-5 -12.5,0 5,5 Z"
+         id="path1823-5-1-8-9-5" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="Arrow1Mend-4"
+       refX="0"
+       refY="0"
+       orient="auto"
+       inkscape:stockid="Arrow1Mend"
+       inkscape:isstock="true">
+      <path
+         transform="matrix(-0.4,0,0,-0.4,-4,0)"
+         style="fill:context-stroke;fill-rule:evenodd;stroke:context-stroke;stroke-width:1pt"
+         d="M 0,0 5,-5 -12.5,0 5,5 Z"
+         id="path1823-6" />
+    </marker>
   </defs>
   <g
      inkscape:label="Layer 1"
@@ -374,6 +416,13 @@
        id="path11431-5"
        cx="105.30416"
        cy="151.60625"
+       rx="2.574332"
+       ry="2.5736251" />
+    <ellipse
+       style="fill:#ff0000;fill-opacity:1;stroke:#ff0000;stroke-width:0.294936;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="path11431-5-5"
+       cx="124.91182"
+       cy="107.94335"
        rx="2.574332"
        ry="2.5736251" />
     <path
@@ -579,6 +628,40 @@
          style="fill:none;stroke:#000000;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Arrow1Mend-2)"
          d="m 122.55948,95.297343 c 0,6.217707 0,6.217707 0,6.217707"
          id="path49846-2-7" />
+    </g>
+    <ellipse
+       style="fill:#ff0000;fill-opacity:1;stroke:#ff0000;stroke-width:0.294936;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="path11431-5-5-5"
+       cx="125.97015"
+       cy="59.213737"
+       rx="2.574332"
+       ry="2.5736251" />
+    <ellipse
+       style="fill:#ff0000;fill-opacity:1;stroke:#ff0000;stroke-width:0.294936;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="path11431-5-5-0"
+       cx="168.05382"
+       cy="59.134373"
+       rx="2.574332"
+       ry="2.5736251" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 167.29294,64.817069 c 0,6.21771 0,6.21771 0,6.21771"
+       id="path49846-26-0" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow1Mend);stroke-miterlimit:4;stroke-dasharray:none"
+       d="M 167.29294,71.034777 C 113.46928,82.599645 113.46928,82.599645 113.46928,82.599645"
+       id="path63976" />
+    <g
+       id="g64672"
+       transform="translate(0.52916667,1.0583333)">
+      <path
+         style="fill:none;stroke:#000000;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Arrow1Mend-2-6)"
+         d="m 166.44938,46.475874 c 0,6.217707 0,6.217707 0,6.217707"
+         id="path49846-2-7-0" />
+      <path
+         style="fill:none;stroke:#000000;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         d="M 166.64575,46.719787 C 112.82209,35.154919 112.82209,35.154919 112.82209,35.154919"
+         id="path63976-7" />
     </g>
   </g>
 </svg>
