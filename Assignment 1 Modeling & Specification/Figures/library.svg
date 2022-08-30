@@ -24,9 +24,9 @@
      inkscape:document-units="mm"
      showgrid="false"
      units="in"
-     inkscape:zoom="1"
-     inkscape:cx="382.5"
-     inkscape:cy="473.5"
+     inkscape:zoom="1.4142136"
+     inkscape:cx="360.27091"
+     inkscape:cy="334.81506"
      inkscape:window-width="1920"
      inkscape:window-height="1001"
      inkscape:window-x="-9"
@@ -744,7 +744,7 @@
          id="tspan4567-5"
          style="stroke-width:0.132238"
          x="160.33633"
-         y="47.979145">return request</tspan></text>
+         y="47.979145">return request and scan</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:3.52635px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:sans-serif;letter-spacing:0px;stroke-width:0.132238"
@@ -841,7 +841,7 @@
          id="tspan27576-7"
          style="font-size:3.52778px;stroke-width:0.264583"
          x="81.299728"
-         y="119.16032">employee-3</tspan></text>
+         y="119.16032">employee-2</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:3.52778px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:sans-serif;letter-spacing:0px;stroke-width:0.264583"
@@ -852,18 +852,18 @@
          id="tspan27576-7-4"
          style="font-size:3.52778px;stroke-width:0.264583"
          x="90.224876"
-         y="67.403488">employee-2</tspan></text>
+         y="67.403488">employee-3</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:3.52778px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:sans-serif;letter-spacing:0px;stroke-width:0.264583"
-       x="34.846779"
+       x="21.776077"
        y="98.018639"
        id="text27578-6-0-9"><tspan
          sodipodi:role="line"
          id="tspan27576-7-4-1"
          style="font-size:3.52778px;stroke-width:0.264583"
-         x="34.846779"
-         y="98.018639">collect book</tspan></text>
+         x="21.776077"
+         y="98.018639">scan &amp; collect book</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:3.52778px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:sans-serif;letter-spacing:0px;stroke-width:0.264583"
