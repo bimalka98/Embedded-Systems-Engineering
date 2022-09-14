@@ -1,0 +1,147 @@
+\documentclass[11pt,letterpaper]{article}
+
+\usepackage[letterpaper,margin=0.8in,nohead]{geometry}
+
+\usepackage[colorlinks]{hyperref}
+\usepackage{url}
+\usepackage{breakurl}
+
+\hypersetup{
+	colorlinks,
+	linkcolor={red},
+	citecolor={red},
+	urlcolor={blue}
+}
+
+\usepackage{verbatim}
+\usepackage{fancyvrb}
+\usepackage{scrextend}
+\usepackage{enumitem}
+\usepackage{url}
+\usepackage{subcaption}
+
+\usepackage{filecontents}
+%\usepackage{natbib}
+%\nobibliography*
+
+\usepackage{caption}
+\usepackage{graphicx}
+
+\usepackage{changepage}   % for the adjustwidth environment
+
+\newenvironment{answer}{\em \color{blue} \begin{adjustwidth}{1cm}{1cm}}{\end{adjustwidth}}
+
+% math
+\usepackage{amsthm,amsmath}
+\usepackage{amsfonts}
+
+\newcommand{\mc}[1]{\mathcal{#1}}	% Mechanisms / Algorithms
+\newcommand{\rv}[1]{\mathbf{#1}}    % Random variable
+
+\newcommand{\pr}[1]{\mathrm{Pr}\{#1\}} % Probability
+
+\newtheorem{corollary}{\bf Corollary}%[theorem]
+\newtheorem{lemma}{\bf Lemma}%[theorem]
+\newtheorem{definition}{\bf Definition}%[section]
+
+\newtheorem{observation}{\bf Observation}%[theorem]
+
+
+
+% load cleveref last!
+\usepackage[capitalise]{cleveref}
+
+\crefname{observation}{Observation}{Observations}
+
+
+\begin{document}
+	
+	\title{EN3240: Embedded Systems Engineering \\Assignment 5 --- Research Paper Review}
+	
+	%% This is a group assignment!!
+	%% TODO: put your names and index numbers here!
+	\author{
+		Name: B. P. Thalagala	 \qquad Index No:	180631J\\
+		Name: M.G.S.Thanujaya	 \qquad Index No:	180634V\\
+		Name: M.W.K.S.Jayalath \qquad Index No:		180260U\\
+		Name: R.M.A.S.Rathnayake \qquad Index No:	180534N\\
+		Name: G.R.U.Y.Gamlath	 \qquad Index No:	180191H\\
+	}
+	
+	\maketitle
+	
+	\begin{center}
+		\color{red}\bf This is a group assignment! \\ Due Date: 25 September 2022 by 11.59 PM
+	\end{center}
+	
+	\section*{Instructions}
+	%
+	
+	This assignment has two main components.
+	
+	\begin{enumerate}[noitemsep]
+		\item Paper review (5 points) -- to be done using this template
+		\item Presentation (5 points)
+	\end{enumerate}
+	
+	Please read the paper assigned to you and write a review of the paper using the template given below.
+	
+	Prepare a separate PowerPoint presentation and present the paper within 10 minutes. Record a video of the presentation. Each member of your team must present (approximately 2 minutes each for a group of 5). Use any PowerPoint/LaTeX template you are comfortable with. Use any format you think is suitable to explain the paper.
+	
+	Upload both the paper review and presentation video in one zip file to Moodle.
+	
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	\newpage
+	
+	\noindent {\bf \textcolor{blue}{Paper Title: }}
+	%To Do: Add paper title here
+	Fine-Grained Dynamic Voltage and Frequency Scaling for Precise Energy and Performance Tradeoff Based on the Ratio of Off-Chip Access to On-Chip Computation Times
+	
+	\noindent {\bf \textcolor{blue}{Author(s): }}
+	%To Do: Add author(s) here
+	Kihwan Choi, Student Member, IEEE, Ramakrishna Soma, Student Member, IEEE, and Massoud Pedram, Fellow, IEEE
+	
+	\noindent {\bf \textcolor{blue}{Conference/Journal: }}
+	%To Do: Add conference/journal here
+	IEEE Transactions on Computer-Aided Design of Integrated Circuits and Systems
+	
+	\noindent {\bf \textcolor{blue}{Year of Publication: }}
+	%To Do: Add year of publication here
+	2005
+	
+	\noindent\makebox[\linewidth]{\rule{\textwidth}{0.4pt}}
+	
+	\subsection*{Overall merit}
+	
+	%To Do: Select the appropriate option by underlining
+	\begin{itemize}[noitemsep]
+		\item Reject 
+		\item Weak reject
+		\item Weak accept
+		\item Accept
+		\item Strong accept $\Leftarrow$
+	\end{itemize}
+	
+	\subsection*{Reviewer expertise}
+	
+	%To Do: Select the appropriate option
+	\begin{itemize}[noitemsep]
+		\item No familiarity 
+		\item Some familiarity
+		\item Knowledgeable
+		\item Expert $\Leftarrow$
+	\end{itemize}
+	
+	%To Do: Add a summary of the paper using one or two paragraphs
+	\subsection*{Paper Summary}
+	
+	Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin sit amet nunc sit amet purus suscipit hendrerit id vel eros. Vestibulum interdum et neque non tincidunt. Aliquam vitae pulvinar massa, auctor iaculis mauris. Suspendisse aliquam augue id tortor tempus vulputate. Nullam vestibulum urna at placerat semper. Mauris dictum, turpis in consequat maximus, augue ligula maximus lectus, rutrum tristique ligula tellus a orci. Integer eu rutrum nisi. Donec volutpat lorem eget neque pretium scelerisque. Nulla imperdiet gravida est, non auctor mi congue quis. Nulla et venenatis tellus. Aliquam ultrices est nec tincidunt convallis. Donec bibendum nunc et sem mattis, eget faucibus ex eleifend. Sed venenatis diam id diam pretium dictum. Quisque sit amet vulputate tellus. Pellentesque hendrerit sapien sit amet lacus mattis, ut venenatis nibh vestibulum.
+	
+	%To Do: Give comments to the author(s) about strengths and weaknesses of the paper
+	\subsection*{Comments for Author}
+	
+	Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin sit amet nunc sit amet purus suscipit hendrerit id vel eros. Vestibulum interdum et neque non tincidunt. Aliquam vitae pulvinar massa, auctor iaculis mauris. Suspendisse aliquam augue id tortor tempus vulputate. Nullam vestibulum urna at placerat semper. Mauris dictum, turpis in consequat maximus, augue ligula maximus lectus, rutrum tristique ligula tellus a orci. Integer eu rutrum nisi. Donec volutpat lorem eget neque pretium scelerisque. Nulla imperdiet gravida est, non auctor mi congue quis. Nulla et venenatis tellus. Aliquam ultrices est nec tincidunt convallis. Donec bibendum nunc et sem mattis, eget faucibus ex eleifend. Sed venenatis diam id diam pretium dictum. Quisque sit amet vulputate tellus. Pellentesque hendrerit sapien sit amet lacus mattis, ut venenatis nibh vestibulum.
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\end{document}
