@@ -7,9 +7,9 @@
    width="854"
    height="524"
    viewBox="0 0 854 524"
-   sodipodi:docname="rms.svg"
+   sodipodi:docname="edf.svg"
    inkscape:version="1.1.1 (3bf5ae0d25, 2021-09-20)"
-   inkscape:export-filename="E:\Embedded-Systems-Engineering\Assignment 4 Real-time Scheduling\images\rmsed.png"
+   inkscape:export-filename="E:\Embedded-Systems-Engineering\Assignment 4 Real-time Scheduling\images\edfed.png"
    inkscape:export-xdpi="271.04099"
    inkscape:export-ydpi="271.04099"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
@@ -28,9 +28,9 @@
      inkscape:pageopacity="0.0"
      inkscape:pagecheckerboard="0"
      showgrid="false"
-     inkscape:zoom="0.73187023"
-     inkscape:cx="249.36115"
-     inkscape:cy="238.43025"
+     inkscape:zoom="1.4637405"
+     inkscape:cx="421.18123"
+     inkscape:cy="262"
      inkscape:window-width="1920"
      inkscape:window-height="1001"
      inkscape:window-x="-9"
@@ -209,87 +209,80 @@
        x="147.39391"
        y="215.30569" />
     <rect
-       style="fill:#0000ff;stroke:none;stroke-width:2.22068;stroke-linecap:round;stroke-linejoin:round"
+       style="fill:#0000ff;stroke:none;stroke-width:3.63563;stroke-linecap:round;stroke-linejoin:round"
        id="rect6836-5-6"
-       width="57.733715"
+       width="154.74545"
        height="28.486391"
        x="231.23557"
        y="387.19803" />
+    <text
+       xml:space="preserve"
+       style="font-size:26.6667px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:sans-serif;letter-spacing:0px"
+       x="656.96106"
+       y="514.56494"
+       id="text24053-8"><tspan
+         sodipodi:role="line"
+         id="tspan24051-1"
+         x="656.96106"
+         y="514.56494">X</tspan></text>
     <rect
-       style="fill:#ff0000;stroke:none;stroke-width:2.0212;stroke-linecap:round;stroke-linejoin:round"
-       id="rect6836-6"
-       width="47.827591"
+       style="fill:#ff0000;stroke:none;stroke-width:1.94018;stroke-linecap:round;stroke-linejoin:round"
+       id="rect6836-0"
+       width="44.070095"
        height="28.486391"
-       x="285.39651"
-       y="45.193573" />
+       x="385.82416"
+       y="44.510391" />
     <rect
-       style="fill:#00d400;stroke:none;stroke-width:2.90391;stroke-linecap:round;stroke-linejoin:round"
-       id="rect6836-5-63"
-       width="98.724594"
+       style="fill:#00d400;stroke:none;stroke-width:2.8327;stroke-linecap:round;stroke-linejoin:round"
+       id="rect6836-5-9"
+       width="93.942322"
        height="28.486391"
-       x="334.24396"
+       x="433.30524"
+       y="215.98888" />
+    <rect
+       style="fill:#ff0000;stroke:none;stroke-width:1.99943;stroke-linecap:round;stroke-linejoin:round"
+       id="rect6836-0-3"
+       width="46.802818"
+       height="28.486391"
+       x="527.24268"
+       y="44.510391" />
+    <rect
+       style="fill:#0000ff;stroke:none;stroke-width:2.78073;stroke-linecap:round;stroke-linejoin:round"
+       id="rect6836-5-6-9"
+       width="90.526421"
+       height="28.486391"
+       x="575.06531"
+       y="388.15054" />
+    <rect
+       style="fill:#00d400;stroke:none;stroke-width:1.97003;stroke-linecap:round;stroke-linejoin:round"
+       id="rect6836-5-9-7"
+       width="45.436455"
+       height="28.486391"
+       x="664.90369"
        y="215.98888" />
     <text
        xml:space="preserve"
        style="font-size:26.6667px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:sans-serif;letter-spacing:0px"
-       x="424.25555"
-       y="513.06915"
-       id="text24053"><tspan
+       x="699.05768"
+       y="334.15555"
+       id="text24053-8-2"><tspan
          sodipodi:role="line"
-         id="tspan24051"
-         x="424.25555"
-         y="513.06915">X</tspan></text>
+         id="tspan24051-1-4"
+         x="699.05768"
+         y="334.15555">X</tspan></text>
     <rect
-       style="fill:#0000ff;stroke:none;stroke-width:2.05698;stroke-linecap:round;stroke-linejoin:round"
-       id="rect6836-5-6-3"
-       width="49.535542"
+       style="fill:#ff0000;stroke:none;stroke-width:1.99943;stroke-linecap:round;stroke-linejoin:round"
+       id="rect6836-0-3-0"
+       width="46.802818"
        height="28.486391"
-       x="431.59729"
-       y="387.46738" />
+       x="706.96887"
+       y="45.876751" />
     <rect
-       style="fill:#ff0000;stroke:none;stroke-width:2.0212;stroke-linecap:round;stroke-linejoin:round"
-       id="rect6836-6-3"
-       width="47.827591"
+       style="fill:#00d400;stroke:none;stroke-width:2.07111;stroke-linecap:round;stroke-linejoin:round"
+       id="rect6836-5-9-7-7"
+       width="50.218723"
        height="28.486391"
-       x="478.2244"
-       y="44.510387" />
-    <rect
-       style="fill:#00d400;stroke:none;stroke-width:2.85323;stroke-linecap:round;stroke-linejoin:round"
-       id="rect6836-5-63-4"
-       width="95.308685"
-       height="28.486391"
-       x="526.55951"
-       y="215.30569" />
-    <rect
-       style="fill:#0000ff;stroke:none;stroke-width:1.92509;stroke-linecap:round;stroke-linejoin:round"
-       id="rect6836-5-6-3-7"
-       width="43.386909"
-       height="28.486391"
-       x="622.2049"
-       y="388.15054" />
-    <rect
-       style="fill:#ff0000;stroke:none;stroke-width:2.0212;stroke-linecap:round;stroke-linejoin:round"
-       id="rect6836-6-3-9"
-       width="47.827591"
-       height="28.486391"
-       x="662.68335"
-       y="45.876755" />
-    <text
-       xml:space="preserve"
-       style="font-size:26.6667px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:sans-serif;letter-spacing:0px"
-       x="656.27789"
-       y="512.51538"
-       id="text24053-8"><tspan
-         sodipodi:role="line"
-         id="tspan24051-1"
-         x="656.27789"
-         y="512.51538">X</tspan></text>
-    <rect
-       style="fill:#00d400;stroke:none;stroke-width:2.89385;stroke-linecap:round;stroke-linejoin:round"
-       id="rect6836-5-63-4-4"
-       width="98.041412"
-       height="28.486391"
-       x="709.99365"
-       y="216.67206" />
+       x="756.10834"
+       y="215.98888" />
   </g>
 </svg>
