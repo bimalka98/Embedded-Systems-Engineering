@@ -97,6 +97,9 @@
 	Test whether the tasks are schedulable on a single processor using Rate-Monotonic (RM) scheduling by applying both necessary and sufficiency tests. Indicate whether the test passes or fails.
 	
 	%% TODO: add answer here
+	\begin{proof}
+		
+	
 	\subsection*{Sufficiency Test}
 	A set of $n$ tasks is schedulable on a uniprocessor by the Rate Monotonic (RM) Scheduling algorithm, if the processor utilization ($\mu$) obey the following inequality.
 	\[	\mu \le n\left(2^{\frac{1}{n}} - 1\right) \]
@@ -114,13 +117,17 @@
 	 = 0.78
 	\]
 	
-According to the obtained values, the sufficient condition for RMS algorithm does not hold for the given tasks. Therefore, the Sufficiency Test fails. This alone does not implies the tasks can not be schedulable. We need to check for the necessary test as well.
+According to the obtained values, the sufficient condition for the RMS algorithm does not hold for the given tasks. Therefore, the sufficiency test fails. This alone does not imply the tasks are not schedulable. We need to check for the necessary test as well to make any conclusion.
+
 
 \subsection*{Necessary Test}
 For uniprocessor, the necessary condition for schedulability,
 \[\mu \le 1\]
 
-However, according to the obtained values for $\mu = 1.35$ this necessary test also fails. Therefore it can be concluded that the given three periodic tasks can not be scheduled on  a uni processor using the RMS algorithms.
+However, according to the obtained value for $\mu$ which is $1.35$ this necessary test also fails.\\
+
+\textbf{Therefore it can be concluded that the given three periodic tasks can not be scheduled on a uniprocessor using the RMS algorithms.}
+\end{proof}
 	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%    
 	\newpage
