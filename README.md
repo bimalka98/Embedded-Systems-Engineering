@@ -1,4 +1,9 @@
-# Embedded-Systems-Engineering
+
+# Embedded Systems Engineering 📷
+
+<img src="figures/embedsys.PNG"  width="600" />
+<img src="figures/embedsyseng.PNG"  width="600" />
+
 
 ## Assignments
 
