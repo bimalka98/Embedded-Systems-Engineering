@@ -9,9 +9,82 @@
 *===================================================================================*
 */
 
+
 // include the standard C++ headers
 #include <iostream> // for standard I/O
 #include <fstream>  // for file I/O
+
+
+/*
+*************************************************************************************
+*              >>>         Start of Compressor Class         >>>                    *
+*************************************************************************************
+*/
+class Compressor
+{
+    private:
+        /*           Private Data Members     
+        *******************************************************/
+
+        /*         Private Member Functions      
+        *******************************************************/
+
+    public:
+        /*            Public Data Members     
+        *******************************************************/
+
+        // default constructor
+        Compressor(){
+            std::cout << "[INFO] compressor object created." << std::endl;
+        }
+
+        // default destructor
+        ~Compressor(){
+            std::cout << "[INFO] compressor object destroyed." << std::endl;
+        }
+
+        /*         Public Member Fucntions     
+        *******************************************************/
+        void compress(){
+            std::cout << "[INFO] compressing..." << std::endl;
+        }
+};
+
+
+/*
+*************************************************************************************
+*              >>>         Start of Decompressor Class         >>>                  *
+*************************************************************************************
+*/
+class Decompressor
+{
+    private:
+        /*           Private Data Members     
+        *******************************************************/
+
+        /*         Private Member Functions      
+        *******************************************************/
+
+    public:
+        /*            Public Data Members     
+        *******************************************************/
+
+        // default constructor
+        Decompressor(){
+            std::cout << "[INFO] decompressor object created." << std::endl;
+        }
+
+        // default destructor
+        ~Decompressor(){
+            std::cout << "[INFO] decompressor object destroyed." << std::endl;
+        }
+
+        /*         Public Member Fucntions     
+        *******************************************************/
+        void decompress(){
+            std::cout << "[INFO] decompressing..." << std::endl;
+        }
+};
 
 
 /*
@@ -29,12 +102,15 @@ int main( int argc, char *argv[] ){
         if (argv[1][0] == '1'){
 
             // code compression
-            std::cout << "Compression" << std::endl;
+            Compressor compressor;
+            compressor.compress();
 
         }else if (argv[1][0] == '2'){
 
             // code decompression
-            std::cout << "Decompression" << std::endl;
+            Decompressor decompressor;
+            decompressor.decompress();
+
         }else{
 
             // invalid argument
@@ -44,10 +120,4 @@ int main( int argc, char *argv[] ){
         return 1;
     }
 }
-
-/*
-*************************************************************************************
-*            <<<             End of Main Function               <<<                 *
-*************************************************************************************
-*/
 
