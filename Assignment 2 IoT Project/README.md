@@ -40,3 +40,10 @@ bimalka98@LAP-BIMALKA98:~$
 ## Openweather API
 
 **Key:** 7ed8fde484b25a48debdfb52c6d7e4b2 **Name:** 180631J_A02_EN3240
+
+## Making tabs visible/ invisible
+
+```json
+{"tabs": {"hide": "Charts", "show": ["Weather", "Settings"]}}
+{"tabs": {"hide": "Charts"}}
+```
