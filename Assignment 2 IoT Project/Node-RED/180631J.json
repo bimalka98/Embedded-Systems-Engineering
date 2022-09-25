@@ -117,7 +117,7 @@
     {
         "id": "37793734df231869",
         "type": "ui_group",
-        "name": "Input City/Country",
+        "name": "Input City Country",
         "tab": "66df90d212cacffc",
         "order": 1,
         "disp": true,
@@ -272,8 +272,7 @@
     {
         "id": "17b52b245262e1c4",
         "type": "ui_group",
-        "d": true,
-        "name": "Input Latitude/ Longitude",
+        "name": "Input Latitude Longitude",
         "tab": "66df90d212cacffc",
         "order": 2,
         "disp": true,
@@ -499,7 +498,7 @@
         "width": 0,
         "height": 0,
         "name": "Description",
-        "label": "{{msg.payload.city}}",
+        "label": "",
         "format": "{{msg.payload.description}}",
         "layout": "col-center",
         "className": "",
@@ -802,7 +801,8 @@
         "wires": [
             [
                 "07f27e33bb7367b2",
-                "5b6cedfd16e5550d"
+                "5b6cedfd16e5550d",
+                "8f721935af4587bd"
             ]
         ]
     },
@@ -959,7 +959,7 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 500,
+        "x": 460,
         "y": 820,
         "wires": [
             []
@@ -1038,8 +1038,7 @@
         "wires": [
             [
                 "d0417d78c206fd6a",
-                "9fa3aa889aa3eb97",
-                "03e0835fd83d40e9"
+                "9fa3aa889aa3eb97"
             ]
         ]
     },
@@ -1194,7 +1193,7 @@
         "width": 0,
         "height": 0,
         "passthru": false,
-        "mode": "text",
+        "mode": "number",
         "delay": 300,
         "topic": "topic",
         "sendOnBlur": true,
@@ -1220,7 +1219,7 @@
         "width": 0,
         "height": 0,
         "passthru": false,
-        "mode": "text",
+        "mode": "number",
         "delay": 300,
         "topic": "topic",
         "sendOnBlur": true,
@@ -1266,8 +1265,8 @@
         "id": "5b6cedfd16e5550d",
         "type": "function",
         "z": "d4f7e6eabb377669",
-        "name": "function 1",
-        "func": "let locationMode = flow.get(\"location_mode\");\n\nif (locationMode == 1) { // latitude and longitude mode\n    return { \n        \"group\": {\n            \"hide\": [\"Input City/Country\"],\n            \"show\": [\"Input Latitude/ Longitude\"]} \n    };\n    \n}\n// normal city/country mode\nreturn {\n    \"group\": {\n        \"hide\": [\"Input Latitude/ Longitude\"], \n        \"show\": [\"Input City/Country\"] } \n}; \n",
+        "name": "chooseLocationMode",
+        "func": "if (msg.payload == 1) { // latitude and longitude mode\n    return {payload:{\"group\": {\"hide\": [\"Weather_Input_City_Country\"],\"show\": [\"Weather_Input_Latitude_Longitude\"]}} }   \n}\n// normal city/country mode\nreturn { payload: { \"group\": { \"show\": [\"Weather_Input_City_Country\"], \"hide\": [\"Weather_Input_Latitude_Longitude\"]}}}",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -1276,7 +1275,9 @@
         "x": 460,
         "y": 880,
         "wires": [
-            []
+            [
+                "23c39c86f9ca2eb0"
+            ]
         ]
     },
     {
@@ -1415,26 +1416,9 @@
         "y": 100,
         "wires": [
             [
-                "9cb944511c12d891",
-                "1f15850307a3b4a8"
+                "9cb944511c12d891"
             ]
         ]
-    },
-    {
-        "id": "1f15850307a3b4a8",
-        "type": "debug",
-        "z": "d4f7e6eabb377669",
-        "name": "debug 2",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 1480,
-        "y": 60,
-        "wires": []
     },
     {
         "id": "2314750871bfac40",
@@ -1463,23 +1447,6 @@
         ]
     },
     {
-        "id": "d80755f642f1c5ee",
-        "type": "debug",
-        "z": "d4f7e6eabb377669",
-        "name": "debug 3",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "true",
-        "targetType": "full",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 760,
-        "y": 340,
-        "wires": []
-    },
-    {
         "id": "a8154a358f2ce0d5",
         "type": "ui_numeric",
         "z": "d4f7e6eabb377669",
@@ -1490,7 +1457,7 @@
         "order": 3,
         "width": 0,
         "height": 0,
-        "wrap": false,
+        "wrap": true,
         "passthru": false,
         "topic": "topic",
         "topicType": "msg",
@@ -1547,7 +1514,7 @@
         "className": "",
         "topic": "",
         "name": "",
-        "x": 1510,
+        "x": 1670,
         "y": 180,
         "wires": []
     },
@@ -1574,25 +1541,113 @@
         "y": 180,
         "wires": [
             [
+                "957440ccf80a81c4"
+            ]
+        ]
+    },
+    {
+        "id": "23c39c86f9ca2eb0",
+        "type": "ui_ui_control",
+        "z": "d4f7e6eabb377669",
+        "name": "",
+        "events": "all",
+        "x": 680,
+        "y": 880,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "957440ccf80a81c4",
+        "type": "function",
+        "z": "d4f7e6eabb377669",
+        "name": "validateNotification",
+        "func": "if(msg.payload){\n    return msg;\n}\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1470,
+        "y": 180,
+        "wires": [
+            [
                 "f92a61ece6decffd"
             ]
         ]
     },
     {
-        "id": "03e0835fd83d40e9",
+        "id": "d80755f642f1c5ee",
         "type": "debug",
         "z": "d4f7e6eabb377669",
-        "name": "debug 1",
+        "name": "debug 3",
         "active": true,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
-        "complete": "payload",
-        "targetType": "msg",
+        "complete": "true",
+        "targetType": "full",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1260,
-        "y": 140,
+        "x": 760,
+        "y": 320,
         "wires": []
+    },
+    {
+        "id": "8f721935af4587bd",
+        "type": "debug",
+        "z": "d4f7e6eabb377669",
+        "name": "debug 4",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 420,
+        "y": 760,
+        "wires": []
+    },
+    {
+        "id": "59025122721d7bd1",
+        "type": "ui_ui_control",
+        "z": "d4f7e6eabb377669",
+        "name": "",
+        "events": "connect",
+        "x": 200,
+        "y": 960,
+        "wires": [
+            [
+                "48ffdf305abd5e4e"
+            ]
+        ]
+    },
+    {
+        "id": "48ffdf305abd5e4e",
+        "type": "change",
+        "z": "d4f7e6eabb377669",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "{ \"group\": { \"show\": [\"Weather_Input_City_Country\"], \"hide\": [\"Weather_Input_Latitude_Longitude\"]}}",
+                "tot": "json"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 400,
+        "y": 960,
+        "wires": [
+            [
+                "23c39c86f9ca2eb0"
+            ]
+        ]
     }
 ]
