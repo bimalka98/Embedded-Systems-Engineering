@@ -1,4 +1,4 @@
-/*
+ /*
 *************************************************************************************
                                  Author Details
   Author: Thalagala B. P.   180631J
@@ -15,14 +15,14 @@
 // initialize the global variables
 WiFiClient ESPClient;
 PubSubClient mqttClient(ESPClient);
-bool IsWarning = false;
-String WarnInterval = "";
-
+bool IsWarning = false; // viarible to store the weather condition normal/critical
+String WarnInterval = ""; // interval between two led blinks at a warning
 
 
 // user defined fucntion declaration
 void receiveCallback(char * topic, byte* payload, unsigned int length);
 void connectToBroker();
+
 /*
 *************************************************************************************
                  >>>       Start of Setup Function       >>>
@@ -40,12 +40,12 @@ void setup() {
 
   // reset settings - wipe stored credentials for testing
   // these are stored by the esp library
-  //  wm.resetSettings();
+   wm.resetSettings();
 
   // Automatically connect using saved credentials if avilable,
   // if connection fails, starts an access point with the following credentials
   bool res;
-  res = wm.autoConnect("NodeMCU", "12345678"); // password protected ap on NodeMCU
+  res = wm.autoConnect("NodeMCU", "12345678"); // password protected AP on NodeMCU
 
   // goes into a blocking loop awaiting configuration and will return success result
   if (!res) {
@@ -62,7 +62,7 @@ void setup() {
 
   // for warning mechanism
   pinMode(LED_BUILTIN, OUTPUT);     // Initialize the LED_BUILTIN pin as an output
-  digitalWrite(LED_BUILTIN, HIGH);  // turn the LED off at the beginning
+  digitalWrite(LED_BUILTIN, HIGH);  // turn the LED off at the beginning (LED is active low)
 }
 
 /*
@@ -82,17 +82,21 @@ void loop() {
 
   // check whether a warning condition has occured
   if (IsWarning) {
+
+    // if there's a waring blink the LED
     if (WarnInterval != "") {
-      int warningDelay = WarnInterval.toInt();
-      digitalWrite(LED_BUILTIN, LOW);   // Turn the LED on (Note that LOW is the voltage level
-      // but actually the LED is on; this is because
-      // it is active low on the ESP-01)
-      delay(100);                      // Wait for a some milisecond
+      int warningDelay = WarnInterval.toInt(); // convert the string to an integer
+      digitalWrite(LED_BUILTIN, LOW);   // Turn the LED on
+      delay(100);                       // Wait for a some milisecond
       digitalWrite(LED_BUILTIN, HIGH);  // Turn the LED off by making the voltage HIGH
-      delay(warningDelay);                      // Wait for two seconds (to demonstrate the active low LED)
+      delay(warningDelay);              // Wait depending on the critical level
     }
+
   } else {
+
+    // if weather conditions are normal simply Wait
     delay(1000);
+
   }
 }
 
@@ -103,30 +107,47 @@ void loop() {
 */
 
 void receiveCallback(char * topic, byte* payload, unsigned int length) {
+  
   Serial.println();
   Serial.print("[INFO] message received [");
   Serial.print(topic);
   Serial.print("] ");
 
+  // flow will be sending 'f' if the weather conditions are normal
   if (payload[0] == 'f') {
+
     // no warning condition
     IsWarning = false;
     Serial.print("normal condition.");
 
+  // if any weather condition exceeds its threshold, an interval in miliseconds,
+  // will be sent here to wait in between two LED blinks.
+  // waiting interval is calculated according to the given logic in the Assignmenet
+  // and the value is shown in miliseconds at the end of following message
   } else {
+
     // warning condition
+    Serial.print("exceeding threshold... ");
     IsWarning = true;
 
-    WarnInterval = "";
-    Serial.print("exceeding threshold... ");
+    // extracting and visualising the waiting interval
+    WarnInterval = ""; // clear the previous interval, if any
+
     for (int i = 0; i < length; i++) {
-      Serial.print((char)payload[i]); // prining the interval between two blinks
-      WarnInterval += (char)payload[i];
+      
+      // printing the interval between two blinks
+      Serial.print((char)payload[i]); 
+
+      // constructing the interval between two blinks, concatenating the received payload
+      WarnInterval += (char)payload[i]; 
+
     }
   }
 
 }
 
+
+// fucntion copied completely form the IOT practical lecture
 void connectToBroker() {
   while (! mqttClient.connected()) {
     Serial.println("[INFO] attempting MQTT connection...");

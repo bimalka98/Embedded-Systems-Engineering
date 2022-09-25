@@ -801,7 +801,8 @@
         "y": 820,
         "wires": [
             [
-                "07f27e33bb7367b2"
+                "07f27e33bb7367b2",
+                "5b6cedfd16e5550d"
             ]
         ]
     },
@@ -1140,7 +1141,7 @@
         "layout": "row-spread",
         "className": "",
         "x": 210,
-        "y": 780,
+        "y": 760,
         "wires": []
     },
     {
@@ -1474,7 +1475,7 @@
         "targetType": "full",
         "statusVal": "",
         "statusType": "auto",
-        "x": 780,
+        "x": 760,
         "y": 340,
         "wires": []
     },
