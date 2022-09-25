@@ -15,7 +15,9 @@
 // initialize the global variables
 WiFiClient ESPClient;
 PubSubClient mqttClient(ESPClient);
+bool IsWarning = false;
 String WarnInterval = "";
+
 
 
 // user defined fucntion declaration
@@ -60,6 +62,7 @@ void setup() {
 
   // for warning mechanism
   pinMode(LED_BUILTIN, OUTPUT);     // Initialize the LED_BUILTIN pin as an output
+  digitalWrite(LED_BUILTIN, HIGH);  // turn the LED off at the beginning
 }
 
 /*
@@ -76,17 +79,19 @@ void loop() {
 
   // checking any incoming messages for callback
   mqttClient.loop();
-  
-  // convert warning interval to an integer
-  if (WarnInterval != "") {
-    int warningDelay = WarnInterval.toInt();
-    digitalWrite(LED_BUILTIN, LOW);   // Turn the LED on (Note that LOW is the voltage level
-    // but actually the LED is on; this is because
-    // it is active low on the ESP-01)
-    delay(100);                      // Wait for a some milisecond
-    digitalWrite(LED_BUILTIN, HIGH);  // Turn the LED off by making the voltage HIGH
-    delay(warningDelay);                      // Wait for two seconds (to demonstrate the active low LED)
-  }else{
+
+  // check whether a warning condition has occured
+  if (IsWarning) {
+    if (WarnInterval != "") {
+      int warningDelay = WarnInterval.toInt();
+      digitalWrite(LED_BUILTIN, LOW);   // Turn the LED on (Note that LOW is the voltage level
+      // but actually the LED is on; this is because
+      // it is active low on the ESP-01)
+      delay(100);                      // Wait for a some milisecond
+      digitalWrite(LED_BUILTIN, HIGH);  // Turn the LED off by making the voltage HIGH
+      delay(warningDelay);                      // Wait for two seconds (to demonstrate the active low LED)
+    }
+  } else {
     delay(1000);
   }
 }
@@ -102,11 +107,24 @@ void receiveCallback(char * topic, byte* payload, unsigned int length) {
   Serial.print("[INFO] message received [");
   Serial.print(topic);
   Serial.print("] ");
-  WarnInterval = "";
-  for (int i = 0; i < length; i++) {
-    Serial.print((char)payload[i]);
-    WarnInterval += (char)payload[i];
+
+  if (payload[0] == 'f') {
+    // no warning condition
+    IsWarning = false;
+    Serial.print("normal condition.");
+
+  } else {
+    // warning condition
+    IsWarning = true;
+
+    WarnInterval = "";
+    Serial.print("exceeding threshold... ");
+    for (int i = 0; i < length; i++) {
+      Serial.print((char)payload[i]); // prining the interval between two blinks
+      WarnInterval += (char)payload[i];
+    }
   }
+
 }
 
 void connectToBroker() {
