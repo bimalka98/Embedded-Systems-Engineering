@@ -796,8 +796,8 @@
         "topic": "topic",
         "topicType": "msg",
         "className": "",
-        "x": 200,
-        "y": 820,
+        "x": 140,
+        "y": 680,
         "wires": [
             [
                 "07f27e33bb7367b2",
@@ -867,7 +867,8 @@
                 "abb856574da1fff7",
                 "be664abaf1e30354",
                 "e6205d2efd157aaf",
-                "fd69314ec189270b"
+                "fd69314ec189270b",
+                "87883241b91f2cc5"
             ]
         ]
     },
@@ -944,7 +945,7 @@
         "id": "07f27e33bb7367b2",
         "type": "change",
         "z": "d4f7e6eabb377669",
-        "name": "",
+        "name": "setLocationMode",
         "rules": [
             {
                 "t": "set",
@@ -959,8 +960,8 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 460,
-        "y": 820,
+        "x": 390,
+        "y": 680,
         "wires": [
             []
         ]
@@ -1139,8 +1140,8 @@
         "format": "Select whether you enter coordinates as city/country or coordinates",
         "layout": "row-spread",
         "className": "",
-        "x": 210,
-        "y": 760,
+        "x": 150,
+        "y": 600,
         "wires": []
     },
     {
@@ -1272,8 +1273,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 460,
-        "y": 880,
+        "x": 400,
+        "y": 740,
         "wires": [
             [
                 "23c39c86f9ca2eb0"
@@ -1387,7 +1388,7 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 690,
+        "x": 710,
         "y": 140,
         "wires": [
             []
@@ -1437,7 +1438,7 @@
         "bytopic": "all",
         "topic": "topic",
         "outputs": 1,
-        "x": 580,
+        "x": 560,
         "y": 380,
         "wires": [
             [
@@ -1551,8 +1552,8 @@
         "z": "d4f7e6eabb377669",
         "name": "",
         "events": "all",
-        "x": 680,
-        "y": 880,
+        "x": 620,
+        "y": 740,
         "wires": [
             []
         ]
@@ -1590,7 +1591,7 @@
         "statusVal": "",
         "statusType": "auto",
         "x": 760,
-        "y": 320,
+        "y": 340,
         "wires": []
     },
     {
@@ -1605,8 +1606,8 @@
         "complete": "false",
         "statusVal": "",
         "statusType": "auto",
-        "x": 420,
-        "y": 760,
+        "x": 360,
+        "y": 620,
         "wires": []
     },
     {
@@ -1615,8 +1616,8 @@
         "z": "d4f7e6eabb377669",
         "name": "",
         "events": "connect",
-        "x": 200,
-        "y": 960,
+        "x": 120,
+        "y": 800,
         "wires": [
             [
                 "48ffdf305abd5e4e"
@@ -1642,12 +1643,28 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 400,
-        "y": 960,
+        "x": 420,
+        "y": 800,
         "wires": [
             [
                 "23c39c86f9ca2eb0"
             ]
         ]
+    },
+    {
+        "id": "87883241b91f2cc5",
+        "type": "debug",
+        "z": "d4f7e6eabb377669",
+        "name": "debug 5",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1060,
+        "y": 200,
+        "wires": []
     }
 ]
