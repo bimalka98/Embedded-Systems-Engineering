@@ -301,8 +301,8 @@
         "payloadType": "str",
         "topic": "topic",
         "topicType": "msg",
-        "x": 440,
-        "y": 340,
+        "x": 120,
+        "y": 320,
         "wires": [
             [
                 "6c88f3513104dd0e"
@@ -327,8 +327,8 @@
         "sendOnBlur": true,
         "className": "",
         "topicType": "msg",
-        "x": 440,
-        "y": 260,
+        "x": 120,
+        "y": 240,
         "wires": [
             [
                 "208629e7817a6c13"
@@ -353,8 +353,8 @@
         "sendOnBlur": true,
         "className": "",
         "topicType": "msg",
-        "x": 430,
-        "y": 300,
+        "x": 110,
+        "y": 280,
         "wires": [
             [
                 "654a4e3e3a0bd470"
@@ -384,8 +384,8 @@
         "seg1": "",
         "seg2": "",
         "className": "",
-        "x": 1500,
-        "y": 600,
+        "x": 1320,
+        "y": 560,
         "wires": []
     },
     {
@@ -407,8 +407,8 @@
         "max": "50",
         "step": "1",
         "className": "",
-        "x": 550,
-        "y": 60,
+        "x": 490,
+        "y": 140,
         "wires": [
             [
                 "e1e282e9eecaec77"
@@ -455,8 +455,8 @@
         "topic": "topic",
         "topicType": "msg",
         "className": "",
-        "x": 100,
-        "y": 60,
+        "x": 140,
+        "y": 140,
         "wires": [
             [
                 "aa37720c235ce47a"
@@ -486,8 +486,8 @@
         "seg1": "",
         "seg2": "",
         "className": "",
-        "x": 1240,
-        "y": 560,
+        "x": 1060,
+        "y": 520,
         "wires": []
     },
     {
@@ -499,12 +499,12 @@
         "width": 0,
         "height": 0,
         "name": "Description",
-        "label": "",
+        "label": "{{msg.payload.city}}",
         "format": "{{msg.payload.description}}",
         "layout": "col-center",
         "className": "",
-        "x": 1250,
-        "y": 260,
+        "x": 1070,
+        "y": 240,
         "wires": []
     },
     {
@@ -520,8 +520,8 @@
         "format": "{{msg.hours}}:{{msg.mins}}:{{msg.secs}}",
         "layout": "row-spread",
         "className": "",
-        "x": 1520,
-        "y": 300,
+        "x": 1320,
+        "y": 280,
         "wires": []
     },
     {
@@ -537,8 +537,8 @@
         "format": "{{msg.hours}}:{{msg.mins}}:{{msg.secs}}",
         "layout": "row-spread",
         "className": "",
-        "x": 1520,
-        "y": 340,
+        "x": 1320,
+        "y": 320,
         "wires": []
     },
     {
@@ -549,8 +549,8 @@
         "group": "e99ec4619daf4a84",
         "voice": "Microsoft David - English (United States)",
         "always": "",
-        "x": 1700,
-        "y": 380,
+        "x": 1500,
+        "y": 360,
         "wires": []
     },
     {
@@ -576,8 +576,8 @@
         "seg1": "",
         "seg2": "",
         "className": "",
-        "x": 1250,
-        "y": 520,
+        "x": 1070,
+        "y": 480,
         "wires": []
     },
     {
@@ -603,8 +603,8 @@
         "seg1": "",
         "seg2": "",
         "className": "",
-        "x": 1260,
-        "y": 440,
+        "x": 1080,
+        "y": 400,
         "wires": []
     },
     {
@@ -627,8 +627,8 @@
         "payloadType": "flow",
         "topic": "topic",
         "topicType": "msg",
-        "x": 1520,
-        "y": 380,
+        "x": 1320,
+        "y": 360,
         "wires": [
             [
                 "2457ff5af8c919fc"
@@ -673,8 +673,8 @@
         "outputs": 1,
         "useDifferentColor": false,
         "className": "",
-        "x": 1530,
-        "y": 640,
+        "x": 1350,
+        "y": 600,
         "wires": [
             []
         ]
@@ -717,8 +717,8 @@
         "outputs": 1,
         "useDifferentColor": false,
         "className": "",
-        "x": 1520,
-        "y": 680,
+        "x": 1340,
+        "y": 640,
         "wires": [
             []
         ]
@@ -761,8 +761,8 @@
         "outputs": 1,
         "useDifferentColor": false,
         "className": "",
-        "x": 1530,
-        "y": 720,
+        "x": 1350,
+        "y": 680,
         "wires": [
             []
         ]
@@ -797,8 +797,8 @@
         "topic": "topic",
         "topicType": "msg",
         "className": "",
-        "x": 380,
-        "y": 840,
+        "x": 200,
+        "y": 820,
         "wires": [
             [
                 "07f27e33bb7367b2"
@@ -831,8 +831,8 @@
         "offcolor": "",
         "animate": false,
         "className": "",
-        "x": 70,
-        "y": 120,
+        "x": 110,
+        "y": 60,
         "wires": [
             [
                 "3c1ef21bbe47a470"
@@ -850,8 +850,8 @@
         "city": "",
         "country": "",
         "language": "en",
-        "x": 1010,
-        "y": 400,
+        "x": 830,
+        "y": 380,
         "wires": [
             [
                 "46745d982086038e",
@@ -875,14 +875,14 @@
         "type": "function",
         "z": "d4f7e6eabb377669",
         "name": "setLocation",
-        "func": "// varibale related to location data\nlet _country = flow.get(\"country\");\nlet _city = flow.get(\"city\");\nlet _lat = flow.get(\"latitude\");\nlet _lon = flow.get(\"longitude\");\nlet locationMode = flow.get(\"location_mode\");\n\nlet _delay = 30*1000; // default refreshing time\nif (flow.get(\"refreshing_interval\") != null){\n    _delay = flow.get(\"refreshing_interval\")*1000;\n}\n\nif (locationMode == 1){ // latitude and longitude mode\n    return {\n        location: {lat: _lat, lon: _lon},\n        delay: _delay\n    };\n    \n}\n// normal city/country mode\n    return {\n        location: {country: _country, city: _city},\n        delay: _delay\n    };",
+        "func": "// varibale related to location data\nlet _country = flow.get(\"country\");\nlet _city = flow.get(\"city\");\nlet _lat = flow.get(\"latitude\");\nlet _lon = flow.get(\"longitude\");\nlet locationMode = flow.get(\"location_mode\");\n\nlet _delay = 30*1000; // default refreshing time\nif (flow.get(\"refreshing_interval\") != null){\n    _delay = flow.get(\"refreshing_interval\")*1000;\n}\n\nif (locationMode == 1){ // latitude and longitude mode\n    return {\n        location: {lat: _lat, lon: _lon},\n        delay: _delay\n    };\n    \n}\n// normal city/country mode\nreturn {\n    location: {country: _country, city: _city},\n    delay: _delay\n};",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 630,
-        "y": 400,
+        "x": 310,
+        "y": 380,
         "wires": [
             [
                 "2314750871bfac40"
@@ -908,8 +908,8 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 640,
-        "y": 260,
+        "x": 320,
+        "y": 240,
         "wires": [
             []
         ]
@@ -933,8 +933,8 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 630,
-        "y": 300,
+        "x": 310,
+        "y": 280,
         "wires": [
             []
         ]
@@ -958,8 +958,8 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 680,
-        "y": 840,
+        "x": 500,
+        "y": 820,
         "wires": [
             []
         ]
@@ -983,8 +983,8 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 1280,
-        "y": 380,
+        "x": 1100,
+        "y": 360,
         "wires": [
             [
                 "fdbc6fdb83c2caf9"
@@ -1005,8 +1005,8 @@
         "correl": "",
         "expiry": "",
         "broker": "2e9df88ba16a68dd",
-        "x": 1660,
-        "y": 160,
+        "x": 1480,
+        "y": 100,
         "wires": []
     },
     {
@@ -1015,8 +1015,8 @@
         "z": "d4f7e6eabb377669",
         "name": "",
         "events": "all",
-        "x": 300,
-        "y": 120,
+        "x": 260,
+        "y": 60,
         "wires": [
             []
         ]
@@ -1032,13 +1032,13 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1250,
-        "y": 160,
+        "x": 1070,
+        "y": 140,
         "wires": [
             [
-                "03e0835fd83d40e9",
                 "d0417d78c206fd6a",
-                "9fa3aa889aa3eb97"
+                "9fa3aa889aa3eb97",
+                "03e0835fd83d40e9"
             ]
         ]
     },
@@ -1065,8 +1065,8 @@
         "seg1": "",
         "seg2": "",
         "className": "",
-        "x": 1250,
-        "y": 480,
+        "x": 1070,
+        "y": 440,
         "wires": []
     },
     {
@@ -1080,8 +1080,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1260,
-        "y": 640,
+        "x": 1080,
+        "y": 600,
         "wires": [
             [
                 "3c92d5101ce885d7"
@@ -1099,8 +1099,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1250,
-        "y": 680,
+        "x": 1070,
+        "y": 640,
         "wires": [
             [
                 "7fbb9516b5b9bd6e"
@@ -1118,8 +1118,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1260,
-        "y": 720,
+        "x": 1080,
+        "y": 680,
         "wires": [
             [
                 "e52c7f82e5cfb143"
@@ -1139,8 +1139,8 @@
         "format": "Select whether you enter coordinates as city/country or coordinates",
         "layout": "row-spread",
         "className": "",
-        "x": 390,
-        "y": 800,
+        "x": 210,
+        "y": 780,
         "wires": []
     },
     {
@@ -1154,8 +1154,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1250,
-        "y": 300,
+        "x": 1070,
+        "y": 280,
         "wires": [
             [
                 "90fba45bc784661f"
@@ -1173,8 +1173,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1250,
-        "y": 340,
+        "x": 1070,
+        "y": 320,
         "wires": [
             [
                 "23c6e7fc38b3c2a7"
@@ -1199,8 +1199,8 @@
         "sendOnBlur": true,
         "className": "",
         "topicType": "msg",
-        "x": 440,
-        "y": 500,
+        "x": 120,
+        "y": 480,
         "wires": [
             [
                 "a1a6e02ca4842137"
@@ -1225,8 +1225,8 @@
         "sendOnBlur": true,
         "className": "",
         "topicType": "msg",
-        "x": 440,
-        "y": 540,
+        "x": 120,
+        "y": 520,
         "wires": [
             [
                 "b0ed7c5fcf15719e"
@@ -1253,8 +1253,8 @@
         "payloadType": "str",
         "topic": "topic",
         "topicType": "msg",
-        "x": 440,
-        "y": 460,
+        "x": 120,
+        "y": 440,
         "wires": [
             [
                 "6c88f3513104dd0e"
@@ -1266,14 +1266,14 @@
         "type": "function",
         "z": "d4f7e6eabb377669",
         "name": "function 1",
-        "func": "let locationMode = flow.get(\"location_mode\");\n\nif (locationMode == 1) { // latitude and longitude mode\n    return { \n        \"group\": {\n            \"hide\": [\"Input City/Country\"],\n         \"show\": [\"reveal_another_group\"]} \n    };\n    \n\n} else { // normal city/country mode\n    return {\n        \"group\": {\n            \"hide\": [\"Input Latitude/ Longitude\"], \n            \"show\": [\"Input City/Country\"] } \n    }; \n}",
+        "func": "let locationMode = flow.get(\"location_mode\");\n\nif (locationMode == 1) { // latitude and longitude mode\n    return { \n        \"group\": {\n            \"hide\": [\"Input City/Country\"],\n            \"show\": [\"Input Latitude/ Longitude\"]} \n    };\n    \n}\n// normal city/country mode\nreturn {\n    \"group\": {\n        \"hide\": [\"Input Latitude/ Longitude\"], \n        \"show\": [\"Input City/Country\"] } \n}; \n",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 660,
-        "y": 700,
+        "x": 460,
+        "y": 880,
         "wires": [
             []
         ]
@@ -1297,8 +1297,8 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 640,
-        "y": 500,
+        "x": 320,
+        "y": 480,
         "wires": [
             []
         ]
@@ -1322,8 +1322,8 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 650,
-        "y": 540,
+        "x": 330,
+        "y": 520,
         "wires": [
             []
         ]
@@ -1340,7 +1340,7 @@
         "finalize": "",
         "libs": [],
         "x": 320,
-        "y": 60,
+        "y": 140,
         "wires": [
             [
                 "a7ad7b0366f0b6cc"
@@ -1358,8 +1358,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1290,
-        "y": 600,
+        "x": 1110,
+        "y": 560,
         "wires": [
             [
                 "0d09dea94b7d07ef"
@@ -1385,28 +1385,11 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 790,
-        "y": 60,
+        "x": 690,
+        "y": 140,
         "wires": [
             []
         ]
-    },
-    {
-        "id": "03e0835fd83d40e9",
-        "type": "debug",
-        "z": "d4f7e6eabb377669",
-        "name": "debug 1",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "payload",
-        "targetType": "msg",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 1440,
-        "y": 100,
-        "wires": []
     },
     {
         "id": "d0417d78c206fd6a",
@@ -1427,8 +1410,8 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 1460,
-        "y": 160,
+        "x": 1280,
+        "y": 100,
         "wires": [
             [
                 "9cb944511c12d891",
@@ -1448,8 +1431,8 @@
         "complete": "false",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1660,
-        "y": 100,
+        "x": 1480,
+        "y": 60,
         "wires": []
     },
     {
@@ -1469,8 +1452,8 @@
         "bytopic": "all",
         "topic": "topic",
         "outputs": 1,
-        "x": 820,
-        "y": 400,
+        "x": 580,
+        "y": 380,
         "wires": [
             [
                 "6133b3e14e1b7bfc",
@@ -1491,8 +1474,8 @@
         "targetType": "full",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1000,
-        "y": 360,
+        "x": 780,
+        "y": 340,
         "wires": []
     },
     {
@@ -1515,8 +1498,8 @@
         "max": "60",
         "step": 1,
         "className": "",
-        "x": 130,
-        "y": 400,
+        "x": 170,
+        "y": 100,
         "wires": [
             [
                 "15e4bb97014561b2"
@@ -1542,12 +1525,10 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 380,
-        "y": 400,
+        "x": 420,
+        "y": 100,
         "wires": [
-            [
-                "6c88f3513104dd0e"
-            ]
+            []
         ]
     },
     {
@@ -1565,8 +1546,8 @@
         "className": "",
         "topic": "",
         "name": "",
-        "x": 1690,
-        "y": 220,
+        "x": 1510,
+        "y": 180,
         "wires": []
     },
     {
@@ -1588,12 +1569,29 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 1460,
-        "y": 220,
+        "x": 1280,
+        "y": 180,
         "wires": [
             [
                 "f92a61ece6decffd"
             ]
         ]
+    },
+    {
+        "id": "03e0835fd83d40e9",
+        "type": "debug",
+        "z": "d4f7e6eabb377669",
+        "name": "debug 1",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1260,
+        "y": 140,
+        "wires": []
     }
 ]
