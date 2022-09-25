@@ -373,9 +373,9 @@
         "gtype": "wave",
         "title": "",
         "label": "units",
-        "format": "{{msg.payload.pressure}}",
+        "format": "{{msg.payload}}",
         "min": 0,
-        "max": "5000",
+        "max": "10",
         "colors": [
             "#00b500",
             "#e6e600",
@@ -384,8 +384,8 @@
         "seg1": "",
         "seg2": "",
         "className": "",
-        "x": 840,
-        "y": 580,
+        "x": 1120,
+        "y": 620,
         "wires": []
     },
     {
@@ -408,7 +408,7 @@
         "step": "",
         "className": "",
         "x": 630,
-        "y": 1060,
+        "y": 1020,
         "wires": [
             []
         ]
@@ -454,7 +454,7 @@
         "topicType": "msg",
         "className": "",
         "x": 160,
-        "y": 1060,
+        "y": 1020,
         "wires": [
             [
                 "aa37720c235ce47a"
@@ -485,7 +485,7 @@
         "seg2": "",
         "className": "",
         "x": 840,
-        "y": 620,
+        "y": 580,
         "wires": []
     },
     {
@@ -830,7 +830,7 @@
         "animate": false,
         "className": "",
         "x": 130,
-        "y": 960,
+        "y": 940,
         "wires": [
             [
                 "3c1ef21bbe47a470"
@@ -855,7 +855,6 @@
                 "46745d982086038e",
                 "d4f7a1db4a13c31a",
                 "8775224d466be887",
-                "0d09dea94b7d07ef",
                 "47ea7a595c98d69c",
                 "d0f360f94586c5b2",
                 "135b5571e7b9456a",
@@ -864,7 +863,8 @@
                 "7a99ea37fb51c9a8",
                 "abb856574da1fff7",
                 "be664abaf1e30354",
-                "e6205d2efd157aaf"
+                "e6205d2efd157aaf",
+                "fd69314ec189270b"
             ]
         ]
     },
@@ -1014,7 +1014,7 @@
         "name": "",
         "events": "all",
         "x": 340,
-        "y": 960,
+        "y": 940,
         "wires": [
             []
         ]
@@ -1328,37 +1328,38 @@
         "id": "aa37720c235ce47a",
         "type": "function",
         "z": "d4f7e6eabb377669",
-        "name": "function 2",
-        "func": "let parameter = msg.payload;\n// if(parameter == 0){ // temp c\n//     return {\n//         payload: { \"min\": 10, \"max\": 20 }\n//     };    \n// } else if (parameter == 1){ // pressure atm\n//     return {\n//         payload: { \"min\": 30, \"max\": 50 }\n//     };\n// } else if (parameter == 2) { // humidity %\n//     return {\n//         payload: { \"min\": 20, \"max\": 100 }\n//     };\n// } else if (parameter == 3) { // wind speed km/h\n//     return {\n//         payload: { \"min\": 1, \"max\": 5 }\n//     };\n// }\n\nif (parameter == 0) { // temp c\n    msg.ui_control = { \"min\": 10, \"max\": 50 };\n} else if (parameter == 1) { // pressure atm\n    msg.ui_control = { \"min\": 1, \"max\": 2 };\n} else if (parameter == 2) { // humidity %\n    msg.ui_control = { \"min\": 0, \"max\": 100 };\n} else if (parameter == 3) { // wind speed km/h\n    msg.ui_control = { \"min\": 0, \"max\": 20 };\n}\nreturn msg;",
+        "name": "setSliderRange",
+        "func": "// https://github.com/node-red/node-red-dashboard/blob/master/config-fields.md\n\n// selected option from the drop down\nlet parameter = msg.payload; \n\nif (parameter == 0) { // temp c\n\n    msg.ui_control = { \n        \"min\": 10, \n        \"max\": 50,\n        \"step\":1\n    };\n\n} else if (parameter == 1) { // pressure atm\n\n    msg.ui_control = { \n        \"min\": 1, \n        \"max\": 2,\n        \"step\": 0.1\n    };\n\n} else if (parameter == 2) { // humidity %\n\n    msg.ui_control = { \n        \"min\": 0, \n        \"max\": 100,\n        \"step\": 1\n    };\n\n} else if (parameter == 3) { // wind speed km/h\n\n    msg.ui_control = { \n        \"min\": 0, \n        \"max\": 20,\n        \"step\": 1\n    };\n    \n}\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 380,
-        "y": 1060,
+        "x": 400,
+        "y": 1020,
         "wires": [
             [
-                "a7ad7b0366f0b6cc",
-                "2e2b283b19354247"
+                "a7ad7b0366f0b6cc"
             ]
         ]
     },
     {
-        "id": "2e2b283b19354247",
-        "type": "debug",
+        "id": "fd69314ec189270b",
+        "type": "function",
         "z": "d4f7e6eabb377669",
-        "name": "debug 1",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "true",
-        "targetType": "full",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 560,
-        "y": 960,
-        "wires": []
+        "name": "getNormalizedPressure",
+        "func": "// https://stackoverflow.com/a/7331939/15939357\nlet pressure = msg.payload.pressure;\nmsg.payload = Math.round(pressure * 100.0 / 1000) / 100;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 890,
+        "y": 620,
+        "wires": [
+            [
+                "0d09dea94b7d07ef"
+            ]
+        ]
     }
 ]
