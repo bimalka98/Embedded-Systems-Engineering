@@ -312,7 +312,7 @@
         "id": "26500e4269f27a5f",
         "type": "ui_text_input",
         "z": "d4f7e6eabb377669",
-        "name": "country",
+        "name": "inputCountry",
         "label": "Country",
         "tooltip": "",
         "group": "37793734df231869",
@@ -326,7 +326,7 @@
         "sendOnBlur": true,
         "className": "",
         "topicType": "msg",
-        "x": 120,
+        "x": 130,
         "y": 240,
         "wires": [
             [
@@ -338,7 +338,7 @@
         "id": "d74779c2ce7c5ecd",
         "type": "ui_text_input",
         "z": "d4f7e6eabb377669",
-        "name": "city",
+        "name": "inputCity",
         "label": "City",
         "tooltip": "",
         "group": "37793734df231869",
@@ -352,7 +352,7 @@
         "sendOnBlur": true,
         "className": "",
         "topicType": "msg",
-        "x": 110,
+        "x": 120,
         "y": 280,
         "wires": [
             [
@@ -391,7 +391,7 @@
         "id": "a7ad7b0366f0b6cc",
         "type": "ui_slider",
         "z": "d4f7e6eabb377669",
-        "name": "parm_limit",
+        "name": "limitParameter",
         "label": "Limit",
         "tooltip": "",
         "group": "ae607888294aed9a",
@@ -406,7 +406,7 @@
         "max": "50",
         "step": "1",
         "className": "",
-        "x": 490,
+        "x": 580,
         "y": 140,
         "wires": [
             [
@@ -418,7 +418,7 @@
         "id": "801b9c3b758bcd82",
         "type": "ui_dropdown",
         "z": "d4f7e6eabb377669",
-        "name": "warning_param",
+        "name": "chooseWarnParameter",
         "label": "Warning",
         "tooltip": "",
         "place": "Select option",
@@ -454,7 +454,7 @@
         "topic": "topic",
         "topicType": "msg",
         "className": "",
-        "x": 140,
+        "x": 160,
         "y": 140,
         "wires": [
             [
@@ -556,7 +556,7 @@
         "id": "d4f7a1db4a13c31a",
         "type": "ui_gauge",
         "z": "d4f7e6eabb377669",
-        "name": "wind_speed",
+        "name": "Wind Speed",
         "group": "7b2fe37919cee36f",
         "order": 3,
         "width": 0,
@@ -583,7 +583,7 @@
         "id": "8775224d466be887",
         "type": "ui_gauge",
         "z": "d4f7e6eabb377669",
-        "name": "wind_direction",
+        "name": "Wind Direction",
         "group": "7b2fe37919cee36f",
         "order": 4,
         "width": 0,
@@ -638,7 +638,7 @@
         "id": "3c92d5101ce885d7",
         "type": "ui_chart",
         "z": "d4f7e6eabb377669",
-        "name": "temperature_chart",
+        "name": "plotTemperature",
         "group": "faeecf6dc544c50f",
         "order": 1,
         "width": 0,
@@ -672,7 +672,7 @@
         "outputs": 1,
         "useDifferentColor": false,
         "className": "",
-        "x": 1350,
+        "x": 1340,
         "y": 600,
         "wires": [
             []
@@ -682,7 +682,7 @@
         "id": "7fbb9516b5b9bd6e",
         "type": "ui_chart",
         "z": "d4f7e6eabb377669",
-        "name": "humidity_chart",
+        "name": "plotHumidity",
         "group": "faeecf6dc544c50f",
         "order": 2,
         "width": 0,
@@ -716,7 +716,7 @@
         "outputs": 1,
         "useDifferentColor": false,
         "className": "",
-        "x": 1340,
+        "x": 1330,
         "y": 640,
         "wires": [
             []
@@ -726,7 +726,7 @@
         "id": "e52c7f82e5cfb143",
         "type": "ui_chart",
         "z": "d4f7e6eabb377669",
-        "name": "windspeed_chart",
+        "name": "plotWindspeed",
         "group": "faeecf6dc544c50f",
         "order": 3,
         "width": 0,
@@ -760,7 +760,7 @@
         "outputs": 1,
         "useDifferentColor": false,
         "className": "",
-        "x": 1350,
+        "x": 1340,
         "y": 680,
         "wires": [
             []
@@ -770,7 +770,7 @@
         "id": "a5aa989eef5b4e63",
         "type": "ui_dropdown",
         "z": "d4f7e6eabb377669",
-        "name": "location_mode",
+        "name": "chooseLocationMode",
         "label": "",
         "tooltip": "",
         "place": "Select option",
@@ -796,7 +796,7 @@
         "topic": "topic",
         "topicType": "msg",
         "className": "",
-        "x": 140,
+        "x": 160,
         "y": 680,
         "wires": [
             [
@@ -810,7 +810,7 @@
         "id": "5f143d73a23cc8cc",
         "type": "ui_switch",
         "z": "d4f7e6eabb377669",
-        "name": "",
+        "name": "chartsHideShow",
         "label": "switch",
         "tooltip": "",
         "group": "947de4e513f46113",
@@ -832,7 +832,7 @@
         "offcolor": "",
         "animate": false,
         "className": "",
-        "x": 110,
+        "x": 140,
         "y": 60,
         "wires": [
             [
@@ -867,8 +867,7 @@
                 "abb856574da1fff7",
                 "be664abaf1e30354",
                 "e6205d2efd157aaf",
-                "fd69314ec189270b",
-                "87883241b91f2cc5"
+                "fd69314ec189270b"
             ]
         ]
     },
@@ -895,7 +894,7 @@
         "id": "208629e7817a6c13",
         "type": "change",
         "z": "d4f7e6eabb377669",
-        "name": "",
+        "name": "steCountry",
         "rules": [
             {
                 "t": "set",
@@ -910,7 +909,7 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 320,
+        "x": 310,
         "y": 240,
         "wires": [
             []
@@ -920,7 +919,7 @@
         "id": "654a4e3e3a0bd470",
         "type": "change",
         "z": "d4f7e6eabb377669",
-        "name": "",
+        "name": "setCity",
         "rules": [
             {
                 "t": "set",
@@ -935,7 +934,7 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 310,
+        "x": 290,
         "y": 280,
         "wires": [
             []
@@ -960,7 +959,7 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 390,
+        "x": 410,
         "y": 680,
         "wires": [
             []
@@ -997,7 +996,7 @@
         "id": "9cb944511c12d891",
         "type": "mqtt out",
         "z": "d4f7e6eabb377669",
-        "name": "",
+        "name": "publishTo: 180631J",
         "topic": "180631J",
         "qos": "",
         "retain": "",
@@ -1007,7 +1006,7 @@
         "correl": "",
         "expiry": "",
         "broker": "2e9df88ba16a68dd",
-        "x": 1480,
+        "x": 1490,
         "y": 100,
         "wires": []
     },
@@ -1017,7 +1016,7 @@
         "z": "d4f7e6eabb377669",
         "name": "",
         "events": "all",
-        "x": 260,
+        "x": 360,
         "y": 60,
         "wires": [
             []
@@ -1047,7 +1046,7 @@
         "id": "ca945d3d1a9c9223",
         "type": "ui_gauge",
         "z": "d4f7e6eabb377669",
-        "name": "temperature",
+        "name": "Temperature",
         "group": "30631ba430d55c8a",
         "order": 0,
         "width": 0,
@@ -1186,7 +1185,7 @@
         "id": "897b4d59e4fb0f2a",
         "type": "ui_text_input",
         "z": "d4f7e6eabb377669",
-        "name": "latitude",
+        "name": "inputLatitude",
         "label": "Latitude",
         "tooltip": "",
         "group": "17b52b245262e1c4",
@@ -1200,7 +1199,7 @@
         "sendOnBlur": true,
         "className": "",
         "topicType": "msg",
-        "x": 120,
+        "x": 130,
         "y": 480,
         "wires": [
             [
@@ -1212,7 +1211,7 @@
         "id": "ad46f00ea52cfbc2",
         "type": "ui_text_input",
         "z": "d4f7e6eabb377669",
-        "name": "longitude",
+        "name": "inputLongitude",
         "label": "Logitude",
         "tooltip": "",
         "group": "17b52b245262e1c4",
@@ -1226,7 +1225,7 @@
         "sendOnBlur": true,
         "className": "",
         "topicType": "msg",
-        "x": 120,
+        "x": 140,
         "y": 520,
         "wires": [
             [
@@ -1273,7 +1272,7 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 400,
+        "x": 420,
         "y": 740,
         "wires": [
             [
@@ -1285,7 +1284,7 @@
         "id": "a1a6e02ca4842137",
         "type": "change",
         "z": "d4f7e6eabb377669",
-        "name": "",
+        "name": "setLatitude",
         "rules": [
             {
                 "t": "set",
@@ -1300,7 +1299,7 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 320,
+        "x": 310,
         "y": 480,
         "wires": [
             []
@@ -1310,7 +1309,7 @@
         "id": "b0ed7c5fcf15719e",
         "type": "change",
         "z": "d4f7e6eabb377669",
-        "name": "",
+        "name": "setLongitude",
         "rules": [
             {
                 "t": "set",
@@ -1325,7 +1324,7 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 330,
+        "x": 310,
         "y": 520,
         "wires": [
             []
@@ -1342,7 +1341,7 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 320,
+        "x": 380,
         "y": 140,
         "wires": [
             [
@@ -1373,7 +1372,7 @@
         "id": "e1e282e9eecaec77",
         "type": "change",
         "z": "d4f7e6eabb377669",
-        "name": "",
+        "name": "setWarnThreshold",
         "rules": [
             {
                 "t": "set",
@@ -1388,7 +1387,7 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 710,
+        "x": 790,
         "y": 140,
         "wires": [
             []
@@ -1417,7 +1416,8 @@
         "y": 100,
         "wires": [
             [
-                "9cb944511c12d891"
+                "9cb944511c12d891",
+                "f63c9beb07179911"
             ]
         ]
     },
@@ -1479,7 +1479,7 @@
         "id": "15e4bb97014561b2",
         "type": "change",
         "z": "d4f7e6eabb377669",
-        "name": "",
+        "name": "setRefreshingInterval",
         "rules": [
             {
                 "t": "set",
@@ -1494,7 +1494,7 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 420,
+        "x": 400,
         "y": 100,
         "wires": [
             []
@@ -1514,8 +1514,8 @@
         "raw": false,
         "className": "",
         "topic": "",
-        "name": "",
-        "x": 1670,
+        "name": "showNotification",
+        "x": 1700,
         "y": 180,
         "wires": []
     },
@@ -1552,7 +1552,7 @@
         "z": "d4f7e6eabb377669",
         "name": "",
         "events": "all",
-        "x": 620,
+        "x": 640,
         "y": 740,
         "wires": [
             []
@@ -1569,7 +1569,7 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1470,
+        "x": 1490,
         "y": 180,
         "wires": [
             [
@@ -1590,7 +1590,7 @@
         "targetType": "full",
         "statusVal": "",
         "statusType": "auto",
-        "x": 760,
+        "x": 740,
         "y": 340,
         "wires": []
     },
@@ -1606,7 +1606,7 @@
         "complete": "false",
         "statusVal": "",
         "statusType": "auto",
-        "x": 360,
+        "x": 380,
         "y": 620,
         "wires": []
     },
@@ -1628,7 +1628,7 @@
         "id": "48ffdf305abd5e4e",
         "type": "change",
         "z": "d4f7e6eabb377669",
-        "name": "",
+        "name": "setDefaultUI",
         "rules": [
             {
                 "t": "set",
@@ -1643,7 +1643,7 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 420,
+        "x": 450,
         "y": 800,
         "wires": [
             [
@@ -1652,7 +1652,7 @@
         ]
     },
     {
-        "id": "87883241b91f2cc5",
+        "id": "f63c9beb07179911",
         "type": "debug",
         "z": "d4f7e6eabb377669",
         "name": "debug 5",
@@ -1663,8 +1663,8 @@
         "complete": "false",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1060,
-        "y": 200,
+        "x": 1460,
+        "y": 60,
         "wires": []
     }
 ]
