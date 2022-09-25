@@ -301,7 +301,7 @@
         "payloadType": "str",
         "topic": "topic",
         "topicType": "msg",
-        "x": 180,
+        "x": 440,
         "y": 340,
         "wires": [
             [
@@ -327,7 +327,7 @@
         "sendOnBlur": true,
         "className": "",
         "topicType": "msg",
-        "x": 180,
+        "x": 440,
         "y": 260,
         "wires": [
             [
@@ -353,7 +353,7 @@
         "sendOnBlur": true,
         "className": "",
         "topicType": "msg",
-        "x": 170,
+        "x": 430,
         "y": 300,
         "wires": [
             [
@@ -384,8 +384,8 @@
         "seg1": "",
         "seg2": "",
         "className": "",
-        "x": 1280,
-        "y": 620,
+        "x": 1500,
+        "y": 600,
         "wires": []
     },
     {
@@ -407,8 +407,8 @@
         "max": "50",
         "step": "1",
         "className": "",
-        "x": 630,
-        "y": 1020,
+        "x": 890,
+        "y": 80,
         "wires": [
             [
                 "e1e282e9eecaec77"
@@ -455,8 +455,8 @@
         "topic": "topic",
         "topicType": "msg",
         "className": "",
-        "x": 160,
-        "y": 1020,
+        "x": 420,
+        "y": 80,
         "wires": [
             [
                 "aa37720c235ce47a"
@@ -486,8 +486,8 @@
         "seg1": "",
         "seg2": "",
         "className": "",
-        "x": 1020,
-        "y": 580,
+        "x": 1240,
+        "y": 560,
         "wires": []
     },
     {
@@ -503,8 +503,8 @@
         "format": "{{msg.payload.description}}",
         "layout": "col-center",
         "className": "",
-        "x": 1030,
-        "y": 280,
+        "x": 1250,
+        "y": 260,
         "wires": []
     },
     {
@@ -520,8 +520,8 @@
         "format": "{{msg.hours}}:{{msg.mins}}:{{msg.secs}}",
         "layout": "row-spread",
         "className": "",
-        "x": 1300,
-        "y": 320,
+        "x": 1520,
+        "y": 300,
         "wires": []
     },
     {
@@ -537,8 +537,8 @@
         "format": "{{msg.hours}}:{{msg.mins}}:{{msg.secs}}",
         "layout": "row-spread",
         "className": "",
-        "x": 1300,
-        "y": 360,
+        "x": 1520,
+        "y": 340,
         "wires": []
     },
     {
@@ -549,8 +549,8 @@
         "group": "e99ec4619daf4a84",
         "voice": "Microsoft David - English (United States)",
         "always": "",
-        "x": 1480,
-        "y": 400,
+        "x": 1700,
+        "y": 380,
         "wires": []
     },
     {
@@ -576,8 +576,8 @@
         "seg1": "",
         "seg2": "",
         "className": "",
-        "x": 1030,
-        "y": 540,
+        "x": 1250,
+        "y": 520,
         "wires": []
     },
     {
@@ -603,8 +603,8 @@
         "seg1": "",
         "seg2": "",
         "className": "",
-        "x": 1040,
-        "y": 460,
+        "x": 1260,
+        "y": 440,
         "wires": []
     },
     {
@@ -627,8 +627,8 @@
         "payloadType": "flow",
         "topic": "topic",
         "topicType": "msg",
-        "x": 1300,
-        "y": 400,
+        "x": 1520,
+        "y": 380,
         "wires": [
             [
                 "2457ff5af8c919fc"
@@ -673,8 +673,8 @@
         "outputs": 1,
         "useDifferentColor": false,
         "className": "",
-        "x": 1310,
-        "y": 660,
+        "x": 1530,
+        "y": 640,
         "wires": [
             []
         ]
@@ -717,8 +717,8 @@
         "outputs": 1,
         "useDifferentColor": false,
         "className": "",
-        "x": 1300,
-        "y": 700,
+        "x": 1520,
+        "y": 680,
         "wires": [
             []
         ]
@@ -761,8 +761,8 @@
         "outputs": 1,
         "useDifferentColor": false,
         "className": "",
-        "x": 1310,
-        "y": 740,
+        "x": 1530,
+        "y": 720,
         "wires": [
             []
         ]
@@ -797,8 +797,8 @@
         "topic": "topic",
         "topicType": "msg",
         "className": "",
-        "x": 160,
-        "y": 860,
+        "x": 380,
+        "y": 840,
         "wires": [
             [
                 "07f27e33bb7367b2"
@@ -831,8 +831,8 @@
         "offcolor": "",
         "animate": false,
         "className": "",
-        "x": 130,
-        "y": 940,
+        "x": 350,
+        "y": 960,
         "wires": [
             [
                 "3c1ef21bbe47a470"
@@ -850,8 +850,8 @@
         "city": "",
         "country": "",
         "language": "en",
-        "x": 810,
-        "y": 420,
+        "x": 1010,
+        "y": 400,
         "wires": [
             [
                 "46745d982086038e",
@@ -875,14 +875,14 @@
         "type": "function",
         "z": "d4f7e6eabb377669",
         "name": "setLocation",
-        "func": "let _country = flow.get(\"country\");\nlet _city = flow.get(\"city\");\nlet _lat = flow.get(\"latitude\");\nlet _lon = flow.get(\"longitude\");\nlet locationMode = flow.get(\"location_mode\");\n\nif (locationMode == 1){ // latitude and longitude mode\n    return {\n        location: {\n            lat: _lat, lon: _lon\n        }\n    };\n    \n}\n// normal city/country mode\n    return {\n        location: {\n            country: _country, city: _city\n        }\n    };",
+        "func": "// varibale related to location data\nlet _country = flow.get(\"country\");\nlet _city = flow.get(\"city\");\nlet _lat = flow.get(\"latitude\");\nlet _lon = flow.get(\"longitude\");\nlet locationMode = flow.get(\"location_mode\");\n\nlet _delay = 30*1000; // default refreshing time\nif (flow.get(\"refreshing_interval\") != null){\n    _delay = flow.get(\"refreshing_interval\")*1000;\n}\n\nif (locationMode == 1){ // latitude and longitude mode\n    return {\n        location: {lat: _lat, lon: _lon},\n        delay: _delay\n    };\n    \n}\n// normal city/country mode\n    return {\n        location: {country: _country, city: _city},\n        delay: _delay\n    };",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 410,
-        "y": 420,
+        "x": 630,
+        "y": 400,
         "wires": [
             [
                 "2314750871bfac40"
@@ -908,7 +908,7 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 400,
+        "x": 640,
         "y": 260,
         "wires": [
             []
@@ -933,7 +933,7 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 390,
+        "x": 630,
         "y": 300,
         "wires": [
             []
@@ -958,8 +958,8 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 460,
-        "y": 860,
+        "x": 680,
+        "y": 840,
         "wires": [
             []
         ]
@@ -983,8 +983,8 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 1080,
-        "y": 400,
+        "x": 1300,
+        "y": 380,
         "wires": [
             [
                 "fdbc6fdb83c2caf9"
@@ -1005,8 +1005,8 @@
         "correl": "",
         "expiry": "",
         "broker": "2e9df88ba16a68dd",
-        "x": 1500,
-        "y": 180,
+        "x": 1660,
+        "y": 160,
         "wires": []
     },
     {
@@ -1015,8 +1015,8 @@
         "z": "d4f7e6eabb377669",
         "name": "",
         "events": "all",
-        "x": 340,
-        "y": 940,
+        "x": 560,
+        "y": 960,
         "wires": [
             []
         ]
@@ -1026,18 +1026,19 @@
         "type": "function",
         "z": "d4f7e6eabb377669",
         "name": "checkStatus",
-        "func": "// selected option from the drop down\nlet parameter = flow.get(\"warn_parameter\");\nlet threshold = flow.get(\"warn_threshold\");\nlet current_val;\n\n// parameters to decide led on/off interval: y = mx + c \nlet constant = 5000.0; // maximum interval\nlet range = -4500.0; // 5000 -500 max -min intervals\nlet gradient;\nlet interval;\n\nif (parameter == 0) { // temp c\n    \n    current_val = flow.get(\"current_temp\");     \n    if(current_val > threshold){\n\n        let max_temp = 40; // user defined max value\n        let delta_x = max_temp - threshold;\n        gradient = range / delta_x;\n        interval = gradient * (current_val - threshold) + constant;\n        interval = Math.round(interval);\n        return {\n            payload: {\n                \"interval\":interval\n            }\n        };\n\n    }else{\n        return {\n            payload: {\n                \"interval\": 'f'\n            }\n        };\n    }\n\n} else if (parameter == 1) { // pressure atm\n    \n    current_val = flow.get(\"current_pressure\");\n    if (current_val > threshold) {\n\n        let max_pressure = 2.5; // user defined max value\n        let delta_x = max_pressure - threshold;\n        gradient = range / delta_x;\n        interval = gradient * (current_val - threshold) + constant;\n        interval = Math.round(interval);\n        return {\n            payload: {\n                \"interval\": interval\n            }\n        };\n    } else {\n        return {\n            payload: {\n                \"interval\": 'f'\n            }\n        };\n    }\n\n} else if (parameter == 2) { // humidity %\n    \n    current_val = flow.get(\"current_humidity\");\n    if (current_val > threshold) {\n\n        let max_humidity = 100; // user defined max value\n        let delta_x = max_humidity - threshold;\n        gradient = range / delta_x;\n        interval = gradient * (current_val - threshold) + constant;\n        interval = Math.round(interval);\n        return {\n            payload: {\n                \"interval\": interval\n            }\n        };\n    } else {\n        return {\n            payload: {\n                \"interval\": 'f'\n            }\n        };\n    }\n\n} else if (parameter == 3) { // wind speed km/h\n    \n    current_val = flow.get(\"current_windspeed\");\n    if (current_val > threshold) {\n\n        let max_windspeed = 20; // user defined max value\n        let delta_x = max_windspeed - threshold;\n        gradient = range / delta_x;\n        interval = gradient * (current_val - threshold) + constant;\n        interval = Math.round(interval);\n        return {\n            payload: {\n                \"interval\": interval\n            }\n        };\n    } else {\n        return {\n            payload: {\n                \"interval\": 'f'\n            }\n        };\n    }\n\n}",
+        "func": "// selected option from the drop down\nlet parameter = flow.get(\"warn_parameter\");\nlet threshold = flow.get(\"warn_threshold\");\nlet current_val;\n\n// parameters to decide led on/off interval: y = mx + c \nlet constant = 5000.0; // maximum interval\nlet range = -4500.0; // 5000 -500 max -min intervals\nlet gradient;\nlet interval;\n\nif (parameter == 0) { // temp c\n    \n    current_val = flow.get(\"current_temp\");     \n    if(current_val > threshold){\n\n        let max_temp = 40; // user defined max value\n        let delta_x = max_temp - threshold;\n        gradient = range / delta_x;\n        let difference = current_val - threshold;\n        interval = gradient * difference + constant;\n        interval = Math.round(interval);\n        return {\n            payload: {\n                \"interval\":interval,\n                \"notification\": \"Warning! Temperature is \" + current_val + \"C. Exceeds the limit by \" + difference + \"C\"\n            }\n        };\n\n    }else{\n        return {\n            payload: {\n                \"interval\": 'f'\n            }\n        };\n    }\n\n} else if (parameter == 1) { // pressure atm\n    \n    current_val = flow.get(\"current_pressure\");\n    if (current_val > threshold) {\n\n        let max_pressure = 2.5; // user defined max value\n        let delta_x = max_pressure - threshold;\n        gradient = range / delta_x;\n        interval = gradient * (current_val - threshold) + constant;\n        interval = Math.round(interval);\n        return {\n            payload: {\n                \"interval\": interval\n            }\n        };\n    } else {\n        return {\n            payload: {\n                \"interval\": 'f'\n            }\n        };\n    }\n\n} else if (parameter == 2) { // humidity %\n    \n    current_val = flow.get(\"current_humidity\");\n    if (current_val > threshold) {\n\n        let max_humidity = 100; // user defined max value\n        let delta_x = max_humidity - threshold;\n        gradient = range / delta_x;\n        interval = gradient * (current_val - threshold) + constant;\n        interval = Math.round(interval);\n        return {\n            payload: {\n                \"interval\": interval\n            }\n        };\n    } else {\n        return {\n            payload: {\n                \"interval\": 'f'\n            }\n        };\n    }\n\n} else if (parameter == 3) { // wind speed km/h\n    \n    current_val = flow.get(\"current_windspeed\");\n    if (current_val > threshold) {\n\n        let max_windspeed = 20; // user defined max value\n        let delta_x = max_windspeed - threshold;\n        gradient = range / delta_x;\n        interval = gradient * (current_val - threshold) + constant;\n        interval = Math.round(interval);\n        return {\n            payload: {\n                \"interval\": interval\n            }\n        };\n    } else {\n        return {\n            payload: {\n                \"interval\": 'f'\n            }\n        };\n    }\n\n}",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1030,
-        "y": 240,
+        "x": 1250,
+        "y": 160,
         "wires": [
             [
                 "03e0835fd83d40e9",
-                "d0417d78c206fd6a"
+                "d0417d78c206fd6a",
+                "9fa3aa889aa3eb97"
             ]
         ]
     },
@@ -1064,8 +1065,8 @@
         "seg1": "",
         "seg2": "",
         "className": "",
-        "x": 1030,
-        "y": 500,
+        "x": 1250,
+        "y": 480,
         "wires": []
     },
     {
@@ -1079,8 +1080,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1040,
-        "y": 660,
+        "x": 1260,
+        "y": 640,
         "wires": [
             [
                 "3c92d5101ce885d7"
@@ -1098,8 +1099,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1030,
-        "y": 700,
+        "x": 1250,
+        "y": 680,
         "wires": [
             [
                 "7fbb9516b5b9bd6e"
@@ -1117,8 +1118,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1040,
-        "y": 740,
+        "x": 1260,
+        "y": 720,
         "wires": [
             [
                 "e52c7f82e5cfb143"
@@ -1138,8 +1139,8 @@
         "format": "Select whether you enter coordinates as city/country or coordinates",
         "layout": "row-spread",
         "className": "",
-        "x": 170,
-        "y": 820,
+        "x": 390,
+        "y": 800,
         "wires": []
     },
     {
@@ -1153,8 +1154,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1030,
-        "y": 320,
+        "x": 1250,
+        "y": 300,
         "wires": [
             [
                 "90fba45bc784661f"
@@ -1172,8 +1173,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1030,
-        "y": 360,
+        "x": 1250,
+        "y": 340,
         "wires": [
             [
                 "23c6e7fc38b3c2a7"
@@ -1198,8 +1199,8 @@
         "sendOnBlur": true,
         "className": "",
         "topicType": "msg",
-        "x": 180,
-        "y": 520,
+        "x": 440,
+        "y": 500,
         "wires": [
             [
                 "a1a6e02ca4842137"
@@ -1224,8 +1225,8 @@
         "sendOnBlur": true,
         "className": "",
         "topicType": "msg",
-        "x": 180,
-        "y": 560,
+        "x": 440,
+        "y": 540,
         "wires": [
             [
                 "b0ed7c5fcf15719e"
@@ -1252,8 +1253,8 @@
         "payloadType": "str",
         "topic": "topic",
         "topicType": "msg",
-        "x": 180,
-        "y": 480,
+        "x": 440,
+        "y": 460,
         "wires": [
             [
                 "6c88f3513104dd0e"
@@ -1271,8 +1272,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 440,
-        "y": 720,
+        "x": 660,
+        "y": 700,
         "wires": [
             []
         ]
@@ -1296,8 +1297,8 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 400,
-        "y": 520,
+        "x": 640,
+        "y": 500,
         "wires": [
             []
         ]
@@ -1321,8 +1322,8 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 410,
-        "y": 560,
+        "x": 650,
+        "y": 540,
         "wires": [
             []
         ]
@@ -1338,8 +1339,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 400,
-        "y": 1020,
+        "x": 660,
+        "y": 80,
         "wires": [
             [
                 "a7ad7b0366f0b6cc"
@@ -1357,8 +1358,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1070,
-        "y": 620,
+        "x": 1290,
+        "y": 600,
         "wires": [
             [
                 "0d09dea94b7d07ef"
@@ -1384,8 +1385,8 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 910,
-        "y": 1020,
+        "x": 1170,
+        "y": 80,
         "wires": [
             []
         ]
@@ -1399,11 +1400,12 @@
         "tosidebar": true,
         "console": false,
         "tostatus": false,
-        "complete": "false",
+        "complete": "payload",
+        "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1260,
-        "y": 240,
+        "x": 1440,
+        "y": 100,
         "wires": []
     },
     {
@@ -1425,8 +1427,8 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 1280,
-        "y": 180,
+        "x": 1460,
+        "y": 160,
         "wires": [
             [
                 "9cb944511c12d891",
@@ -1446,7 +1448,7 @@
         "complete": "false",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1500,
+        "x": 1700,
         "y": 120,
         "wires": []
     },
@@ -1454,21 +1456,21 @@
         "id": "2314750871bfac40",
         "type": "trigger",
         "z": "d4f7e6eabb377669",
-        "name": "",
+        "name": "triggerAPICall",
         "op1": "",
         "op2": "",
         "op1type": "pay",
         "op2type": "payl",
         "duration": "-30",
         "extend": false,
-        "overrideDelay": false,
+        "overrideDelay": true,
         "units": "s",
         "reset": "",
         "bytopic": "all",
         "topic": "topic",
         "outputs": 1,
-        "x": 610,
-        "y": 420,
+        "x": 820,
+        "y": 400,
         "wires": [
             [
                 "6133b3e14e1b7bfc",
@@ -1489,8 +1491,109 @@
         "targetType": "full",
         "statusVal": "",
         "statusType": "auto",
-        "x": 800,
+        "x": 1000,
         "y": 360,
         "wires": []
+    },
+    {
+        "id": "a8154a358f2ce0d5",
+        "type": "ui_numeric",
+        "z": "d4f7e6eabb377669",
+        "name": "",
+        "label": "Update Interval (Seconds)",
+        "tooltip": "",
+        "group": "db329ef6be1f0c9e",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "wrap": false,
+        "passthru": false,
+        "topic": "topic",
+        "topicType": "msg",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "60",
+        "step": 1,
+        "className": "",
+        "x": 130,
+        "y": 400,
+        "wires": [
+            [
+                "15e4bb97014561b2"
+            ]
+        ]
+    },
+    {
+        "id": "15e4bb97014561b2",
+        "type": "change",
+        "z": "d4f7e6eabb377669",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "refreshing_interval",
+                "pt": "flow",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 380,
+        "y": 400,
+        "wires": [
+            [
+                "6c88f3513104dd0e"
+            ]
+        ]
+    },
+    {
+        "id": "f92a61ece6decffd",
+        "type": "ui_toast",
+        "z": "d4f7e6eabb377669",
+        "position": "top right",
+        "displayTime": "3",
+        "highlight": "",
+        "sendall": true,
+        "outputs": 0,
+        "ok": "OK",
+        "cancel": "",
+        "raw": false,
+        "className": "",
+        "topic": "",
+        "name": "",
+        "x": 1690,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "9fa3aa889aa3eb97",
+        "type": "change",
+        "z": "d4f7e6eabb377669",
+        "name": "displayNotification",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload.notification",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1470,
+        "y": 220,
+        "wires": [
+            [
+                "f92a61ece6decffd"
+            ]
+        ]
     }
 ]
