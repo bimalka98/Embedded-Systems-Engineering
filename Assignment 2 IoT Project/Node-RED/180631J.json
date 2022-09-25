@@ -550,7 +550,7 @@
         "voice": "Microsoft David - English (United States)",
         "always": "",
         "x": 1300,
-        "y": 200,
+        "y": 400,
         "wires": []
     },
     {
@@ -628,7 +628,7 @@
         "topic": "topic",
         "topicType": "msg",
         "x": 1120,
-        "y": 200,
+        "y": 400,
         "wires": [
             [
                 "2457ff5af8c919fc"
@@ -984,7 +984,7 @@
         "to": "",
         "reg": false,
         "x": 900,
-        "y": 200,
+        "y": 400,
         "wires": [
             [
                 "fdbc6fdb83c2caf9"
@@ -1005,8 +1005,8 @@
         "correl": "",
         "expiry": "",
         "broker": "2e9df88ba16a68dd",
-        "x": 1120,
-        "y": 240,
+        "x": 1320,
+        "y": 180,
         "wires": []
     },
     {
@@ -1036,8 +1036,8 @@
         "y": 240,
         "wires": [
             [
-                "9cb944511c12d891",
-                "03e0835fd83d40e9"
+                "03e0835fd83d40e9",
+                "d0417d78c206fd6a"
             ]
         ]
     },
@@ -1402,8 +1402,52 @@
         "complete": "false",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1120,
-        "y": 280,
+        "x": 1080,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "d0417d78c206fd6a",
+        "type": "change",
+        "z": "d4f7e6eabb377669",
+        "name": "filterBlinkInterval",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload.interval",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1100,
+        "y": 180,
+        "wires": [
+            [
+                "9cb944511c12d891",
+                "1f15850307a3b4a8"
+            ]
+        ]
+    },
+    {
+        "id": "1f15850307a3b4a8",
+        "type": "debug",
+        "z": "d4f7e6eabb377669",
+        "name": "debug 2",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1320,
+        "y": 120,
         "wires": []
     }
 ]
