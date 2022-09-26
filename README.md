@@ -14,6 +14,7 @@
 |:---:|:---|
 |<img src="Assignment%201%20Modeling%20%26%20Specification/Figures/library.png"  width="800" />|**Modeling & Specification** <br>*Drawing a condition/event Petri net model for a library system* [[project]](Assignment%201%20Modeling%20%26%20Specification)|
 |<img src="Assignment%202%20IoT%20Project/images/iotui.png"  width="600" />| **IoT Project** <br>*Building a node-red application to get the weather data in an user-provided location from OpenWeather; Extend that Weather Application to include a Weather Warning Device implemented with the NodeMCU* [[project]](Assignment%202%20IoT%20Project)|
+|<img src="Assignment%204%20Real-time%20Scheduling/images/rmsed.png"  width="600" />| **Real-time Scheduling** <br>*Testing whether a given set of tasks are schedulable on a single processor using Rate-Monotonic (RM) scheduling by applying both necessary and sufficiency tests; Rate Monotonic Scheduling; Earliest Deadline First Scheduling* [[project]](Assignment%204%20Real-time%20Scheduling)|
 
 ---
 
