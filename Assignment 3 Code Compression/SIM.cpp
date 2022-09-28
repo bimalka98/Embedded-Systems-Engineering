@@ -323,11 +323,20 @@ class Decompressor
                 
                 // direct matching
                 case 5:{
+                    std::cout << "[INFO] direct matching decoding..." << std::endl;
 
+                    this->decompressedWord = this->dictionary[_compressedword]; // dictionary entry direct matching
+
+                    std::cout << "[INFO] decompressed word: " << this->decompressedWord << std::endl;
                 }break; 
                 
                 // original 32 bit binary
                 case 6:{
+                    td::cout << "[INFO] no compression..." << std::endl;
+                    
+                    this->decompressedWord = _compressedword; // no compression
+
+                    std::cout << "[INFO] decompressed word: " << this->decompressedWord << std::endl;
 
                 }break;
 
