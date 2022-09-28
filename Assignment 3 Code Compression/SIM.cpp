@@ -70,16 +70,21 @@ class Decompressor
         std::fstream inputStream;
         std::string outputFileName = "dout.txt";       
 
-        std::map<std::string, std::string> dictionary; // dictionary in the form [index:word]        
-        std::map<std::string, int> compressingFormats = { // compressing formats and their bit lengths
-            {"000", 2}, // RLE: run Length Encoding
-            {"001", 12},// bit masked based compression
-            {"010", 8}, // 1 bit mismatch
-            {"011", 8}, // 2 bit mismatches (consecutive)
-            {"100", 13},// 2 bit mismatches (anywhere)
-            {"101", 3}, // direct matching
-            {"110", 32} // original 32 bit binary
+        std::map<std::string, std::bitset<32>> dictionary; // dictionary in the form [index:word]        
+        std::map<std::string, std::pair<int, int>> compressionFormats = { // compressing formats and their bit lengths
+            {"000", {2,  0}}, // RLE: run Length Encoding
+            {"001", {12, 1}},// bit masked based compression
+            {"010", {8,  2}}, // 1 bit mismatch
+            {"011", {8,  3}}, // 2 bit mismatches (consecutive)
+            {"100", {13, 4}},// 2 bit mismatches (anywhere)
+            {"101", {3,  5}}, // direct matching
+            {"110", {32, 6}} // original 32 bit binary
         };
+
+        int compressionFormat; // format of the compression to be used with the fucntions
+        std::string compressedWord; // varibales to hold the compressed word
+        std::string decompressedWord; // varibales to hold the decompressed word
+        int occurencesOfWord; // number of occurrences, useful when RLE is associated
 
         /*         Private Member Functions      
         *******************************************************/
@@ -109,13 +114,13 @@ class Decompressor
                     std::string _index = std::bitset<3>(_dictionaryentry).to_string();
                     
                     // insert the word into the dictionary
-                    this->dictionary.insert(std::make_pair(_index, _currentline));
+                    this->dictionary.insert(std::make_pair(_index, std::bitset<32>(_currentline)));
                     
                     // update the dictionary index
                     _dictionaryentry++;
 
                     // [DEBUG]
-                    // std::cout << "[INFO] " << _index << " : " << _currentline << std::endl;
+                    // std::cout << "[INFO] " << _index << " : " << std::bitset<32>(_currentline) << std::endl;
                 }
 
                 // identifying the start of the dictionary
@@ -129,7 +134,7 @@ class Decompressor
         }
         
         // fucntion to decode the binary stream
-        void decodeStream(){
+        void decompressStream(){
             
             this->inputStream.open(inputFileName, std::ios::in); // open the input stream
 
@@ -141,7 +146,7 @@ class Decompressor
             std::cout << "[INFO] decoding the stream..." << std::endl;
 
             std::string _currentline, _nextline; // variables to store the currenly decoding line and the next line
-            std::string _compressingformat, _compressedcode; // variables to store the compressed data and compression method
+            std::string _compressionformat, _compressedword; // variables to store the compressed data and compression method
 
             int _cursorposition = 0; // position of the cursor in the stream
             int _compressionlength = 0; // length of the compressed code to be extracted            
@@ -157,7 +162,7 @@ class Decompressor
                     // check whether compressed code can be extracted from the current line itself
                     if((_cursorposition + 3) < 32){
 
-                        _compressingformat = _currentline.substr(_cursorposition, 3); // format is always 3 bit long
+                        _compressionformat = _currentline.substr(_cursorposition, 3); // format is always 3 bit long
                         _cursorposition+=3; // incrementing the cursor to get the compressed code
 
                     }else{
@@ -170,7 +175,7 @@ class Decompressor
                         int _lengthpart2 = 3 - _lengthpart1;
                         std::string _stringpart1 = _currentline.substr(_cursorposition,  _lengthpart1);
                         std::string _stringpart2 = _nextline.substr(0, _lengthpart2);
-                        _compressingformat = _stringpart1 + _stringpart2;                        
+                        _compressionformat = _stringpart1 + _stringpart2;                        
                         
                         _currentline = _nextline;
                         _cursorposition = (_cursorposition + 3) % 32;
@@ -178,17 +183,17 @@ class Decompressor
                     
                     // compressed patterns arranged in a sequential manner 
                     // 32-bit in each line, last line padded with 1’s, if needed. This case is handled here
-                    if(_compressingformat == "111" | _compressingformat == "11x" | _compressingformat == "1xx"){
+                    if(_compressionformat == "111" | _compressionformat == "11x" | _compressionformat == "1xx"){
                         break;
                     }
                     
                     // get the length of the compression fromat from the map
-                    _compressionlength = this->compressingFormats[_compressingformat];
+                    _compressionlength = this->compressionFormats[_compressionformat].first;
 
                     // check whether compressed code can be extracted from the current line itself
                     if((_cursorposition + _compressionlength) < 32){ 
                         
-                        _compressedcode = _currentline.substr(_cursorposition, _compressionlength);
+                        _compressedword = _currentline.substr(_cursorposition, _compressionlength);
                         _cursorposition+=  _compressionlength;
 
                     }else{
@@ -201,16 +206,18 @@ class Decompressor
                         int _lengthpart2 = _compressionlength - _lengthpart1;
                         std::string _stringpart1 = _currentline.substr(_cursorposition,  _lengthpart1);
                         std::string _stringpart2 = _nextline.substr(0, _lengthpart2);
-                        _compressedcode = _stringpart1 + _stringpart2;
+                        _compressedword = _stringpart1 + _stringpart2;
 
                         _currentline = _nextline;
                         _cursorposition = (_cursorposition + _compressionlength) % 32;
                     }
                     
                     // [DEBUG]                    
-                    // std::cout << "[INFO] format: " << _compressingformat << ", code: " << _compressedcode << std::endl;
+                    // std::cout << "[INFO] format: " << _compressionformat << ", code: " << _compressedword << std::endl;
 
                     // get the decompressed code and write it to the output stream
+                    this->compressionFormat = this->compressionFormats[_compressionformat].second; 
+                    this->compressedWord = _compressedword;
                     
                 }
                 
@@ -218,6 +225,57 @@ class Decompressor
             
             // [DEBUG]
             std::cout << "[INFO] decompression complete. " << _currentline << std::endl;
+        }
+
+        // fucntion to decompress a given compressed code
+        void decompressWord(){
+            
+            int _compressionformat = this->compressionFormat;
+            std::string _compressedword =  this->compressedWord;
+
+            switch(_compressionformat){
+
+                 // RLE: run Length Encoding
+                case 0:{
+                    // nothing to decode in the RLE, just store the number of occurences
+                    // https://en.cppreference.com/w/cpp/utility/bitset/to_ulong
+                    this->occurencesOfWord = (int)std::bitset<2>(_compressedword).to_ulong();
+                    
+                }break; 
+                
+                // bit masked based compression
+                case 1:{                    
+
+
+                }break; 
+                
+                // 1 bit mismatch
+                case 2:{
+
+                }break; 
+                
+                // 2 bit mismatches (consecutive)
+                case 3:{
+
+                }break; 
+                
+                // 2 bit mismatches (anywhere)
+                case 4:{
+
+                }break; 
+                
+                // direct matching
+                case 5:{
+
+                }break; 
+                
+                // original 32 bit binary
+                case 6:{
+
+                }break;
+
+            }
+            
         }
 
     public:
@@ -244,7 +302,7 @@ class Decompressor
 
             retrieveDictionary(); // extract the dictionary from the compressed data
 
-            decodeStream(); // decode the stream
+            decompressStream(); // decode the stream
 
         }
 };
