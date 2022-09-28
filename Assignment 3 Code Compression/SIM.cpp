@@ -265,15 +265,15 @@ class Decompressor
                 // bit masked based compression
                 case 1:{                                                            
                     // https://www.geeksforgeeks.org/c-bitset-interesting-facts/
-                    int _startlocation = (int)std::bitset<5>(_compressedword, 0, 5).to_ulong(); // start position to apply the mask from left                                 
+                    int _startlocation = (int)std::bitset<5>(_compressedword, 0, 5).to_ulong();     // start position to apply the mask from left                                 
                     std::string _dictionaryentry = this->dictionary[_compressedword.substr(9, 3)];  // dictionary entry
                     std::bitset<4> _mask(_compressedword, 5, 4);  // the 4 bit mask
                     
-                    std::bitset<4> _string2applymask(_dictionaryentry, _startlocation, 4);  // the 4 bits
-                    std::string _result = std::bitset<4>(_mask ^ _string2applymask).to_string();
+                    std::bitset<4> _string2applymask(_dictionaryentry, _startlocation, 4);          // the 4 bits of the dictionary entry 
+                    std::string _result = std::bitset<4>(_mask ^ _string2applymask).to_string();    // considering the xor operation
                     
                     // https://cplusplus.com/reference/string/string/replace/
-                    this->decompressedWord = _dictionaryentry.replace(_startlocation, 4, _result);
+                    this->decompressedWord = _dictionaryentry.replace(_startlocation, 4, _result);  // saving in a private data member
                     this->outputStream << this->decompressedWord << std::endl;                    
                 }break; 
                 
@@ -283,8 +283,8 @@ class Decompressor
                     int _mismatchlocation = (int)std::bitset<5>(_compressedword, 0, 5).to_ulong(); // start position to apply the mask from left                                        
                     std::string _dictionaryentry = this->dictionary[_compressedword.substr(5, 3)]; // dictionary entry
                     
-                    std::bitset<1> _mismatch(_dictionaryentry, _mismatchlocation, 1);                    
-                    _mismatch.flip(); // https://en.cppreference.com/w/cpp/utility/bitset/flip                    
+                    std::bitset<1> _mismatch(_dictionaryentry, _mismatchlocation, 1);              // extracting the mismatching bit
+                    _mismatch.flip(); // https://en.cppreference.com/w/cpp/utility/bitset/flip     // flip the mismatching bit
                     
                     this->decompressedWord = _dictionaryentry.replace(_mismatchlocation, 1, _mismatch.to_string());
                     this->outputStream << this->decompressedWord << std::endl;                   
@@ -297,8 +297,8 @@ class Decompressor
                     int _mismatchlocation = (int)std::bitset<5>(_compressedword, 0, 5).to_ulong(); // start position of mismatch                                        
                     std::string _dictionaryentry = this->dictionary[_compressedword.substr(5, 3)]; // dictionary entry
                     
-                    std::bitset<2> _mismatches(_dictionaryentry, _mismatchlocation, 2);                    
-                    _mismatches.flip(); 
+                    std::bitset<2> _mismatches(_dictionaryentry, _mismatchlocation, 2);            // extracting the mismatching bit
+                    _mismatches.flip();                                                            // flip the mismatching bit
 
                     this->decompressedWord = _dictionaryentry.replace(_mismatchlocation, 2, _mismatches.to_string());
                     this->outputStream << this->decompressedWord << std::endl;                    
@@ -312,12 +312,12 @@ class Decompressor
                     int _mismatchlocation2 = (int)std::bitset<5>(_compressedword, 5, 5).to_ulong(); // mismatch location 2
                     std::string _dictionaryentry = this->dictionary[_compressedword.substr(10, 3)]; // dictionary entry
 
-                    std::bitset<1> _mismatch1(_dictionaryentry, _mismatchlocation1, 1);                    
-                    _mismatch1.flip(); 
+                    std::bitset<1> _mismatch1(_dictionaryentry, _mismatchlocation1, 1);             // extracting the mismatching bit
+                    _mismatch1.flip();                                                              // flip the mismatching bit
                     this->decompressedWord = _dictionaryentry.replace(_mismatchlocation1, 1, _mismatch1.to_string());
 
-                    std::bitset<1> _mismatch2(_dictionaryentry, _mismatchlocation2, 1);                    
-                    _mismatch2.flip(); 
+                    std::bitset<1> _mismatch2(_dictionaryentry, _mismatchlocation2, 1);             // extracting the mismatching bit                                        
+                    _mismatch2.flip();                                                              // flip the mismatching bit
                     
                     this->decompressedWord = _dictionaryentry.replace(_mismatchlocation2, 1, _mismatch2.to_string());
                     this->outputStream << this->decompressedWord << std::endl;                    
@@ -335,7 +335,7 @@ class Decompressor
                 // original 32 bit binary
                 case 6:{                    
                     
-                    this->decompressedWord = _compressedword; // no compression
+                    this->decompressedWord = _compressedword;                   // no compression
                     this->outputStream << this->decompressedWord << std::endl;
                     
                 }break;
@@ -345,8 +345,6 @@ class Decompressor
         }
 
     public:
-        /*            Public Data Members     
-        *******************************************************/
 
         // default constructor
         Decompressor(){
@@ -358,7 +356,7 @@ class Decompressor
             std::cout << "[INFO] decompressor object destroyed." << std::endl;
         }
 
-        /*         Public Member Fucntions     
+        /*         Public Member Fucntion    
         *******************************************************/
         void Decompress(std::string file2decompress){
             
