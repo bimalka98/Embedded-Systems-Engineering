@@ -254,10 +254,10 @@ class Decompressor
                     std::cout << "[INFO] 4 bit masked decoding..." << std::endl;
                     
                     // https://www.geeksforgeeks.org/c-bitset-interesting-facts/
-                    int _startlocation = (int)std::bitset<5>(_compressedword, 0, 5).to_ulong(); // start position to apply the mask from left                    
-                    std::bitset<4> _mask(_compressedword, 5, 4);  // the 4 bit mask
+                    int _startlocation = (int)std::bitset<5>(_compressedword, 0, 5).to_ulong(); // start position to apply the mask from left                                 
+                    std::string _dictionaryentry = this->dictionary[_compressedword.substr(9, 3)];  // dictionary entry
 
-                    std::string _dictionaryentry = this->dictionary[_compressedword.substr(9, 3)]; 
+                    std::bitset<4> _mask(_compressedword, 5, 4);  // the 4 bit mask
                     std::bitset<4> _string2applymask(_dictionaryentry, _startlocation, 4);  // the 4 bits
 
                     std::string _result = std::bitset<4>(_mask ^ _string2applymask).to_string();
@@ -272,9 +272,8 @@ class Decompressor
                 // 1 bit mismatch
                 case 2:{
                     std::cout << "[INFO] 1 bit mismatch decoding..." << std::endl;
-                    int _mismatchlocation = (int)std::bitset<5>(_compressedword, 0, 5).to_ulong(); // start position to apply the mask from left                    
-                    
-                    std::string _dictionaryentry = this->dictionary[_compressedword.substr(5, 3)]; 
+                    int _mismatchlocation = (int)std::bitset<5>(_compressedword, 0, 5).to_ulong(); // start position to apply the mask from left                                        
+                    std::string _dictionaryentry = this->dictionary[_compressedword.substr(5, 3)]; // dictionary entry
 
                     std::bitset<1> _mismatch(_dictionaryentry, _mismatchlocation, 1);                    
                     _mismatch.flip(); // https://en.cppreference.com/w/cpp/utility/bitset/flip
@@ -288,12 +287,12 @@ class Decompressor
                 // 2 bit mismatches (consecutive)
                 case 3:{
                     std::cout << "[INFO] 2 consecutive bits mismatch decoding..." << std::endl;
-                    int _mismatchlocation = (int)std::bitset<5>(_compressedword, 0, 5).to_ulong(); // start position to apply the mask from left                    
-                    
-                    std::string _dictionaryentry = this->dictionary[_compressedword.substr(5, 3)]; 
+
+                    int _mismatchlocation = (int)std::bitset<5>(_compressedword, 0, 5).to_ulong(); // start position of mismatch                                        
+                    std::string _dictionaryentry = this->dictionary[_compressedword.substr(5, 3)]; // dictionary entry
 
                     std::bitset<2> _mismatches(_dictionaryentry, _mismatchlocation, 2);                    
-                    _mismatches.flip(); // https://en.cppreference.com/w/cpp/utility/bitset/flip
+                    _mismatches.flip(); 
 
                     this->decompressedWord = _dictionaryentry.replace(_mismatchlocation, 2, _mismatches.to_string());
 
@@ -304,6 +303,21 @@ class Decompressor
                 
                 // 2 bit mismatches (anywhere)
                 case 4:{
+                    std::cout << "[INFO] 2 bit mismatch anywhere decoding..." << std::endl;
+
+                    int _mismatchlocation1 = (int)std::bitset<5>(_compressedword, 0, 5).to_ulong(); // mismatch location 1
+                    int _mismatchlocation2 = (int)std::bitset<5>(_compressedword, 5, 5).to_ulong(); // mismatch location 2
+                    std::string _dictionaryentry = this->dictionary[_compressedword.substr(10, 3)]; // dictionary entry
+
+                    std::bitset<1> _mismatch1(_dictionaryentry, _mismatchlocation1, 1);                    
+                    _mismatch1.flip(); 
+                    this->decompressedWord = _dictionaryentry.replace(_mismatchlocation1, 1, _mismatch1.to_string());
+
+                    std::bitset<1> _mismatch2(_dictionaryentry, _mismatchlocation2, 1);                    
+                    _mismatch2.flip(); 
+                    this->decompressedWord = _dictionaryentry.replace(_mismatchlocation2, 1, _mismatch2.to_string());
+
+                    std::cout << "[INFO] decompressed word: " << this->decompressedWord << std::endl;
 
                 }break; 
                 
