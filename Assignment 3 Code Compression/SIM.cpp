@@ -332,7 +332,7 @@ class Decompressor
                 
                 // original 32 bit binary
                 case 6:{
-                    td::cout << "[INFO] no compression..." << std::endl;
+                    std::cout << "[INFO] no compression..." << std::endl;
                     
                     this->decompressedWord = _compressedword; // no compression
 
