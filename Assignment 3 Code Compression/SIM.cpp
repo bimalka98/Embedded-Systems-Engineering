@@ -69,6 +69,7 @@ class Decompressor
         std::string inputFileName;
         std::fstream inputStream;
         std::string outputFileName = "dout.txt";       
+        std::fstream outputStream;
 
         std::map<std::string, std::string> dictionary; // dictionary in the form [index:word]        
         std::map<std::string, std::pair<int, int>> compressionFormats = { // compressing formats and their bit lengths
@@ -140,6 +141,13 @@ class Decompressor
 
             if(!this->inputStream.is_open()){
                 std::cout << "[ERROR] file to be decompressed can not be opened." << std::endl;
+                exit(EXIT_FAILURE);
+            }
+
+            this->outputStream.open(outputFileName, std::ios::out); // open the output stream
+
+            if(!this->outputStream.is_open()){
+                std::cout << "[ERROR] file to save decompressed data can not be opened." << std::endl;
                 exit(EXIT_FAILURE);
             }
 
@@ -219,14 +227,16 @@ class Decompressor
                     this->compressionFormat = this->compressionFormats[_compressionformat].second; 
                     this->compressedWord = _compressedword;
                     
-                    // decompress the found compressed code with the help of its format
-                    decompressWord();
-
-                    
+                    // decompress the found compressed code with the help of its format and write it to the output stream
+                    decompressWord();                    
 
                 }
                 
             }
+            
+            // closing the files
+            this->inputStream.close();
+            this->outputStream.close();
             
             // [DEBUG]
             std::cout << "[INFO] decompression complete. " << _currentline << std::endl;
@@ -246,6 +256,7 @@ class Decompressor
                     // nothing to decode in the RLE, just store the number of occurences
                     // https://en.cppreference.com/w/cpp/utility/bitset/to_ulong
                     this->occurencesOfWord = (int)std::bitset<2>(_compressedword).to_ulong();
+                    for(int i=0; i <= this->occurencesOfWord; i++) this->outputStream << this->decompressedWord << std::endl;
                     
                 }break; 
                 
@@ -264,7 +275,8 @@ class Decompressor
 
                     // https://cplusplus.com/reference/string/string/replace/
                     this->decompressedWord = _dictionaryentry.replace(_startlocation, 4, _result);
-                    
+                    this->outputStream << this->decompressedWord << std::endl;
+
                     std::cout << "[INFO] decompressed word: " << this->decompressedWord << std::endl;
 
                 }break; 
@@ -279,7 +291,7 @@ class Decompressor
                     _mismatch.flip(); // https://en.cppreference.com/w/cpp/utility/bitset/flip
                     
                     this->decompressedWord = _dictionaryentry.replace(_mismatchlocation, 1, _mismatch.to_string());
-
+                    this->outputStream << this->decompressedWord << std::endl;
                     std::cout << "[INFO] decompressed word: " << this->decompressedWord << std::endl;
 
                 }break; 
@@ -295,7 +307,7 @@ class Decompressor
                     _mismatches.flip(); 
 
                     this->decompressedWord = _dictionaryentry.replace(_mismatchlocation, 2, _mismatches.to_string());
-
+                    this->outputStream << this->decompressedWord << std::endl;
                     std::cout << "[INFO] decompressed word: " << this->decompressedWord << std::endl;
 
 
@@ -316,7 +328,7 @@ class Decompressor
                     std::bitset<1> _mismatch2(_dictionaryentry, _mismatchlocation2, 1);                    
                     _mismatch2.flip(); 
                     this->decompressedWord = _dictionaryentry.replace(_mismatchlocation2, 1, _mismatch2.to_string());
-
+                    this->outputStream << this->decompressedWord << std::endl;
                     std::cout << "[INFO] decompressed word: " << this->decompressedWord << std::endl;
 
                 }break; 
@@ -326,7 +338,7 @@ class Decompressor
                     std::cout << "[INFO] direct matching decoding..." << std::endl;
 
                     this->decompressedWord = this->dictionary[_compressedword]; // dictionary entry direct matching
-
+                    this->outputStream << this->decompressedWord << std::endl;
                     std::cout << "[INFO] decompressed word: " << this->decompressedWord << std::endl;
                 }break; 
                 
@@ -335,7 +347,7 @@ class Decompressor
                     std::cout << "[INFO] no compression..." << std::endl;
                     
                     this->decompressedWord = _compressedword; // no compression
-
+                    this->outputStream << this->decompressedWord << std::endl;
                     std::cout << "[INFO] decompressed word: " << this->decompressedWord << std::endl;
 
                 }break;
