@@ -115,7 +115,7 @@ class Decompressor
                     _dictionaryentry++;
 
                     // [DEBUG]
-                    std::cout << "[INFO] " << _index << " : " << _currentline << std::endl;
+                    // std::cout << "[INFO] " << _index << " : " << _currentline << std::endl;
                 }
 
                 // identifying the start of the dictionary
@@ -141,7 +141,7 @@ class Decompressor
             std::cout << "[INFO] decoding the stream..." << std::endl;
 
             std::string _currentline, _nextline; // variables to store the currenly decoding line and the next line
-            std::string _compressingformat, compressedcode; // variables to store the compressed data and compression method
+            std::string _compressingformat, _compressedcode; // variables to store the compressed data and compression method
 
             int _cursorposition = 0; // position of the cursor in the stream
             int _compressionlength = 0; // length of the compressed code to be extracted            
@@ -165,8 +165,11 @@ class Decompressor
                         // if the substring extends to the next line read it
                         std::getline(this->inputStream, _nextline);
                         
-                        std::string _stringpart1 =
-                        std::string _stringpart2 =
+                        // constructing the combined string to get the compression format
+                        int _lengthpart1 = 32 -_cursorposition;
+                        int _lengthpart2 = 3 - _lengthpart1;
+                        std::string _stringpart1 = _currentline.substr(_cursorposition,  _lengthpart1);
+                        std::string _stringpart2 = _nextline.substr(0, _lengthpart2);
                         _compressingformat = _stringpart1 + _stringpart2;                        
                         
                         _currentline = _nextline;
@@ -179,7 +182,7 @@ class Decompressor
                     // check whether compressed code can be extracted from the current line itself
                     if((_cursorposition + _compressionlength) < 32){ 
                         
-                        _compressedcode = _currentline.substr(_cursorposition, _compressionlength)
+                        _compressedcode = _currentline.substr(_cursorposition, _compressionlength);
                         _cursorposition+=  _compressionlength;
 
                     }else{
@@ -187,8 +190,11 @@ class Decompressor
                         // if the substring extends to the next line read it                        
                         std::getline(this->inputStream, _nextline);
 
-                        std::string _stringpart1 =
-                        std::string _stringpart2 =
+                        // constructing the combined string to get the compressed code
+                        int _lengthpart1 = 32 -_cursorposition;
+                        int _lengthpart2 = _compressionlength - _lengthpart1;
+                        std::string _stringpart1 = _currentline.substr(_cursorposition,  _lengthpart1);
+                        std::string _stringpart2 = _nextline.substr(0, _lengthpart2);
                         _compressedcode = _stringpart1 + _stringpart2;
 
                         _currentline = _nextline;
@@ -196,7 +202,7 @@ class Decompressor
                     }
 
                     // get the decompressed code and write it to the output stream
-
+                    std::cout << "[INFO] format: " << _compressingformat << ", compressed code: " << _compressedcode << std::endl;
                     
                 }
                 
