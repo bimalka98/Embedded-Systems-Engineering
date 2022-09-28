@@ -176,6 +176,12 @@ class Decompressor
                         _cursorposition = (_cursorposition + 3) % 32;
                     }
                     
+                    // compressed patterns arranged in a sequential manner 
+                    // 32-bit in each line, last line padded with 1’s, if needed. This case is handled here
+                    if(_compressingformat == "111" | _compressingformat == "11x" | _compressingformat == "1xx"){
+                        break;
+                    }
+                    
                     // get the length of the compression fromat from the map
                     _compressionlength = this->compressingFormats[_compressingformat];
 
@@ -200,16 +206,18 @@ class Decompressor
                         _currentline = _nextline;
                         _cursorposition = (_cursorposition + _compressionlength) % 32;
                     }
+                    
+                    // [DEBUG]                    
+                    // std::cout << "[INFO] format: " << _compressingformat << ", code: " << _compressedcode << std::endl;
 
                     // get the decompressed code and write it to the output stream
-                    std::cout << "[INFO] format: " << _compressingformat << ", compressed code: " << _compressedcode << std::endl;
                     
                 }
                 
-                
-
             }
             
+            // [DEBUG]
+            std::cout << "[INFO] decompression complete. " << _currentline << std::endl;
         }
 
     public:
