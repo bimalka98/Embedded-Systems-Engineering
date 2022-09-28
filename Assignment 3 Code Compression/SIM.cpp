@@ -70,7 +70,7 @@ class Decompressor
         std::fstream inputStream;
         std::string outputFileName = "dout.txt";       
 
-        std::map<std::string, std::bitset<32>> dictionary; // dictionary in the form [index:word]        
+        std::map<std::string, std::string> dictionary; // dictionary in the form [index:word]        
         std::map<std::string, std::pair<int, int>> compressionFormats = { // compressing formats and their bit lengths
             {"000", {2,  0}}, // RLE: run Length Encoding
             {"001", {12, 1}},// bit masked based compression
@@ -114,13 +114,13 @@ class Decompressor
                     std::string _index = std::bitset<3>(_dictionaryentry).to_string();
                     
                     // insert the word into the dictionary
-                    this->dictionary.insert(std::make_pair(_index, std::bitset<32>(_currentline)));
+                    this->dictionary.insert(std::make_pair(_index, _currentline));
                     
                     // update the dictionary index
                     _dictionaryentry++;
 
                     // [DEBUG]
-                    // std::cout << "[INFO] " << _index << " : " << std::bitset<32>(_currentline) << std::endl;
+                    // std::cout << "[INFO] " << _index << " : " << _currentline << std::endl;
                 }
 
                 // identifying the start of the dictionary
@@ -219,6 +219,11 @@ class Decompressor
                     this->compressionFormat = this->compressionFormats[_compressionformat].second; 
                     this->compressedWord = _compressedword;
                     
+                    // decompress the found compressed code with the help of its format
+                    decompressWord();
+
+                    
+
                 }
                 
             }
@@ -237,6 +242,7 @@ class Decompressor
 
                  // RLE: run Length Encoding
                 case 0:{
+                    std::cout << "[INFO] RLE decoding..." << std::endl;
                     // nothing to decode in the RLE, just store the number of occurences
                     // https://en.cppreference.com/w/cpp/utility/bitset/to_ulong
                     this->occurencesOfWord = (int)std::bitset<2>(_compressedword).to_ulong();
@@ -245,17 +251,54 @@ class Decompressor
                 
                 // bit masked based compression
                 case 1:{                    
+                    std::cout << "[INFO] 4 bit masked decoding..." << std::endl;
+                    
+                    // https://www.geeksforgeeks.org/c-bitset-interesting-facts/
+                    int _startlocation = (int)std::bitset<5>(_compressedword, 0, 5).to_ulong(); // start position to apply the mask from left                    
+                    std::bitset<4> _mask(_compressedword, 5, 4);  // the 4 bit mask
 
+                    std::string _dictionaryentry = this->dictionary[_compressedword.substr(9, 3)]; 
+                    std::bitset<4> _string2applymask(_dictionaryentry, _startlocation, 4);  // the 4 bits
+
+                    std::string _result = std::bitset<4>(_mask ^ _string2applymask).to_string();
+
+                    // https://cplusplus.com/reference/string/string/replace/
+                    this->decompressedWord = _dictionaryentry.replace(_startlocation, 4, _result);
+                    
+                    std::cout << "[INFO] decompressed word: " << this->decompressedWord << std::endl;
 
                 }break; 
                 
                 // 1 bit mismatch
                 case 2:{
+                    std::cout << "[INFO] 1 bit mismatch decoding..." << std::endl;
+                    int _mismatchlocation = (int)std::bitset<5>(_compressedword, 0, 5).to_ulong(); // start position to apply the mask from left                    
+                    
+                    std::string _dictionaryentry = this->dictionary[_compressedword.substr(5, 3)]; 
+
+                    std::bitset<1> _mismatch(_dictionaryentry, _mismatchlocation, 1);                    
+                    _mismatch.flip(); // https://en.cppreference.com/w/cpp/utility/bitset/flip
+                    
+                    this->decompressedWord = _dictionaryentry.replace(_mismatchlocation, 1, _mismatch.to_string());
+
+                    std::cout << "[INFO] decompressed word: " << this->decompressedWord << std::endl;
 
                 }break; 
                 
                 // 2 bit mismatches (consecutive)
                 case 3:{
+                    std::cout << "[INFO] 2 consecutive bits mismatch decoding..." << std::endl;
+                    int _mismatchlocation = (int)std::bitset<5>(_compressedword, 0, 5).to_ulong(); // start position to apply the mask from left                    
+                    
+                    std::string _dictionaryentry = this->dictionary[_compressedword.substr(5, 3)]; 
+
+                    std::bitset<2> _mismatches(_dictionaryentry, _mismatchlocation, 2);                    
+                    _mismatches.flip(); // https://en.cppreference.com/w/cpp/utility/bitset/flip
+
+                    this->decompressedWord = _dictionaryentry.replace(_mismatchlocation, 2, _mismatches.to_string());
+
+                    std::cout << "[INFO] decompressed word: " << this->decompressedWord << std::endl;
+
 
                 }break; 
                 
