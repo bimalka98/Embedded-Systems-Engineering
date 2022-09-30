@@ -62,6 +62,8 @@ class Compressor
                 // check if this is found in the vector as a key
             }
 
+            // https://www.geeksforgeeks.org/sorting-vector-of-pairs-in-c-set-1-sort-by-first-and-second/
+            
             this->inputStream.close();
 
         }
