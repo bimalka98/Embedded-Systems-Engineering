@@ -27,10 +27,44 @@ class Compressor
         /*           Private Data Members     
         *******************************************************/
         std::string inputFileName;
+        std::fstream inputStream;
         std::string outputFileName = "cout.txt";        
+        std::fstream outputStream;
+
+        
+        
 
         /*         Private Member Functions      
         *******************************************************/
+        void generateDictionary(){
+            
+            // https://cplusplus.com/reference/fstream/fstream/open/
+            this->inputStream.open(inputFileName, std::ios::in | std::ios::binary); // open the input stream
+
+            if(!this->inputStream.is_open()){
+                std::cout << "[ERROR] file to be compressed does not exist." << std::endl;
+                exit(EXIT_FAILURE);
+            }
+            
+            std::cout << "[INFO] generating the dictionary..." << std::endl;
+            
+            // vector to store frequency of words in the input file
+            std::vector<std::pair<unsigned long, unsigned long>> _frequencystore; 
+
+            // variable to store current line of iteration in the file
+            std::string _currentline;
+            int _binary2decimal;
+
+            while(std::getline(this->inputStream, _currentline)){
+                
+                _binary2decimal = std::bitset<32>(_currentline).to_ulong(); // convert binary to decimal
+
+                // check if this is found in the vector as a key
+            }
+
+            this->inputStream.close();
+
+        }
 
     public:
         /*            Public Data Members     
@@ -52,6 +86,8 @@ class Compressor
             std::cout << "[INFO] compressing..." << std::endl;
             
             this->inputFileName = file2compress; // file with the original data
+
+            generateDictionary(); // generate the dictionary depending on the frequency
         }
 };
 
