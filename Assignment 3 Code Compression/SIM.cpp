@@ -52,6 +52,8 @@ class Compressor
             std::unordered_set<unsigned long> _distinctwords;  
             // an unordered map to hold frequency values of each word: https://cplusplus.com/reference/unordered_map/
             std::unordered_map<unsigned long, unsigned long> _wordfreqs; 
+            // list to presrve the insertion order of the words : https://cplusplus.com/reference/list/list/
+            std::list<unsigned long> _wordorder;
             // vector to store frequency of words for sorting purposes
             std::vector<std::pair<unsigned long, unsigned long>> _frequencystore;  
 
@@ -64,24 +66,27 @@ class Compressor
                 
                 _word = std::bitset<32>(_currentline).to_ulong(); // convert binary to decimal
                 
+                // [DEBUG]
                 std::cout << "[INFO] word: " << _word << std::endl;
                 
                 // check if this is found in the _distinctwords set
                 // https://cplusplus.com/reference/unordered_set/unordered_set/count/
-                if(_distinctwords.count(_word)){
+                if(_distinctwords.count(_word)){ // Average case: constant. Worst case: linear in container size.
 
-                    _wordfreqs[_word] +=1; // incrementing the word count for that word
+                    _wordfreqs[_word] +=1; // incrementing the word count for that word - Average case: constant. Worst case: linear in container size)
 
                 }else{
 
-                    _distinctwords.insert(_word); // insert the newly found word into the _distinctwords set                    
-                    _wordfreqs.insert(std::make_pair(_word, 1)); // set the word count to 1, when initializing
+                    _distinctwords.insert(_word); // to keep track of the distinct words - insertion: Average case: constant. Worst case: linear in container size.   
+                    _wordorder.push_back(_word); // to keep track of the order of the words- : Constant.
+                    _wordfreqs.insert(std::make_pair(_word, 1)); // set the word count to 1, when initializing - Single element insertions: Average case: constant. Worst case: linear in container size.
+                    
                 }
             }
 
             // https://www.geeksforgeeks.org/sorting-vector-of-pairs-in-c-set-1-sort-by-first-and-second/
             // constrcuting a vecotor to hold words and their frequencies available in the map
-            for(auto &_it : _wordfreqs) _frequencystore.push_back(_it);            
+            for(auto &_it : _wordorder) _frequencystore.push_back(std::make_pair(_it, _wordfreqs[_it]));            
             
             for(auto &_it : _frequencystore) {std::cout << "[INFO] word: " << _it.first << " frequency: " << _it.second << std::endl;}
             
