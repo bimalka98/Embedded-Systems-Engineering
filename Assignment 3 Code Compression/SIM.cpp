@@ -74,8 +74,7 @@ class Compressor
 
                 }else{
 
-                    _distinctwords.insert(_word); // insert the newly found word into the _distinctwords set
-                    
+                    _distinctwords.insert(_word); // insert the newly found word into the _distinctwords set                    
                     _wordfreqs.insert(std::make_pair(_word, 1)); // set the word count to 1, when initializing
                 }
             }
