@@ -32,7 +32,9 @@ class Compressor
         std::fstream outputStream;
 
         // vector to store frequency of words for sorting purposes when generating dictionary
-        std::vector<std::pair<unsigned long, unsigned long>> frequencyStore;  
+        std::vector<std::pair<unsigned long, unsigned long>> frequencyStore;
+        // map to dtore the final dictionary for compresing
+        std::map<std::string, std::bitset<32>> dictionary;
         
 
         /*         Private Member Functions      
@@ -83,8 +85,7 @@ class Compressor
                     
                 }
             }
-
-            // https://www.geeksforgeeks.org/sorting-vector-of-pairs-in-c-set-1-sort-by-first-and-second/
+            
             // inserting  words and their frequencies available in the map, to a vecotor for sorting
             for(auto &_it : _wordorder){
 
@@ -93,15 +94,34 @@ class Compressor
             } 
 
             // [DEBUG]
-            // for(auto &_it : this->frequencyStore) {std::cout << "[INFO] word: " << _it.first << " frequency: " << _it.second << std::endl;}
+            for(auto &_it : this->frequencyStore) {std::cout << "[INFO] word: " << _it.first << " frequency: " << _it.second << std::endl;}
             
             this->inputStream.close();
 
+        }
+        
+        // sorting the frequency store depending on the frequency of words 
+        // ststic: https://stackoverflow.com/a/29287632/15939357
+        static bool sortbyvalue(const std::pair<unsigned long,unsigned long> &a, const std::pair<unsigned long, unsigned long> &b){
+            
+            return (a.second > b.second);
+        
         }
 
         void generateDictionary() {
             
             std::cout << "[INFO] generating the dictionary..." << std::endl;
+            
+            // sorting the frequency store depending on the frequency of words 
+            // https://www.geeksforgeeks.org/sorting-vector-of-pairs-in-c-set-1-sort-by-first-and-second/            
+
+            // sorting the frequency store depending on the frequency of words(vlaue of the key:value pair)
+            std::sort(this->frequencyStore.begin(), this->frequencyStore.end(), sortbyvalue);
+
+            // [DEBUG]
+            for(auto &_it : this->frequencyStore) {std::cout << "[INFO] word: " << _it.first << " frequency: " << _it.second << std::endl;}
+
+
         }
 
     public:
