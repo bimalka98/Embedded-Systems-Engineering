@@ -24,6 +24,15 @@
 class Compressor
 {
     private:
+
+        /*           User Defined Data Types     
+        *******************************************************/
+        struct DictionaryWord{
+            unsigned long _word;
+            unsigned long _priority;
+            unsigned long _frequency;
+        };
+
         /*           Private Data Members     
         *******************************************************/
         std::string inputFileName;
@@ -32,7 +41,7 @@ class Compressor
         std::fstream outputStream;
 
         // vector to store frequency of words for sorting purposes when generating dictionary
-        std::vector<std::pair<unsigned long, unsigned long>> frequencyStore;
+        std::vector<DictionaryWord> frequencyStore;
         // map to dtore the final dictionary for compresing
         std::map<std::string, std::bitset<32>> dictionary;
         
@@ -86,15 +95,23 @@ class Compressor
                 }
             }
             
-            // inserting  words and their frequencies available in the map, to a vecotor for sorting
-            for(auto &_it : _wordorder){
+            DictionaryWord _dictionaryword;
 
-                this->frequencyStore.push_back(std::make_pair(_it, _wordfreqs[_it]));
+            // inserting  words and their frequencies available in the map, to a vecotor for sorting
+            unsigned long _index = 0; // variable to track priority of a word
+
+            for(auto &_it : _wordorder){
+                
+                _dictionaryword._word = _it; // word 
+                _dictionaryword._priority = _index; // priority of the word
+                _dictionaryword._frequency = _wordfreqs[_it]; // frequency of the word
+
+                this->frequencyStore.push_back(_dictionaryword);
 
             } 
 
             // [DEBUG]
-            for(auto &_it : this->frequencyStore) {std::cout << "[INFO] word: " << _it.first << " frequency: " << _it.second << std::endl;}
+            for(auto &_it : this->frequencyStore) {std::cout << "[INFO] word: " << _it._word << " frequency: " << _it._frequency << std::endl;}
             
             this->inputStream.close();
 
@@ -102,9 +119,9 @@ class Compressor
         
         // sorting the frequency store depending on the frequency of words 
         // ststic: https://stackoverflow.com/a/29287632/15939357
-        static bool sortbyvalue(const std::pair<unsigned long,unsigned long> &a, const std::pair<unsigned long, unsigned long> &b){
+        static bool sortbyvalue(const DictionaryWord &a, const DictionaryWord &b){
             
-            return (a.second > b.second);
+            return (a._frequency > b._frequency);
         
         }
 
@@ -119,7 +136,7 @@ class Compressor
             std::sort(this->frequencyStore.begin(), this->frequencyStore.end(), sortbyvalue);
 
             // [DEBUG]
-            for(auto &_it : this->frequencyStore) {std::cout << "[INFO] word: " << _it.first << " frequency: " << _it.second << std::endl;}
+            for(auto &_it : this->frequencyStore) {std::cout << "[INFO] word: " << _it._word << " frequency: " << _it._frequency << std::endl;}
 
 
         }
