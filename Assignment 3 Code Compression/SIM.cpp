@@ -31,12 +31,13 @@ class Compressor
         std::string outputFileName = "cout.txt";        
         std::fstream outputStream;
 
-        
+        // vector to store frequency of words for sorting purposes when generating dictionary
+        std::vector<std::pair<unsigned long, unsigned long>> frequencyStore;  
         
 
         /*         Private Member Functions      
         *******************************************************/
-        void generateDictionary(){
+        void getWordFrequencies(){
             
             // https://cplusplus.com/reference/fstream/fstream/open/
             this->inputStream.open(inputFileName, std::ios::in | std::ios::binary); // open the input stream
@@ -46,7 +47,7 @@ class Compressor
                 exit(EXIT_FAILURE);
             }
             
-            std::cout << "[INFO] generating the dictionary..." << std::endl;
+            std::cout << "[INFO] calculating word frequencies while preserving their order..." << std::endl;
             
             // an unordered set to hold distinct keys: https://cplusplus.com/reference/unordered_set/
             std::unordered_set<unsigned long> _distinctwords;  
@@ -54,8 +55,7 @@ class Compressor
             std::unordered_map<unsigned long, unsigned long> _wordfreqs; 
             // list to presrve the insertion order of the words : https://cplusplus.com/reference/list/list/
             std::list<unsigned long> _wordorder;
-            // vector to store frequency of words for sorting purposes
-            std::vector<std::pair<unsigned long, unsigned long>> _frequencystore;  
+            
 
             // variable to store current line of iteration in the file
             std::string _currentline;
@@ -67,7 +67,7 @@ class Compressor
                 _word = std::bitset<32>(_currentline).to_ulong(); // convert binary to decimal
                 
                 // [DEBUG]
-                std::cout << "[INFO] word: " << _word << std::endl;
+                // std::cout << "[INFO] word: " << _word << std::endl;
                 
                 // check if this is found in the _distinctwords set
                 // https://cplusplus.com/reference/unordered_set/unordered_set/count/
@@ -85,13 +85,23 @@ class Compressor
             }
 
             // https://www.geeksforgeeks.org/sorting-vector-of-pairs-in-c-set-1-sort-by-first-and-second/
-            // constrcuting a vecotor to hold words and their frequencies available in the map
-            for(auto &_it : _wordorder) _frequencystore.push_back(std::make_pair(_it, _wordfreqs[_it]));            
-            
-            for(auto &_it : _frequencystore) {std::cout << "[INFO] word: " << _it.first << " frequency: " << _it.second << std::endl;}
+            // inserting  words and their frequencies available in the map, to a vecotor for sorting
+            for(auto &_it : _wordorder){
+
+                this->frequencyStore.push_back(std::make_pair(_it, _wordfreqs[_it]));
+
+            } 
+
+            // [DEBUG]
+            // for(auto &_it : this->frequencyStore) {std::cout << "[INFO] word: " << _it.first << " frequency: " << _it.second << std::endl;}
             
             this->inputStream.close();
 
+        }
+
+        void generateDictionary() {
+            
+            std::cout << "[INFO] generating the dictionary..." << std::endl;
         }
 
     public:
@@ -115,7 +125,9 @@ class Compressor
             
             this->inputFileName = file2compress; // file with the original data
 
-            generateDictionary(); // generate the dictionary depending on the frequency
+            getWordFrequencies(); // get words and their frequencies from the input file
+
+            generateDictionary(); // generate the dictionary depending on the frequencies
         }
 };
 
