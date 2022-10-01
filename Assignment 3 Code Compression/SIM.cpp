@@ -63,7 +63,9 @@ class Compressor
             while(std::getline(this->inputStream, _currentline)){
                 
                 _word = std::bitset<32>(_currentline).to_ulong(); // convert binary to decimal
-
+                
+                std::cout << "[INFO] word: " << _word << std::endl;
+                
                 // check if this is found in the _distinctwords set
                 // https://cplusplus.com/reference/unordered_set/unordered_set/count/
                 if(_distinctwords.count(_word)){
@@ -73,26 +75,16 @@ class Compressor
                 }else{
 
                     _distinctwords.insert(_word); // insert the newly found word into the _distinctwords set
+                    
                     _wordfreqs.insert(std::make_pair(_word, 1)); // set the word count to 1, when initializing
                 }
             }
 
             // https://www.geeksforgeeks.org/sorting-vector-of-pairs-in-c-set-1-sort-by-first-and-second/
             // constrcuting a vecotor to hold words and their frequencies available in the map
-            for(auto &_it : _wordfreqs){
-
-                _frequencystore.push_back(_it);
-
-                std::cout << "[INFO] " << _it.first << " appears " << _it.second  << " times" << std::endl;
-            }
+            for(auto &_it : _wordfreqs) _frequencystore.push_back(_it);            
             
-            std::cout << "[INFO] transported key values of map into a pair of vectors" << std::endl; 
-            
-            for(auto &_it : _frequencystore){
-
-                std::cout << "[INFO] " << _it.first << " appears " << _it.second  << " times" << std::endl;
-            }
-
+            for(auto &_it : _frequencystore) {std::cout << "[INFO] word: " << _it.first << " frequency: " << _it.second << std::endl;}
             
             this->inputStream.close();
 
