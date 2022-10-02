@@ -71,7 +71,7 @@
 	\maketitle
 	
 	\begin{center}
-		\color{red}\bf This is a group assignment! \\ Due Date: 25 September 2022 by 11.59 PM
+		\color{red}\bf This is a group assignment! \\ Due Date: 2 October 2022 by 11.59 PM
 	\end{center}
 	
 	\section*{Instructions}
@@ -119,8 +119,8 @@
 		\item Reject 
 		\item Weak reject
 		\item Weak accept
-		\item Accept
-		\item Strong accept $\Leftarrow$
+		\item Accept $\Leftarrow$
+		\item Strong accept 
 	\end{itemize}
 	
 	\subsection*{Reviewer expertise}
@@ -128,20 +128,28 @@
 	%To Do: Select the appropriate option
 	\begin{itemize}[noitemsep]
 		\item No familiarity 
-		\item Some familiarity
+		\item Some familiarity $\Leftarrow$
 		\item Knowledgeable
-		\item Expert $\Leftarrow$
+		\item Expert 
 	\end{itemize}
 	
 	%To Do: Add a summary of the paper using one or two paragraphs
 	\subsection*{Paper Summary}
 	
-	Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin sit amet nunc sit amet purus suscipit hendrerit id vel eros. Vestibulum interdum et neque non tincidunt. Aliquam vitae pulvinar massa, auctor iaculis mauris. Suspendisse aliquam augue id tortor tempus vulputate. Nullam vestibulum urna at placerat semper. Mauris dictum, turpis in consequat maximus, augue ligula maximus lectus, rutrum tristique ligula tellus a orci. Integer eu rutrum nisi. Donec volutpat lorem eget neque pretium scelerisque. Nulla imperdiet gravida est, non auctor mi congue quis. Nulla et venenatis tellus. Aliquam ultrices est nec tincidunt convallis. Donec bibendum nunc et sem mattis, eget faucibus ex eleifend. Sed venenatis diam id diam pretium dictum. Quisque sit amet vulputate tellus. Pellentesque hendrerit sapien sit amet lacus mattis, ut venenatis nibh vestibulum.
+	
+	Dynamic Voltage and Frequency Scaling (DVFS) is an energy optimization method for Embedded Computing. It dynamically scales the supply voltage level of the Central Processing Unit (CPU) by providing enough circuit speed to process the system workload. Authors have proposed a fine-grained DVFS solution for precise energy and performance trade-off, which is based on the ratio of off-chip access to on-chip computation time. However, calculating this ratio statically is difficult due to the unpredictable dynamic behaviour of microprocessors. Therefore, the authors have proposed a dynamic approach to compute the mentioned ratio using parameters obtained through the Performance Monitoring Unit (PMU) which is commonly available in the present microprocessors. They then used those parameters of the current time unit to predict the required target frequency of the next time unit using a linear regression technique. However, in reality, the mentioned ratio of off-chip access to on-chip computation time varies significantly even within a single time unit. The paper has also proposed the necessary modifications required to take that variation into account to produce more fine-grained DVFS. In addition to that, the authors have also introduced hardware implementation of the proposed policy on a high-performance XScale-based testbed,  which realizes the solutions they have proposed. Hardware implementation results showcase that, in CPU-bound applications, actual performance values were very close to the target value but in memory bound applications that difference was considerable. Moreover, using the proposed method, 70\% CPU energy saving with about 12\% performance degradation for memory-bound programs and 15\% to 60\% energy savings with fine-tuned performance degradation ranging from 5\% to 20\% for CPU-bound programs, have been obtained.  
+	
+	
 	
 	%To Do: Give comments to the author(s) about strengths and weaknesses of the paper
 	\subsection*{Comments for Author}
 	
-	Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin sit amet nunc sit amet purus suscipit hendrerit id vel eros. Vestibulum interdum et neque non tincidunt. Aliquam vitae pulvinar massa, auctor iaculis mauris. Suspendisse aliquam augue id tortor tempus vulputate. Nullam vestibulum urna at placerat semper. Mauris dictum, turpis in consequat maximus, augue ligula maximus lectus, rutrum tristique ligula tellus a orci. Integer eu rutrum nisi. Donec volutpat lorem eget neque pretium scelerisque. Nulla imperdiet gravida est, non auctor mi congue quis. Nulla et venenatis tellus. Aliquam ultrices est nec tincidunt convallis. Donec bibendum nunc et sem mattis, eget faucibus ex eleifend. Sed venenatis diam id diam pretium dictum. Quisque sit amet vulputate tellus. Pellentesque hendrerit sapien sit amet lacus mattis, ut venenatis nibh vestibulum.
+	In general quality of the content and the flow of the paper are well maintained. When it comes to the abstract, the authors have been really successful in summarizing their proposed method, key results and main conclusion. The proposed method to obtain precise energy and performance trade-off based on the ratio of off-chip access to on-chip computation time (as mentioned in the paper title) has been given the focus and comprehensively and clearly explained with the appropriate figures and relevant equations.  This also ensures the relevance of the title of the paper and its content. The tables and quality of the figures of the overall paper are satisfactory. Moreover, it is evident that the authors have surveyed the literature adequately according to the presented prior works. 	The methodology of workload partitioning and scaling the CPU frequency is clear in Section ``{\sc III. Performance-Energy Tradeoffs}''. It would be great if the concepts in the subsection ``\textit{C. Scaling Granularity}'' of that section is explained more as the sentences are a bit more confusing when it comes to understanding their meaning. In Equation 4,  ${W^3}_{offchip}$ in the denominator seems to be changed to ${W^2}_{offchip}$. If the explanation in the Section ``{\sc V. Implementation}'', is started from kernel space and directed towards the voltage controlling, the flow could be seen easily. It gives the sense that it is explained in reverse order. Experimental results were clearly described using appropriate figures. It would be better if the authors could compare their results with similar prior work. However, the project has a significant contribution toward the DVFS technology as it presents one of the first actual implementations of an intraprocess DVFS policy that exploits dynamic events at runtime.
+	
+	
+	
+	
+	
 	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \end{document}
