@@ -104,7 +104,7 @@ class Compressor
                 
                 _dictionaryword._word = _it; // word                 
                 _dictionaryword._frequency = _wordfreqs[_it]; // frequency of the word
-                _dictionaryword._priority = _index; // priority of the word
+                _dictionaryword._priority = _index; // priority of the word                
 
                 this->frequencyStore.push_back(_dictionaryword);
 
@@ -112,7 +112,7 @@ class Compressor
             } 
 
             // [DEBUG]
-            for(auto &_it : this->frequencyStore) {std::cout << "[INFO] word: " << _it._word << " frequency: " << _it._frequency << std::endl;}
+            // for(auto &_it : this->frequencyStore) {std::cout << "[INFO] word: " << _it._word << " frequency: " << _it._frequency << " priority: " << _it._priority  << std::endl;}
             
             this->inputStream.close();
 
@@ -120,12 +120,17 @@ class Compressor
         
         // sorting the frequency store depending on the frequency of words 
         // ststic: https://stackoverflow.com/a/29287632/15939357
-        static bool sortbypriority(const DictionaryWord &a, const DictionaryWord &b){
+        static bool sortbyfrequency(const DictionaryWord &a, const DictionaryWord &b){
             
-            return !(a._priority < b._priority);
+            return !(a._frequency < b._frequency);
         
         }
 
+        static bool sortbypriority(const DictionaryWord &a, const DictionaryWord &b){
+            
+            return !(a._frequency < b._frequency) && (a._priority > b._priority);
+        
+        }
 
         void generateDictionary() {
             
@@ -134,11 +139,14 @@ class Compressor
             // sorting the frequency store depending on the frequency of words 
             // https://www.geeksforgeeks.org/sorting-vector-of-pairs-in-c-set-1-sort-by-first-and-second/            
 
-            // sorting the frequency store depending on the frequency of words(vlaue of the key:value pair)
-            std::cout << "[INFO] sort by priority" << std::endl;
-            std::sort(this->frequencyStore.begin(), this->frequencyStore.end(), sortbypriority);
-            for(auto &_it : this->frequencyStore) {std::cout << "[INFO] word: " << _it._word << " frequency: " << _it._frequency << std::endl;}
-        
+            // sorting the frequency store depending on the frequency of words
+            std::cout << "[INFO] sort by frequency" << std::endl;
+            std::sort(this->frequencyStore.begin(), this->frequencyStore.end(), sortbyfrequency);
+            for(auto &_it : this->frequencyStore) {std::cout << "[INFO] word: " << _it._word << " frequency: " << _it._frequency << " priority: " << _it._priority  << std::endl;}
+
+            // resort the subsections of the frequency store depending on the priority of words
+            // if two words has the same frequency, sort them by priority
+            
 
         }
 
