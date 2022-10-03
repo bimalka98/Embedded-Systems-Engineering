@@ -120,7 +120,7 @@ class Compressor
         }
         
         // sorting the frequency store words depending on the frequency of words 
-        // ststic: https://stackoverflow.com/a/29287632/15939357
+        // static: https://stackoverflow.com/a/29287632/15939357
         static bool sortbyfrequency(const DictionaryWord &a, const DictionaryWord &b){
             
             return !(a._frequency < b._frequency);
@@ -134,9 +134,8 @@ class Compressor
         
         }
 
-        void generateDictionary() {
-            
-            std::cout << "[INFO] generating the dictionary..." << std::endl;
+        // generating the dictionary using the frequencies of the words
+        void generateDictionary() {            
             
             // sorting the frequency store depending on the frequency of words 
             // https://www.geeksforgeeks.org/sorting-vector-of-pairs-in-c-set-1-sort-by-first-and-second/            
@@ -153,11 +152,11 @@ class Compressor
             // if two words has the same frequency, sort them by priority
             std::cout << "[INFO] re-sort by priority for similar frequencies..." << std::endl;
             
-            auto _it = this->frequencyStore.begin(); // iterator initialization to loop over the full vctor
+            auto _it = this->frequencyStore.begin();    // iterator initialization to loop over the full vctor
 
-            while( _it != this->frequencyStore.end()){ // loop over the vector till the end
+            while( _it != this->frequencyStore.end()){  // loop over the vector till the end
                 
-                DictionaryWord _currentword = *_it; // get the current word where the pointer is                
+                DictionaryWord _currentword = *_it;     // get the current word where the pointer is                
                 
                 // if word freqencies are repeated; sort the sub vectors using their priorities
                 bool _subvectorsorted = false;  // flag indicating thether the subvector is sorted                                
@@ -190,14 +189,37 @@ class Compressor
             }
             
             // [DEBUG]
-            for(auto &_it : this->frequencyStore) {std::cout << "[INFO] w: " << _it._word << " f: " << _it._frequency << " p: " << _it._priority  << std::endl;}
+            // for(auto &_it : this->frequencyStore) {std::cout << "[INFO] w: " << _it._word << " f: " << _it._frequency << " p: " << _it._priority  << std::endl;}
             
             /*
             Dictionary ideally should have 8 indexes
-            however, different words may be less than or equal to or greater than that.
+            however, words count may be less than or equal to or greater than that.
             These three cases needs to be handled.
             */
-            std::cout << "[INFO] populating the dictionary..." << std::endl;
+            std::cout << "[INFO] generating the dictionary..." << std::endl;
+
+            int _dictionaryentry = 0; // dictionary entry
+
+            for(auto _it = this->frequencyStore.begin(); _it != this->frequencyStore.end(); _it++){
+
+                // convert dictionary index to 3 bit string: https://stackoverflow.com/a/22746526/15939357
+                std::string _index = std::bitset<3>(_dictionaryentry).to_string();
+                
+                // conver the word to 32bit bitset
+                std::bitset<32> _word(_it->_word);
+
+                // insert the word into the dictionary
+                this->dictionary.insert(std::make_pair(_index, _word));
+
+                // [DEBUG]
+                std::cout << "[INFO] " << _index << " : " << _word << " (" << _word.to_ulong() << ")" << std::endl;
+
+                // update the dictionary index
+                _dictionaryentry++;
+
+                // we need only the first 8 of the frequencyStore                    
+                if (_dictionaryentry == 8) break;
+            }
 
             
 
