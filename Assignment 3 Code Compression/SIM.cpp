@@ -33,6 +33,12 @@ class Compressor
             unsigned long _frequency;
         };
 
+        struct FourBitMask{
+            std::string _dictionaryword;
+            std::string _mask;
+            int _mismatchlocation;
+        };
+
         /*
             Classes Having Pointers To Members
             // http://websites.umich.edu/~eecs381/handouts/Pointers_to_memberfuncs.pdf
@@ -323,11 +329,19 @@ class Compressor
         // {code: "001", # bits: 12, index: 1} - 4 bit masked based compression
         void fourBitMasked(){
             std::cout << "[INFO] trying => fourBitMasked" << std::endl;
+            
+            this->compressedCode = "001"; // add start ML, mask then dictionary entry index during the program
+            /*
+                if there is a scenario where you have two possible
+                ways of applying bitmasks to a 32-bit binary, always give
+                preference to the scenario where the leftmost bit
+                ‘1’ for the bitmask pattern (e.g., 11 is preferred over 01)
+            */
+            bool _ismaskedfound = false;
+            std::vector<FourBitMask> _masks;
 
-            // iterate over the dictionary and check if the word matches with any of its entries
-            for(auto &_it: this->dictionary){
-                
-                this->compressedCode = "001"; // add start ML then dictionary entry index during the program
+            // iterate over the dictionary and check if the word matches with any of its entries            
+            for(auto &_it: this->dictionary){                
                  
                 if(hammingDistance(_it.second, this->originalWord) == 4){
                     
@@ -344,16 +358,39 @@ class Compressor
                     }
 
                     // test consecutivity: https://cplusplus.com/reference/cmath/abs/
-                    // https://cplusplus.com/reference/list/list/front/
+                    // https://cplusplus.com/reference/list/list/front/                    
                     if(abs(_mismatchlocations.front()-_mismatchlocations.back())==3){ // if all four are consecutive (last ML - first ML = 3)
+                        
                         std::cout << "[INFO] found 4 consecutive mismatch locations" << std::endl;
-                        this->compressedCode += std::bitset<5>(_mismatchlocations.back()).to_string(); // concat the first ML from MSB
-                        this->compressedCode += _it.first;  // concatenating the dictionary entry
-                        this->isCompressed = true;          // compression complete                                        
-                        return; // return from the fucntion
+                        _ismaskedfound = true; // set the flag to indicate a suitable mask found
+                        FourBitMask _fourbitmask;
+                        _fourbitmask._dictionaryword = _it.first; // dictionary entry
+                        _fourbitmask._mismatchlocation = _mismatchlocations.back(); // closes to the MSB is the last elemet of the list
+
+                        // get the mask
+
+                        
+                        
                     }
                             
                 }
+            }
+
+            // select the best mask
+            if(_ismaskedfound){
+                
+                // iterate to find the optimal mask
+                int _maxmask = 0; // (e.g., 11 is preferred over 01)-> just compare the int values
+                for(auto it = _masks.begin(); it != _masks.end(); it++){
+
+                }
+
+                this->compressedCode += std::bitset<5>().to_string(); // concat the first ML from MSB
+                this->compressedCode += ; // mask comes here
+                this->compressedCode += ;  // concatenating the dictionary entry
+                this->isCompressed = true;          // compression complete                                        
+                return; // return from the fucntion
+
             }
 
         }
