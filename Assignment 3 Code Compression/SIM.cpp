@@ -273,6 +273,7 @@ class Compressor
 
             while(std::getline(this->inputStream, _currentline)){
                 
+                std::cout << "[INFO] comprerssing " << _currentline << std::endl;
                 // TODO: compression code goes here
                 this->originalWord = std::bitset<32>(_currentline);
 
@@ -304,7 +305,8 @@ class Compressor
                     // this->isCompressed is set to true if compression happens inside an algorithm
                 }
                 
-                std::cout << "[INFO] compressed word :" << this->compressedCode << std::endl;
+                std::cout << "[INFO] compressed code :" << this->compressedCode << std::endl;
+                std::cout << "------------------------" << std::endl;
     
             }
                         
@@ -312,7 +314,7 @@ class Compressor
 
         // {code: "000", # bits: 2,  index: 0} - RLE: run Length Encoding
         void runLengthEncoding(){
-            std::cout << "[INFO] compression algo => runLengthEncoding" << std::endl;
+            std::cout << "[INFO] trying => runLengthEncoding" << std::endl;
 
 
             this->isCompressed = false; // compression complete
@@ -320,15 +322,45 @@ class Compressor
 
         // {code: "001", # bits: 12, index: 1} - 4 bit masked based compression
         void fourBitMasked(){
-            std::cout << "[INFO] compression algo => fourBitMasked" << std::endl;
+            std::cout << "[INFO] trying => fourBitMasked" << std::endl;
 
+            // iterate over the dictionary and check if the word matches with any of its entries
+            for(auto &_it: this->dictionary){
+                
+                this->compressedCode = "001"; // add start ML then dictionary entry index during the program
+                 
+                if(hammingDistance(_it.second, this->originalWord) == 4){
+                    
+                    // get where the bits are different
+                    std::list<int> _mismatchlocations;                   
+                    for(int _index =0; _index <32; _index++){
+                        
+                        if(_it.second[_index] ^ this->originalWord[_index]){ // xor is 1 where the bits are different
+                            
+                            // ML counted from MSB while bitset traverse from LSB:= Location from MSB = 31-index
+                            _mismatchlocations.push_back(31-_index);
 
-            this->isCompressed = false; // compression complete
+                        }
+                    }
+
+                    // test consecutivity: https://cplusplus.com/reference/cmath/abs/
+                    // https://cplusplus.com/reference/list/list/front/
+                    if(abs(_mismatchlocations.front()-_mismatchlocations.back())==3){ // if all four are consecutive (last ML - first ML = 3)
+                        std::cout << "[INFO] found 4 consecutive mismatch locations" << std::endl;
+                        this->compressedCode += std::bitset<5>(_mismatchlocations.back()).to_string(); // concat the first ML from MSB
+                        this->compressedCode += _it.first;  // concatenating the dictionary entry
+                        this->isCompressed = true;          // compression complete                                        
+                        return; // return from the fucntion
+                    }
+                            
+                }
+            }
+
         }
 
         // {code: "010", # bits: 8,  index: 2} - 1 bit mismatch
         void oneBitMismatch(){
-            std::cout << "[INFO] compression algo => oneBitMismatch" << std::endl;
+            std::cout << "[INFO] trying => oneBitMismatch" << std::endl;
 
             // iterate over the dictionary and check if the word matches with any of its entries
             for(auto &_it: this->dictionary){
@@ -351,19 +383,14 @@ class Compressor
                         }
                     }                    
                     
-                }else{
-
-                    this->isCompressed = false; // can not use 2 bit mismatches (anywhere) compression.
-
                 }
             }
 
-            this->isCompressed = false; // compression complete
         }
 
         // {code: "011", # bits: 8,  index: 3} - 2 bit mismatches (consecutive)
         void twoBitMismatchCon(){
-            std::cout << "[INFO] compression algo => twoBitMismatchCon" << std::endl;
+            std::cout << "[INFO] trying => twoBitMismatchCon" << std::endl;
 
             // iterate over the dictionary and check if the word matches with any of its entries
             for(auto &_it: this->dictionary){
@@ -373,7 +400,7 @@ class Compressor
                 if(hammingDistance(_it.second, this->originalWord) == 2){
                     
                     // get where the bits are different
-                    std::vector<int> _mismatchlocations;                   
+                    std::list<int> _mismatchlocations;                   
                     for(int _index =0; _index <32; _index++){
                         
                         if(_it.second[_index] ^ this->originalWord[_index]){ // xor is 1 where the bits are different
@@ -385,25 +412,21 @@ class Compressor
                     }
 
                     // test consecutivity: https://cplusplus.com/reference/cmath/abs/
-                    if(abs(_mismatchlocations[0]-_mismatchlocations[1])==1){
+                    if(abs(_mismatchlocations.front()-_mismatchlocations.back())==1){
 
-                        this->compressedCode += std::bitset<5>(_mismatchlocations[1]).to_string(); // concat the first ML from MSB
+                        this->compressedCode += std::bitset<5>(_mismatchlocations.back()).to_string(); // concat the first ML from MSB
                         this->compressedCode += _it.first;  // concatenating the dictionary entry
                         this->isCompressed = true;          // compression complete                                        
                         return; // return from the fucntion
                     }
                             
-                }else{
-
-                    this->isCompressed = false; // can not use 2 bit mismatches (anywhere) compression.
-
                 }
             }
         }
 
         // {code: "100", # bits: 13, index: 4} - 2 bit mismatches (anywhere) ML: Mismatch Location
         void twoBitMismatchAny(){
-            std::cout << "[INFO] compression algo => twoBitMismatchAny" << std::endl;            
+            std::cout << "[INFO] trying => twoBitMismatchAny" << std::endl;            
             
             // iterate over the dictionary and check if the word matches with any of its entries
             for(auto &_it: this->dictionary){
@@ -427,10 +450,6 @@ class Compressor
                     this->isCompressed = true;          // compression complete                                        
                     return; // return from the fucntion
                     
-                }else{
-
-                    this->isCompressed = false; // can not use 2 bit mismatches (anywhere) compression.
-
                 }
             }
             
@@ -438,7 +457,7 @@ class Compressor
 
         // {code: "101", # bits: 3,  index: 5} - direct matching
         void directMatch(){
-            std::cout << "[INFO] compression algo => directMatch" << std::endl;            
+            std::cout << "[INFO] trying => directMatch" << std::endl;            
             
             // iterate over the dictionary and check if the word matches with any of its entries
             // https://www.geeksforgeeks.org/search-by-value-in-a-map-in-c/
@@ -461,7 +480,7 @@ class Compressor
 
         // {code: "110", # bits: 32, index: 6} - original 32 bit binary
         void originalBinary(){
-            std::cout << "[INFO] compression algo => originalBinary" << std::endl;
+            std::cout << "[INFO] trying => originalBinary" << std::endl;
             this->compressedCode = "110" + this->originalWord.to_string(); 
             this->isCompressed = true; // compression complete
         }
