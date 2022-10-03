@@ -66,7 +66,7 @@ class Compressor
             &Compressor::originalBinary     // bits per compression: 32 
         };
         std::string originalWord; // varibales to hold the original word
-        std::string compressedWord; // varibales to hold the compressed word
+        std::string compressedCode; // varibales to hold the compressed word
         bool isCompressed = false; // flag to check if the word is compressed 
         
         
@@ -304,7 +304,7 @@ class Compressor
                     // this->isCompressed is set to true if compression happens inside an algorithm
                 }
                 
-                std::cout << "[INFO] word compression complete." << std::endl;
+                std::cout << "[INFO] compressed word :" << this->compressedCode << std::endl;
     
             }
                         
@@ -312,7 +312,7 @@ class Compressor
 
         // {code: "000", # bits: 2,  index: 0} - RLE: run Length Encoding
         void runLengthEncoding(){
-            std::cout << "[INFO] compression algo = runLengthEncoding" << std::endl;
+            std::cout << "[INFO] compression algo => runLengthEncoding" << std::endl;
 
 
             this->isCompressed = false; // compression complete
@@ -320,7 +320,7 @@ class Compressor
 
         // {code: "001", # bits: 12, index: 1} - 4 bit masked based compression
         void fourBitMasked(){
-            std::cout << "[INFO] compression algo = fourBitMasked" << std::endl;
+            std::cout << "[INFO] compression algo => fourBitMasked" << std::endl;
 
 
             this->isCompressed = false; // compression complete
@@ -328,10 +328,10 @@ class Compressor
 
         // {code: "010", # bits: 8,  index: 2} - 1 bit mismatch
         void oneBitMismatch(){
-            std::cout << "[INFO] compression algo = oneBitMismatch" << std::endl;
+            std::cout << "[INFO] compression algo => oneBitMismatch" << std::endl;
 
 
-            this->isCompressed = true; // compression complete
+            this->isCompressed = false; // compression complete
         }
 
         // {code: "011", # bits: 8,  index: 3} - 2 bit mismatches (consecutive)
@@ -339,30 +339,46 @@ class Compressor
             std::cout << "[INFO] compression algo = twoBitMismatchCon" << std::endl;
 
 
-            this->isCompressed = true; // compression complete
+            this->isCompressed = false; // compression complete
         }
 
         // {code: "100", # bits: 13, index: 4} - 2 bit mismatches (anywhere)
         void twoBitMismatchAny(){
-            std::cout << "[INFO] compression algo = twoBitMismatchAny" << std::endl;
-
-
-            this->isCompressed = true; // compression complete
-        }
-
-        // {code: "101", # bits: 3,  index: 5} - direct matching
-        void directMatch(){
-            std::cout << "[INFO] compression algo = directMatch" << std::endl;
+            std::cout << "[INFO] compression algo => twoBitMismatchAny" << std::endl;
 
 
             this->isCompressed = false; // compression complete
         }
 
+        // {code: "101", # bits: 3,  index: 5} - direct matching
+        void directMatch(){
+            std::cout << "[INFO] compression algo => directMatch" << std::endl;
+
+            std::bitset<32> _word(this->originalWord); // convert the 
+            
+            // iterate over the dictionary and check if the word matches with any of its entries
+            // https://www.geeksforgeeks.org/search-by-value-in-a-map-in-c/
+            for(auto &_it: this->dictionary){
+                
+                if(_it.second == _word){
+                    
+                    this->isCompressed = true; // compression complete
+                    this->compressedCode = "101" + _it.first;                    
+                    return; // return from the fucntion
+                    
+                }else{
+
+                    this->isCompressed = false; // no direct match found.
+
+                }
+            }
+            
+        }
+
         // {code: "110", # bits: 32, index: 6} - original 32 bit binary
         void originalBinary(){
-            std::cout << "[INFO] compression algo = originalBinary" << std::endl;
-
-
+            std::cout << "[INFO] compression algo => originalBinary" << std::endl;
+            this->compressedCode = "110" + this->originalWord; 
             this->isCompressed = true; // compression complete
         }
 
