@@ -128,7 +128,7 @@ class Compressor
 
         static bool sortbypriority(const DictionaryWord &a, const DictionaryWord &b){
             
-            return !(a._frequency < b._frequency) && (a._priority > b._priority);
+            return !(a._priority < b._priority);
         
         }
 
@@ -140,12 +140,50 @@ class Compressor
             // https://www.geeksforgeeks.org/sorting-vector-of-pairs-in-c-set-1-sort-by-first-and-second/            
 
             // sorting the frequency store depending on the frequency of words
-            std::cout << "[INFO] sort by frequency" << std::endl;
+            std::cout << "[INFO] sort by frequency..." << std::endl;
             std::sort(this->frequencyStore.begin(), this->frequencyStore.end(), sortbyfrequency);
-            for(auto &_it : this->frequencyStore) {std::cout << "[INFO] word: " << _it._word << " frequency: " << _it._frequency << " priority: " << _it._priority  << std::endl;}
+
+            for(auto &_it : this->frequencyStore) {std::cout << "[INFO] w: " << _it._word << " f: " << _it._frequency << " p: " << _it._priority  << std::endl;}
 
             // resort the subsections of the frequency store depending on the priority of words
             // if two words has the same frequency, sort them by priority
+            std::cout << "[INFO] sort by priority..." << std::endl;
+            
+            auto _it = this->frequencyStore.begin(); // iterator initialization to loop over the vctor
+
+            while( _it != this->frequencyStore.end()){ // loop over the vector
+                
+                DictionaryWord _currentword = *_it; // get the current word where the pointer is
+
+                std::cout << "[INFO] w: " << _currentword._word << " f: " << _currentword._frequency << " p: " << _currentword._priority  << std::endl;
+                
+                // if word freqencies are repeated; sort the sub vectors using their priorities
+                bool _completelysorted = false;                
+                
+                auto _start = _it; // start of the subvector to be sorted
+                auto _end = _it; // end of the subvector to be sorted 
+                
+                while(!_completelysorted){
+
+                    DictionaryWord _nextword = *(_end +1);
+
+                    if(_nextword._frequency != _currentword._frequency){
+
+                        std::sort(_start, _end, sortbypriority); // sort the subvecotor by priority
+                        _completelysorted = true;
+
+                    }else{
+                        _end++;
+                        _completelysorted = false;
+                    }
+                
+                }
+
+                _it = _end+1;
+                                
+            }
+
+            for(auto &_it : this->frequencyStore) {std::cout << "[INFO] w: " << _it._word << " f: " << _it._frequency << " p: " << _it._priority  << std::endl;}
             
 
         }
