@@ -33,6 +33,16 @@ class Compressor
             unsigned long _frequency;
         };
 
+        /*
+            Classes Having Pointers To Members
+            // http://websites.umich.edu/~eecs381/handouts/Pointers_to_memberfuncs.pdf
+            // https://opensource.com/article/21/2/ccc-method-pointers
+            // http://www.icce.rug.nl/documents/cplusplus/cplusplus16.html            
+        */        
+
+        // to use member function pointers of the compression algorithms
+        typedef void(Compressor::*CompressionAlgorithm)();  // https://stackoverflow.com/a/2402624/15939357
+
         /*           Private Data Members     
         *******************************************************/
         std::string inputFileName;
@@ -44,6 +54,21 @@ class Compressor
         std::vector<DictionaryWord> frequencyStore;
         // map to dtore the final dictionary for compresing
         std::map<std::string, std::bitset<32>> dictionary;
+
+        // vector to hold pointes of the compression algorithms in the order of bits per compression
+        std::vector<CompressionAlgorithm> compressionAlgorithms = {
+            &Compressor::runLengthEncoding, // bits per compression: 2     
+            &Compressor::directMatch,       // bits per compression: 3
+            &Compressor::oneBitMismatch,    // bits per compression: 8 
+            &Compressor::twoBitMismatchCon, // bits per compression: 8     
+            &Compressor::fourBitMasked,     // bits per compression: 12 
+            &Compressor::twoBitMismatchAny, // bits per compression: 13     
+            &Compressor::originalBinary     // bits per compression: 32 
+        };
+
+        std::string originalWord; // varibales to hold the original word
+        std::string compressedWord; // varibales to hold the compressed word
+        
         
 
         /*         Private Member Functions      
@@ -242,17 +267,63 @@ class Compressor
                 exit(EXIT_FAILURE);
             }
 
-            std::cout << "[INFO] decoding the stream..." << std::endl;
+            std::cout << "[INFO] encoding the stream..." << std::endl;
 
             std::string _currentline; // variables to store the currenly encoding line
 
             while(std::getline(this->inputStream, _currentline)){
                 
                 // TODO: compression code goes here
-                
+                this->originalWord =_currentline;
+
+                // iterate over the compression algorithms to find the optimal encoding
+                bool _iscompressed = false;
+    
+
             }
+            
+            for(auto _it: compressionAlgorithms){
+                (this->*_it)();
+            }
+            
 
         }
+
+        // {code: "000", # bits: 2,  index: 0} - RLE: run Length Encoding
+        void runLengthEncoding(){
+            std::cout << "[INFO] compression algo = runLengthEncoding" << std::endl;
+        }
+
+        // {code: "001", # bits: 12, index: 1} - 4 bit masked based compression
+        void fourBitMasked(){
+            std::cout << "[INFO] compression algo = fourBitMasked" << std::endl;
+        }
+
+        // {code: "010", # bits: 8,  index: 2} - 1 bit mismatch
+        void oneBitMismatch(){
+            std::cout << "[INFO] compression algo = oneBitMismatch" << std::endl;
+        }
+
+        // {code: "011", # bits: 8,  index: 3} - 2 bit mismatches (consecutive)
+        void twoBitMismatchCon(){
+            std::cout << "[INFO] compression algo = twoBitMismatchCon" << std::endl;
+        }
+
+        // {code: "100", # bits: 13, index: 4} - 2 bit mismatches (anywhere)
+        void twoBitMismatchAny(){
+            std::cout << "[INFO] compression algo = twoBitMismatchAny" << std::endl;
+        }
+
+        // {code: "101", # bits: 3,  index: 5} - direct matching
+        void directMatch(){
+            std::cout << "[INFO] compression algo = directMatch" << std::endl;
+        }
+
+        // {code: "110", # bits: 32, index: 6} - original 32 bit binary
+        void originalBinary(){
+            std::cout << "[INFO] compression algo = originalBinary" << std::endl;
+        }
+
 
     public:
         /*            Public Data Members     
@@ -278,6 +349,8 @@ class Compressor
             getWordFrequencies(); // get words and their frequencies from the input file
 
             generateDictionary(); // generate the dictionary depending on the frequencies
+
+            compressStream();     // compressing using the compression algorithms
         }
 };
 
