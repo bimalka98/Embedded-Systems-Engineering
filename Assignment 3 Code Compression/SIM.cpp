@@ -225,6 +225,35 @@ class Compressor
 
         }
 
+        // compress the stream
+        void compressStream(){
+            
+            this->inputStream.open(inputFileName, std::ios::in); // open the input stream
+
+            if(!this->inputStream.is_open()){
+                std::cout << "[ERROR] file to be compressed can not be opened." << std::endl;
+                exit(EXIT_FAILURE);
+            }
+
+            this->outputStream.open(outputFileName, std::ios::out); // open the output stream
+
+            if(!this->outputStream.is_open()){
+                std::cout << "[ERROR] file to save compressed data can not be opened." << std::endl;
+                exit(EXIT_FAILURE);
+            }
+
+            std::cout << "[INFO] decoding the stream..." << std::endl;
+
+            std::string _currentline; // variables to store the currenly encoding line
+
+            while(std::getline(this->inputStream, _currentline)){
+                
+                // TODO: compression code goes here
+                
+            }
+
+        }
+
     public:
         /*            Public Data Members     
         *******************************************************/
