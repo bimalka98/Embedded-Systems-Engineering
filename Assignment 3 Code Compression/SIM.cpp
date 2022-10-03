@@ -147,15 +147,13 @@ class Compressor
 
             // resort the subsections of the frequency store depending on the priority of words
             // if two words has the same frequency, sort them by priority
-            std::cout << "[INFO] sort by priority..." << std::endl;
+            std::cout << "[INFO] re-sort by priority for similar frequencies..." << std::endl;
             
             auto _it = this->frequencyStore.begin(); // iterator initialization to loop over the vctor
 
             while( _it != this->frequencyStore.end()){ // loop over the vector
                 
-                DictionaryWord _currentword = *_it; // get the current word where the pointer is
-
-                std::cout << "[INFO] w: " << _currentword._word << " f: " << _currentword._frequency << " p: " << _currentword._priority  << std::endl;
+                DictionaryWord _currentword = *_it; // get the current word where the pointer is                
                 
                 // if word freqencies are repeated; sort the sub vectors using their priorities
                 bool _completelysorted = false;                
@@ -169,7 +167,7 @@ class Compressor
 
                     if(_nextword._frequency != _currentword._frequency){
 
-                        std::sort(_start, _end, sortbypriority); // sort the subvecotor by priority
+                        std::sort(_start, _end + 1, sortbypriority); // sort the subvecotor by priority, in the range [first,last)
                         _completelysorted = true;
 
                     }else{
@@ -179,7 +177,7 @@ class Compressor
                 
                 }
 
-                _it = _end+1;
+                _it = _end + 1; // point iterator to next word with a different frequency
                                 
             }
 
