@@ -330,16 +330,75 @@ class Compressor
         void oneBitMismatch(){
             std::cout << "[INFO] compression algo => oneBitMismatch" << std::endl;
 
+            // iterate over the dictionary and check if the word matches with any of its entries
+            for(auto &_it: this->dictionary){
+                
+                this->compressedCode = "010"; // add ML then dictionary entry index during the program
+                
+                if(hammingDistance(_it.second, this->originalWord) == 1){
+                    
+                    // get where the bits are different                     
+                    for(int _index =0; _index <32; _index++){
+                        
+                        if(_it.second[_index] ^ this->originalWord[_index]){ // xor is 1 where the bits are different
+                            
+                            // ML counted from MSB while bitset traverse from LSB:= Location from MSB = 31-index
+                            this->compressedCode += std::bitset<5>(31-_index).to_string(); // concatenate the ML
+                            this->compressedCode += _it.first;  // concatenating the dictionary entry
+                            this->isCompressed = true;          // compression complete                                        
+                            return; // return from the fucntion since we have only one mismatch
+
+                        }
+                    }                    
+                    
+                }else{
+
+                    this->isCompressed = false; // can not use 2 bit mismatches (anywhere) compression.
+
+                }
+            }
 
             this->isCompressed = false; // compression complete
         }
 
         // {code: "011", # bits: 8,  index: 3} - 2 bit mismatches (consecutive)
         void twoBitMismatchCon(){
-            std::cout << "[INFO] compression algo = twoBitMismatchCon" << std::endl;
+            std::cout << "[INFO] compression algo => twoBitMismatchCon" << std::endl;
 
+            // iterate over the dictionary and check if the word matches with any of its entries
+            for(auto &_it: this->dictionary){
+                
+                this->compressedCode = "011"; // add start ML then dictionary entry index during the program
+                
+                if(hammingDistance(_it.second, this->originalWord) == 2){
+                    
+                    // get where the bits are different
+                    std::vector<int> _mismatchlocations;                   
+                    for(int _index =0; _index <32; _index++){
+                        
+                        if(_it.second[_index] ^ this->originalWord[_index]){ // xor is 1 where the bits are different
+                            
+                            // ML counted from MSB while bitset traverse from LSB:= Location from MSB = 31-index
+                            _mismatchlocations.push_back(31-_index);
 
-            this->isCompressed = false; // compression complete
+                        }
+                    }
+
+                    // test consecutivity: https://cplusplus.com/reference/cmath/abs/
+                    if(abs(_mismatchlocations[0]-_mismatchlocations[1])==1){
+
+                        this->compressedCode += std::bitset<5>(_mismatchlocations[1]).to_string(); // concat the first ML from MSB
+                        this->compressedCode += _it.first;  // concatenating the dictionary entry
+                        this->isCompressed = true;          // compression complete                                        
+                        return; // return from the fucntion
+                    }
+                            
+                }else{
+
+                    this->isCompressed = false; // can not use 2 bit mismatches (anywhere) compression.
+
+                }
+            }
         }
 
         // {code: "100", # bits: 13, index: 4} - 2 bit mismatches (anywhere) ML: Mismatch Location
@@ -356,7 +415,7 @@ class Compressor
                     // get where the bits are different                     
                     for(int _index =0; _index <32; _index++){
                         
-                        if(_it.second[_index]^this->originalWord[_index]){ // xor is 1 where the bits are different
+                        if(_it.second[_index] ^ this->originalWord[_index]){ // xor is 1 where the bits are different
                             
                             // ML counted from MSB while bitset traverse from LSB:= Location from MSB = 31-index
                             this->compressedCode += std::bitset<5>(31-_index).to_string(); // concatenate the MLs
