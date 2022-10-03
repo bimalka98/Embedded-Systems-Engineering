@@ -102,30 +102,32 @@ class Compressor
 
             for(auto &_it : _wordorder){
                 
-                _dictionaryword._word = _it; // word                 
+                _dictionaryword._word = _it; // word                  
                 _dictionaryword._frequency = _wordfreqs[_it]; // frequency of the word
                 _dictionaryword._priority = _index; // priority of the word                
 
-                this->frequencyStore.push_back(_dictionaryword);
+                this->frequencyStore.push_back(_dictionaryword);                
 
                 _index--; // increment
+                
             } 
 
             // [DEBUG]
-            // for(auto &_it : this->frequencyStore) {std::cout << "[INFO] word: " << _it._word << " frequency: " << _it._frequency << " priority: " << _it._priority  << std::endl;}
+            // for(auto &_it : this->frequencyStore) {std::cout << "[INFO] w: " << _it._word << " f: " << _it._frequency << " p: " << _it._priority  << std::endl;}
             
             this->inputStream.close();
 
         }
         
-        // sorting the frequency store depending on the frequency of words 
+        // sorting the frequency store words depending on the frequency of words 
         // ststic: https://stackoverflow.com/a/29287632/15939357
         static bool sortbyfrequency(const DictionaryWord &a, const DictionaryWord &b){
             
             return !(a._frequency < b._frequency);
         
         }
-
+        
+        // sorting the frequency store words depending on the priority of words 
         static bool sortbypriority(const DictionaryWord &a, const DictionaryWord &b){
             
             return !(a._priority < b._priority);
@@ -139,49 +141,64 @@ class Compressor
             // sorting the frequency store depending on the frequency of words 
             // https://www.geeksforgeeks.org/sorting-vector-of-pairs-in-c-set-1-sort-by-first-and-second/            
 
-            // sorting the frequency store depending on the frequency of words
+            // sorting the whole frequency store vector depending on the frequency of words
             std::cout << "[INFO] sort by frequency..." << std::endl;
+            
             std::sort(this->frequencyStore.begin(), this->frequencyStore.end(), sortbyfrequency);
 
-            for(auto &_it : this->frequencyStore) {std::cout << "[INFO] w: " << _it._word << " f: " << _it._frequency << " p: " << _it._priority  << std::endl;}
+            // [DEBUG]
+            // for(auto &_it : this->frequencyStore) {std::cout << "[INFO] w: " << _it._word << " f: " << _it._frequency << " p: " << _it._priority  << std::endl;}
 
-            // resort the subsections of the frequency store depending on the priority of words
+            // resort the subsections of the sorted frequency store depending on the priority of words
             // if two words has the same frequency, sort them by priority
             std::cout << "[INFO] re-sort by priority for similar frequencies..." << std::endl;
             
-            auto _it = this->frequencyStore.begin(); // iterator initialization to loop over the vctor
+            auto _it = this->frequencyStore.begin(); // iterator initialization to loop over the full vctor
 
-            while( _it != this->frequencyStore.end()){ // loop over the vector
+            while( _it != this->frequencyStore.end()){ // loop over the vector till the end
                 
                 DictionaryWord _currentword = *_it; // get the current word where the pointer is                
                 
                 // if word freqencies are repeated; sort the sub vectors using their priorities
-                bool _completelysorted = false;                
+                bool _subvectorsorted = false;  // flag indicating thether the subvector is sorted                                
+                auto _subvectorstart = _it;     // start of the subvector to be sorted
+                auto _subvectorend = _it;       // end of the subvector to be sorted 
+                DictionaryWord _nextword;       // tempory variable to hold the next word after current pointer
                 
-                auto _start = _it; // start of the subvector to be sorted
-                auto _end = _it; // end of the subvector to be sorted 
-                
-                while(!_completelysorted){
+                while(!_subvectorsorted){
 
-                    DictionaryWord _nextword = *(_end +1);
+                    _nextword = *(_subvectorend +1);
 
                     if(_nextword._frequency != _currentword._frequency){
-
-                        std::sort(_start, _end + 1, sortbypriority); // sort the subvecotor by priority, in the range [first,last)
-                        _completelysorted = true;
+                        
+                        // sort the subvecotor by priority, in the range [first,last)
+                        std::sort(_subvectorstart, _subvectorend + 1, sortbypriority); 
+                        _subvectorsorted = true;
 
                     }else{
-                        _end++;
-                        _completelysorted = false;
+                        
+                        // increment the subvector's end pointer
+                        _subvectorend++;
+                        _subvectorsorted = false;
+
                     }
                 
                 }
 
-                _it = _end + 1; // point iterator to next word with a different frequency
+                _it = _subvectorend + 1; // point iterator to next word with a different frequency
                                 
             }
-
+            
+            // [DEBUG]
             for(auto &_it : this->frequencyStore) {std::cout << "[INFO] w: " << _it._word << " f: " << _it._frequency << " p: " << _it._priority  << std::endl;}
+            
+            /*
+            Dictionary ideally should have 8 indexes
+            however, different words may be less than or equal to or greater than that.
+            These three cases needs to be handled.
+            */
+            std::cout << "[INFO] populating the dictionary..." << std::endl;
+
             
 
         }
