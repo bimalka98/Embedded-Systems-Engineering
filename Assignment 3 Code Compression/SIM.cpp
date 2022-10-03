@@ -65,7 +65,7 @@ class Compressor
             &Compressor::twoBitMismatchAny, // bits per compression: 13     
             &Compressor::originalBinary     // bits per compression: 32 
         };
-        std::string originalWord; // varibales to hold the original word
+        std::bitset<32> originalWord; // varibales to hold the original word
         std::string compressedCode; // varibales to hold the compressed word
         bool isCompressed = false; // flag to check if the word is compressed 
         
@@ -274,7 +274,7 @@ class Compressor
             while(std::getline(this->inputStream, _currentline)){
                 
                 // TODO: compression code goes here
-                this->originalWord =_currentline;
+                this->originalWord = std::bitset<32>(_currentline);
 
                 // iterate over the compression algorithms to find the optimal encoding
                 this->isCompressed = false;
@@ -342,25 +342,50 @@ class Compressor
             this->isCompressed = false; // compression complete
         }
 
-        // {code: "100", # bits: 13, index: 4} - 2 bit mismatches (anywhere)
+        // {code: "100", # bits: 13, index: 4} - 2 bit mismatches (anywhere) ML: Mismatch Location
         void twoBitMismatchAny(){
-            std::cout << "[INFO] compression algo => twoBitMismatchAny" << std::endl;
+            std::cout << "[INFO] compression algo => twoBitMismatchAny" << std::endl;            
+            
+            // iterate over the dictionary and check if the word matches with any of its entries
+            for(auto &_it: this->dictionary){
+                
+                this->compressedCode = "100"; // ad ML 1 and ML2 then dictionary entry index during the program
+                
+                if(hammingDistance(_it.second, this->originalWord) == 2){
+                    
+                    // get where the bits are different                     
+                    for(int _index =0; _index <32; _index++){
+                        
+                        if(_it.second[_index]^this->originalWord[_index]){ // xor is 1 where the bits are different
+                            
+                            // ML counted from MSB while bitset traverse from LSB:= Location from MSB = 31-index
+                            this->compressedCode += std::bitset<5>(31-_index).to_string(); // concatenate the MLs
 
+                        }
+                    }
 
-            this->isCompressed = false; // compression complete
+                    this->compressedCode += _it.first;  // concatenating the dictionary entry
+                    this->isCompressed = true;          // compression complete                                        
+                    return; // return from the fucntion
+                    
+                }else{
+
+                    this->isCompressed = false; // can not use 2 bit mismatches (anywhere) compression.
+
+                }
+            }
+            
         }
 
         // {code: "101", # bits: 3,  index: 5} - direct matching
         void directMatch(){
-            std::cout << "[INFO] compression algo => directMatch" << std::endl;
-
-            std::bitset<32> _word(this->originalWord); // convert the 
+            std::cout << "[INFO] compression algo => directMatch" << std::endl;            
             
             // iterate over the dictionary and check if the word matches with any of its entries
             // https://www.geeksforgeeks.org/search-by-value-in-a-map-in-c/
             for(auto &_it: this->dictionary){
                 
-                if(_it.second == _word){
+                if(_it.second == this->originalWord){
                     
                     this->isCompressed = true; // compression complete
                     this->compressedCode = "101" + _it.first;                    
@@ -378,10 +403,24 @@ class Compressor
         // {code: "110", # bits: 32, index: 6} - original 32 bit binary
         void originalBinary(){
             std::cout << "[INFO] compression algo => originalBinary" << std::endl;
-            this->compressedCode = "110" + this->originalWord; 
+            this->compressedCode = "110" + this->originalWord.to_string(); 
             this->isCompressed = true; // compression complete
         }
 
+        // fucntion to get hamming distance between two bitsets
+        int hammingDistance(std::bitset<32> a, std::bitset<32> b){
+            /*
+                the xor operation constructs a bit string that has one bits
+                in positions where a and b differ. Then, the number of 1 bits is calculated using
+                the __builtin_popcount function.
+                From: Competitive Programmer’s Handbook by Antti Laaksonen, Draft July 3, 2018
+            */
+            unsigned int _a = (unsigned int)a.to_ulong();
+            unsigned int _b = (unsigned int)b.to_ulong();
+
+            return __builtin_popcount(_a^_b);
+
+        }
 
     public:
         /*            Public Data Members     
