@@ -55,7 +55,7 @@ class Compressor
         // map to dtore the final dictionary for compresing
         std::map<std::string, std::bitset<32>> dictionary;
 
-        // vector to hold pointes of the compression algorithms in the order of bits per compression
+        // vector to hold pointes of the compression algorithms in the order of bits per compression, ascending order
         std::vector<CompressionAlgorithm> compressionAlgorithms = {
             &Compressor::runLengthEncoding, // bits per compression: 2     
             &Compressor::directMatch,       // bits per compression: 3
@@ -65,9 +65,9 @@ class Compressor
             &Compressor::twoBitMismatchAny, // bits per compression: 13     
             &Compressor::originalBinary     // bits per compression: 32 
         };
-
         std::string originalWord; // varibales to hold the original word
         std::string compressedWord; // varibales to hold the compressed word
+        bool isCompressed = false; // flag to check if the word is compressed 
         
         
 
@@ -277,51 +277,93 @@ class Compressor
                 this->originalWord =_currentline;
 
                 // iterate over the compression algorithms to find the optimal encoding
-                bool _iscompressed = false;
+                this->isCompressed = false;
+                             
+                /*  
+                    ----PRIORITY OF THE COMPRESSION ALGORITHM----
+                    runLengthEncoding, // bits per compression: 2     
+                    directMatch,       // bits per compression: 3
+                    oneBitMismatch,    // bits per compression: 8 
+                    twoBitMismatchCon, // bits per compression: 8     
+                    fourBitMasked,     // bits per compression: 12 
+                    twoBitMismatchAny, // bits per compression: 13     
+                    originalBinary     // bits per compression: 32 
+                */
+
+                // get a poinet to the first compression algorithm
+                auto _pointertoalgorithm = this->compressionAlgorithms.begin(); 
+
+                while(!this->isCompressed){
+
+                    // execute the compression algorithm (in the form of pointer to member function)
+                    (this->*(*_pointertoalgorithm))(); 
+                    
+                    // move to the next fucntion if compression was not success from previous algorithm
+                    _pointertoalgorithm++;
+
+                    // this->isCompressed is set to true if compression happens inside an algorithm
+                }
+                
+                std::cout << "[INFO] word compression complete." << std::endl;
     
-
             }
-            
-            for(auto _it: compressionAlgorithms){
-                (this->*_it)();
-            }
-            
-
+                        
         }
 
         // {code: "000", # bits: 2,  index: 0} - RLE: run Length Encoding
         void runLengthEncoding(){
             std::cout << "[INFO] compression algo = runLengthEncoding" << std::endl;
+
+
+            this->isCompressed = false; // compression complete
         }
 
         // {code: "001", # bits: 12, index: 1} - 4 bit masked based compression
         void fourBitMasked(){
             std::cout << "[INFO] compression algo = fourBitMasked" << std::endl;
+
+
+            this->isCompressed = false; // compression complete
         }
 
         // {code: "010", # bits: 8,  index: 2} - 1 bit mismatch
         void oneBitMismatch(){
             std::cout << "[INFO] compression algo = oneBitMismatch" << std::endl;
+
+
+            this->isCompressed = true; // compression complete
         }
 
         // {code: "011", # bits: 8,  index: 3} - 2 bit mismatches (consecutive)
         void twoBitMismatchCon(){
             std::cout << "[INFO] compression algo = twoBitMismatchCon" << std::endl;
+
+
+            this->isCompressed = true; // compression complete
         }
 
         // {code: "100", # bits: 13, index: 4} - 2 bit mismatches (anywhere)
         void twoBitMismatchAny(){
             std::cout << "[INFO] compression algo = twoBitMismatchAny" << std::endl;
+
+
+            this->isCompressed = true; // compression complete
         }
 
         // {code: "101", # bits: 3,  index: 5} - direct matching
         void directMatch(){
             std::cout << "[INFO] compression algo = directMatch" << std::endl;
+
+
+            this->isCompressed = false; // compression complete
         }
 
         // {code: "110", # bits: 32, index: 6} - original 32 bit binary
         void originalBinary(){
             std::cout << "[INFO] compression algo = originalBinary" << std::endl;
+
+
+            this->isCompressed = true; // compression complete
         }
 
 
