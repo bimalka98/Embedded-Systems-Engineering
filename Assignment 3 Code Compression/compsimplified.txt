@@ -47,6 +47,21 @@ xxxx
 110 - 00000000011111100000000000011100
 111 - 11111000000000000111111111111111
 
+// verifying 4 bits masked comprerssing
+[INFO] comprerssing 00000000000000001101000000000000
+[INFO] trying => runLengthEncoding
+[INFO] trying => directMatch
+[INFO] trying => oneBitMismatch
+[INFO] trying => twoBitMismatchCon
+[INFO] trying => fourBitMasked
+[INFO] hamming dist: 3
+[INFO] found a place to apply mask: mismatches 3
+[INFO] compressed code :001
+ML   : 10000
+Mask : 1101
+Dict : 000 
+Mask applied to ML 10000 -> 0000 0000 0000 0000 1101 0000 0000 0000
+
 [INFO] comprerssing 10100000011111100000000000011100
 [INFO] trying => runLengthEncoding
 [INFO] trying => directMatch
@@ -56,19 +71,7 @@ xxxx
 [INFO] hamming dist: 2
 [INFO] found a place to apply mask: mismatches 2
 [INFO] compressed code :001
-00000
-1010
-110 : 10100000011111100000000000011100
-
-[INFO] comprerssing 11100001111111111111111111110111
-[INFO] trying => runLengthEncoding
-[INFO] trying => directMatch
-[INFO] trying => oneBitMismatch
-[INFO] trying => twoBitMismatchCon
-[INFO] trying => fourBitMasked
-[INFO] hamming dist: 3
-[INFO] found a place to apply mask: mismatches 3
-[INFO] compressed code :001
-00100
-1110       0001
-101 : 11100001111111111111111111110111
+ML   : 00000
+Mask : 1010: 
+Dict : 110: 00000000011111100000000000011100
+Mask applied to ML 00000 -> 10100000011111100000000000011100

@@ -332,12 +332,7 @@ class Compressor
             std::cout << "[INFO] trying => fourBitMasked" << std::endl;
             
             this->compressedCode = "001"; // add start ML, mask then dictionary entry index during the program
-            /*
-                if there is a scenario where you have two possible
-                ways of applying bitmasks to a 32-bit binary, always give
-                preference to the scenario where the leftmost bit
-                ‘1’ for the bitmask pattern (e.g., 11 is preferred over 01)
-            */
+            
             bool _ismaskedfound = false;
             std::vector<FourBitMask> _masks;
 
@@ -348,11 +343,10 @@ class Compressor
 
                 if( (1 < _hammingdistance ) && (_hammingdistance < 5)){ // capturing 2, 3, 4 mismatches
                     
-                    std::cout << "[INFO] hamming dist: " << hammingDistance(_it.second, this->originalWord) << std::endl;
+                    std::cout << "[INFO]    -hamming dist: " << hammingDistance(_it.second, this->originalWord) << std::endl;
                     
                     // get where the bits are different
-                    std::list<int> _mismatchlocations;  
-                    _mismatchlocations.clear(); 
+                    std::list<int> _mismatchlocations;  _mismatchlocations.clear(); 
 
                     for(int _index =0; _index <32; _index++){
                         
@@ -365,45 +359,63 @@ class Compressor
                     }
 
                     // test consecutivity: https://cplusplus.com/reference/cmath/abs/
-                    // https://cplusplus.com/reference/list/list/front/  
-                    // this method is benificial over twoBitMismatchAny(13): it can also be handled here    
+                    // https://cplusplus.com/reference/list/list/front/                                          
                     int _displacement = abs(_mismatchlocations.front()-_mismatchlocations.back());             
+                    std::cout << "[INFO]    -displacement : " << _displacement << std::endl;
+                    
+                    // consecutive two bit mismatches handled previous stage                    
+                    // therefore only the consective bits with ML1 and ML2 has displacemets by 2 or 3 bits needs to be handled here
+                    // * this method is benificial over twoBitMismatchAny(13): it can also be handled here if displacement <= 3   
                     if( (1 < _displacement) && (_displacement < 4)){ // 2, 3 displacement: (last ML - first ML = x)
                         
                         
                         _ismaskedfound = true; // set the flag to indicate a suitable mask found
 
                         FourBitMask _fourbitmask;
+
                         _fourbitmask._dictionaryword = _it.first; // dictionary entry
                         _fourbitmask._mismatchlocation = _mismatchlocations.back(); // closes to the MSB is the last elemet of the list
-                        _fourbitmask._mismatches = _mismatchlocations.size(); // number of mismatches
-                        std::cout << "[INFO] found a place to apply mask: mismatches " << _fourbitmask._mismatches  << std::endl;
-                        // get the mask: recheck
+                        _fourbitmask._mismatches = _mismatchlocations.size();       // number of mismatches
+                        std::cout << "[INFO]        *a 4 bit mask can be applied"  << std::endl;
+                        
+                        // get the mask: rechecked take xor between the original word's and the dictionary word's required 4 bits starting from ML1 (Left most)
                         _fourbitmask._mask = std::bitset<4>(_it.second.to_string().substr(_mismatchlocations.back(), 4)) ^ std::bitset<4>(this->originalWord.to_string().substr(_mismatchlocations.back(), 4));
 
                         // push to the vector
                         _masks.push_back(_fourbitmask);                        
-                    }
+                    }            
                             
                 }
             }
 
             // select the best mask
+            /*
+                if there is a scenario where you have two possible
+                ways of applying bitmasks to a 32-bit binary, always give
+                preference to the scenario where the leftmost bit
+                ‘1’ for the bitmask pattern (e.g., 11 is preferred over 01)
+            */
             if(_ismaskedfound){
                 
                 // iterate to find the optimal mask
-                unsigned long _maxmask = -1; // (e.g., 11 is preferred over 01)-> just compare the int values of masks
-                int _mismatches = -1; // 4 > 3 > 2 prefered
-                FourBitMask _selectedmask;
+                unsigned long _maxmask = -1;    // (e.g., 11 is preferred over 01)-> just compare the int values of masks
+                int _mismatches = -1;           // 4 > 3 > 2 prefered: number of mismatches 
+                
+                FourBitMask _selectedmask;      // iterate to find the optimal mask (highest mismatches + mask starts with 1s)
 
-                for(auto _it = _masks.begin(); _it != _masks.end(); _it++){
+                for(auto _it = _masks.begin(); _it != _masks.end(); _it++){ 
                     
-                    // check # of mismatches 
+                    // check # of mismatches : hogher the number of mismatches higher the optmality
                     if((*_it)._mismatches > _mismatches){
+                        
                         _selectedmask = *_it;
+                        _mismatches = (*_it)._mismatches;
+                        _maxmask = (int)(*_it)._mask.to_ulong();
 
-                    }else if( ((*_it)._mismatches == _mismatches) && ((*_it)._mask.to_ulong() > _maxmask)){
-                        _selectedmask = *_it;
+                    }else if( ((*_it)._mismatches == _mismatches) && ((int)(*_it)._mask.to_ulong() > _maxmask)){
+                        
+                        _selectedmask = *_it;                        
+                        _maxmask = (int)(*_it)._mask.to_ulong();
                     }
                 }
 
