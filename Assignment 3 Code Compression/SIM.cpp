@@ -649,17 +649,21 @@ class Compressor
                 
                 if(hammingDistance(_it.second, this->originalWord) == 2){
                     
-                    // get where the bits are different                     
+                    // get where the bits are different
+                    std::list<int> _mismatchlocations;  _mismatchlocations.clear(); 
+
                     for(int _index =0; _index <32; _index++){
                         
                         if(_it.second[_index] ^ this->originalWord[_index]){ // xor is 1 where the bits are different
                             
                             // ML counted from MSB while bitset traverse from LSB:= Location from MSB = 31-index
-                            this->compressedCode += std::bitset<5>(31-_index).to_string(); // concatenate the MLs
+                            _mismatchlocations.push_back(31-_index);
 
                         }
                     }
-
+                    
+                    this->compressedCode += std::bitset<5>(_mismatchlocations.back()).to_string(); // first ML
+                    this->compressedCode += std::bitset<5>(_mismatchlocations.front()).to_string(); // second ML
                     this->compressedCode += _it.first;  // concatenating the dictionary entry
                     
                     this->isCompressed = true;          // compression complete 
