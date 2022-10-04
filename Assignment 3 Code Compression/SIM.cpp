@@ -73,8 +73,7 @@ class Compressor
             &Compressor::twoBitMismatchAny, // bits per compression: 13     
             &Compressor::originalBinary     // bits per compression: 32 
         };
-
-        int lineNumber = 0; // current line number for debugging purposes
+        
         std::string previousWord = "xxxx";  // variable to hold previously compressed word (useful in RLE)
         bool isRLEUsed = false; // to check if the RLE is used if the similar occurences exceeds 5
 
@@ -249,9 +248,6 @@ class Compressor
                 // insert the word into the dictionary
                 this->dictionary.insert(std::make_pair(_index, _word));
 
-                // [DEBUG]
-                std::cout << "[INFO] " << _index << " : " << _word << " (" << _word.to_ulong() << ")" << std::endl;
-
                 // update the dictionary index
                 _dictionaryentry++;
 
@@ -294,18 +290,12 @@ class Compressor
             std::cout << "[INFO] encoding the stream..." << std::endl;
                         
             std::string _currentline; // variables to store the currenly encoding line
-            
-            // variables related to file write
-            std::string _outputbuffer; // variables to store the line to write at a moment
-            
-            // [DEBUG]
-            int _buffernumber = 0;
+                        
+            std::string _outputbuffer; // variables to store the line to write at a moment            
 
             while(std::getline(this->inputStream, _currentline)){
                 
-                this->lineNumber++;
-                std::cout << "[INFO] comprerssing " <<  _currentline  << ":  " << this->lineNumber << std::endl;
-                // TODO: compression code goes here
+                // compression code
                 this->originalWord = std::bitset<32>(_currentline);
 
                 // iterate over the compression algorithms to find the optimal encoding
@@ -324,26 +314,22 @@ class Compressor
 
                     // this->isCompressed is set to true if compression happens inside an algorithm
                 }
+    
                 
-                std::cout << "[INFO] compressed code :" << this->compressedCode << std::endl;
-                std::cout << "------------------------" << std::endl;
-                
-                //[TODO] writing to the file comes here
-                
+                // WRITE TO THE FILE                
                 // add the compressedcode to the buffer
                 _outputbuffer += this->compressedCode;
 
                 if(_outputbuffer.length() > 32){
                     
+                    // separete the fisrt 32 bits to write to the file
                     std::string _line2write = _outputbuffer.substr(0, 32);
+
+                    // save rest of the buffer to the same variable
                     _outputbuffer = _outputbuffer.substr(32);
                     
                     // write to the file
                     this->outputStream << _line2write << std::endl;
-
-                    // [DEBUG]
-                    _buffernumber++;
-                    std::cout << "[INFO] \t\t\twriting the line: " << _buffernumber << std::endl;
 
                 }
 
@@ -352,15 +338,11 @@ class Compressor
     
             }
 
-            // check anything is left in the _outputbuffer
+            // check anything is left in the _outputbuffer prior to include the dictionary
             if(_outputbuffer.length() == 32){
                 
                 // write to the file
                 this->outputStream << _outputbuffer << std::endl;
-
-                // [DEBUG]
-                _buffernumber++;
-                std::cout << "[INFO] \t\t\twriting the line: " << _buffernumber << std::endl;
 
 
             }else{
@@ -371,10 +353,6 @@ class Compressor
 
                 // write to the file
                 this->outputStream << _outputbuffer << std::endl;
-
-                // [DEBUG]
-                _buffernumber++;
-                std::cout << "[INFO] \t\t\twriting the line: " << _buffernumber << std::endl;
 
             }
 
@@ -405,9 +383,7 @@ class Compressor
         */
 
         // {code: "000", # bits: 2,  index: 0} - RLE: run Length Encoding
-        void runLengthEncoding(){
-            std::cout << "[INFO] trying => runLengthEncoding" << std::endl;
-
+        void runLengthEncoding(){            
             /*
             The two bits in the RLE indicates the number of occurrences 
             (00, 01, 10 and 11 imply 1, 2, 3 and 4 occurrences, respectively),
@@ -421,10 +397,10 @@ class Compressor
             if((this->originalWord.to_string() == this->previousWord) && (!this->isRLEUsed)){
                 
                 // RLE can be considered
-                this->isRLEUsed = true; // to avoid the use of RLE consecutively
+                this->isRLEUsed = true;     // to avoid the use of RLE consecutively
 
-                int _occurrences = 1;   // number of similar occurences max is 4               
-                std::string _currentline; // tempory vaiable to hold the current line
+                int _occurrences = 1;       // number of similar occurences max is 4               
+                std::string _currentline;   // tempory vaiable to hold the current line
                 bool _end = false;
 
                 std::streampos _oldposition; // https://cplusplus.com/reference/ios/streampos/
@@ -435,11 +411,9 @@ class Compressor
                     _oldposition = this->inputStream.tellg(); // https://cplusplus.com/reference/istream/istream/tellg/
 
                     // read the next line to check whether it is equal as well                    
-                    std::getline(this->inputStream, _currentline);                    
-                    
-                    // [DEBUG]
-                    this->lineNumber++;
+                    std::getline(this->inputStream, _currentline);                                
 
+                    // check whether newly got line is same and adding it will not exceed the RLE limits of 4 occurences
                     if((_currentline == this->previousWord) && (_occurrences < 4)){
                         
                         _occurrences++;
@@ -451,9 +425,7 @@ class Compressor
                         // get back to the previous position in the file: https://stackoverflow.com/a/27331411/15939357
                         // this line must be encoded usig another method in the next run: otherwise it will be missed 
                         this->inputStream.seekg(_oldposition); // https://cplusplus.com/reference/istream/istream/seekg/
-                        
-                        // [DEBUG]
-                        this->lineNumber--;                                                                     
+                                                                    
                     }
                 }
 
@@ -466,22 +438,19 @@ class Compressor
         }
 
         // {code: "001", # bits: 12, index: 1} - a 4 bit masked, based compression
-        void fourBitMasked(){
-            std::cout << "[INFO] trying => fourBitMasked" << std::endl;
+        void fourBitMasked(){            
             
-            this->compressedCode = "001"; // add start ML, mask then dictionary entry index during the program
+            this->compressedCode = "001";       // add start ML, mask then dictionary entry index during the program
             
-            bool _ismaskedfound = false;
-            std::vector<FourBitMask> _masks;
+            bool _ismaskedfound = false;        // flag to check whether any useful mask is found
+            std::vector<FourBitMask> _masks;    // vector to hold masks from different dictionary entries
 
             // iterate over the dictionary and check if the word matches with any of its entries            
             for(auto &_it: this->dictionary){                
                 
                 int _hammingdistance = hammingDistance(_it.second, this->originalWord);
 
-                if( (1 < _hammingdistance ) && (_hammingdistance < 5)){ // capturing 2, 3, 4 mismatches
-                    
-                    std::cout << "[INFO]    -hamming dist: " << hammingDistance(_it.second, this->originalWord) << std::endl;
+                if( (1 < _hammingdistance ) && (_hammingdistance < 5)){ // capturing 2, 3, 4 mismatches                                        
                     
                     // get where the bits are different
                     std::list<int> _mismatchlocations;  _mismatchlocations.clear(); 
@@ -498,8 +467,7 @@ class Compressor
 
                     // test consecutivity: https://cplusplus.com/reference/cmath/abs/
                     // https://cplusplus.com/reference/list/list/front/                                          
-                    int _displacement = abs(_mismatchlocations.front()-_mismatchlocations.back());             
-                    std::cout << "[INFO]    -displacement : " << _displacement << std::endl;
+                    int _displacement = abs(_mismatchlocations.front()-_mismatchlocations.back());                                 
                     
                     // consecutive two bit mismatches handled previous stage                    
                     // therefore only the consective bits with ML1 and ML2 has displacemets by 2 or 3 bits needs to be handled here
@@ -511,13 +479,14 @@ class Compressor
 
                         FourBitMask _fourbitmask;
 
-                        _fourbitmask._dictionaryword = _it.first; // dictionary entry
-                        _fourbitmask._mismatchlocation = _mismatchlocations.back(); // closes to the MSB is the last elemet of the list
-                        _fourbitmask._mismatches = _mismatchlocations.size();       // number of mismatches
-                        std::cout << "[INFO]        *a 4 bit mask can be applied"  << std::endl;
+                        _fourbitmask._dictionaryword    = _it.first; // dictionary entry
+                        _fourbitmask._mismatchlocation  = _mismatchlocations.back(); // closes to the MSB is the last elemet of the list
+                        _fourbitmask._mismatches        = _mismatchlocations.size(); // number of mismatches                        
                         
                         // get the mask: rechecked take xor between the original word's and the dictionary word's required 4 bits starting from ML1 (Left most)
-                        _fourbitmask._mask = std::bitset<4>(_it.second.to_string().substr(_mismatchlocations.back(), 4)) ^ std::bitset<4>(this->originalWord.to_string().substr(_mismatchlocations.back(), 4));
+                        std::bitset<4> _bitsetfromdict(_it.second.to_string().substr(_mismatchlocations.back(), 4));
+                        std::bitset<4> _bitsetfromword(this->originalWord.to_string().substr(_mismatchlocations.back(), 4));
+                        _fourbitmask._mask =  _bitsetfromdict ^ _bitsetfromword;
 
                         // push to the vector
                         _masks.push_back(_fourbitmask);                        
@@ -561,8 +530,8 @@ class Compressor
                 this->compressedCode += _selectedmask._mask.to_string();    // mask comes here
                 this->compressedCode += _selectedmask._dictionaryword;      // concatenating the dictionary entry
                 
-                this->isCompressed = true;          // compression complete 
-                this->isRLEUsed = false; // RLE comes only after some other encoding method. This flag is reset, to indicate that.                                       
+                this->isCompressed = true;  // compression complete 
+                this->isRLEUsed = false;    // RLE comes only after some other encoding method. This flag is reset, to indicate that.                                       
                 return; // return from the fucntion
 
             }
@@ -571,8 +540,7 @@ class Compressor
 
         // {code: "010", # bits: 8,  index: 2} - 1 bit mismatch
         void oneBitMismatch(){
-            std::cout << "[INFO] trying => oneBitMismatch" << std::endl;
-
+            
             // iterate over the dictionary and check if the word matches with any of its entries
             for(auto &_it: this->dictionary){
                 
@@ -589,8 +557,8 @@ class Compressor
                             this->compressedCode += std::bitset<5>(31-_index).to_string(); // concatenate the ML
                             this->compressedCode += _it.first;  // concatenating the dictionary entry
                             
-                            this->isCompressed = true;          // compression complete      
-                            this->isRLEUsed = false; // RLE comes only after some other encoding method. This flag is reset, to indicate that.                                  
+                            this->isCompressed = true;  // compression complete      
+                            this->isRLEUsed = false;    // RLE comes only after some other encoding method. This flag is reset, to indicate that.                                  
                             return; // return from the fucntion since we have only one mismatch
 
                         }
@@ -603,7 +571,6 @@ class Compressor
 
         // {code: "011", # bits: 8,  index: 3} - 2 bit mismatches (consecutive)
         void twoBitMismatchCon(){
-            std::cout << "[INFO] trying => twoBitMismatchCon" << std::endl;
 
             // iterate over the dictionary and check if the word matches with any of its entries
             for(auto &_it: this->dictionary){
@@ -630,8 +597,8 @@ class Compressor
                         this->compressedCode += std::bitset<5>(_mismatchlocations.back()).to_string(); // concat the first ML from MSB
                         this->compressedCode += _it.first;  // concatenating the dictionary entry
                         
-                        this->isCompressed = true;          // compression complete  
-                        this->isRLEUsed = false; // RLE comes only after some other encoding method. This flag is reset, to indicate that.                                      
+                        this->isCompressed = true;  // compression complete  
+                        this->isRLEUsed = false;    // RLE comes only after some other encoding method. This flag is reset, to indicate that.                                      
                         return; // return from the fucntion
                     }
                             
@@ -640,8 +607,7 @@ class Compressor
         }
 
         // {code: "100", # bits: 13, index: 4} - 2 bit mismatches (anywhere) ML: Mismatch Location
-        void twoBitMismatchAny(){
-            std::cout << "[INFO] trying => twoBitMismatchAny" << std::endl;            
+        void twoBitMismatchAny(){                       
             
             // iterate over the dictionary and check if the word matches with any of its entries
             for(auto &_it: this->dictionary){
@@ -667,8 +633,8 @@ class Compressor
                     this->compressedCode += std::bitset<5>(_mismatchlocations.front()).to_string(); // second ML
                     this->compressedCode += _it.first;  // concatenating the dictionary entry
                     
-                    this->isCompressed = true;          // compression complete 
-                    this->isRLEUsed = false; // RLE comes only after some other encoding method. This flag is reset, to indicate that.                                       
+                    this->isCompressed = true;  // compression complete 
+                    this->isRLEUsed = false;    // RLE comes only after some other encoding method. This flag is reset, to indicate that.                                       
                     return; // return from the fucntion
                     
                 }
@@ -677,8 +643,7 @@ class Compressor
         }
 
         // {code: "101", # bits: 3,  index: 5} - direct matching
-        void directMatch(){
-            std::cout << "[INFO] trying => directMatch" << std::endl;            
+        void directMatch(){                      
             
             // iterate over the dictionary and check if the word matches with any of its entries
             // https://www.geeksforgeeks.org/search-by-value-in-a-map-in-c/
@@ -688,26 +653,21 @@ class Compressor
                                         
                     this->compressedCode = "101" + _it.first;
 
-                    this->isCompressed = true; // compression complete
-                    this->isRLEUsed = false; // RLE comes only after some other encoding method. This flag is reset, to indicate that.                    
+                    this->isCompressed = true;  // compression complete
+                    this->isRLEUsed = false;    // RLE comes only after some other encoding method. This flag is reset, to indicate that.                    
                     return; // return from the fucntion
                     
-                }else{
-
-                    this->isCompressed = false; // no direct match found.
-
                 }
-            }
-            
+            }            
         }
 
         // {code: "110", # bits: 32, index: 6} - original 32 bit binary
         void originalBinary(){
-            std::cout << "[INFO] trying => originalBinary" << std::endl;
+            
             this->compressedCode = "110" + this->originalWord.to_string(); 
             
-            this->isCompressed = true; // compression complete
-            this->isRLEUsed = false; // RLE comes only after some other encoding method. This flag is reset, to indicate that.                    
+            this->isCompressed = true;  // compression complete
+            this->isRLEUsed = false;    // RLE comes only after some other encoding method. This flag is reset, to indicate that.                    
         }
 
         // fucntion to get hamming distance between two bitsets
