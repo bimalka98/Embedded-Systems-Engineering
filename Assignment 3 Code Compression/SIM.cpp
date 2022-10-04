@@ -338,30 +338,30 @@ class Compressor
                 // RLE can be considered
                 this->isRLEUsed = true; // to avoid the use of RLE consecutively
 
-                int _occurrences = 1; // number of similar occurences
-                bool _end = false; // only 4 instructions can be encoded at a time, as we use only 2 bits 00, 01, 10, 11
+                int _occurrences = 1;   // number of similar occurences                
+                std::string _currentline; // tempory vaiable to hold the current line
+                boo _end = false;
 
                 while(!_end){
 
-                    // read the next line to check whether it is equal as well
-                    std::string _currentline;
-                    std::getline(this->inputStream, _currentline);
-                    this->originalWord = std::bitset<32>(_currentline); // updating the current line
+                    // read the next line to check whether it is equal as well                    
+                    std::getline(this->inputStream, _currentline);                    
 
                     if((_currentline == this->previousWord) && (_occurrences < 5)){
+                        
                         _occurrences++;
-                    }else{
-                        // this line must be encoded usig another method in the next run: otherwise it will be missed
-                        if(_currentline != this->previousWord){
 
-                        }
+                    }else{
+                        // get back to the previous position in the file: https://stackoverflow.com/a/27331411/15939357
+                        // this line must be encoded usig another method in the next run: otherwise it will be missed
+
+                        // RLE encoding
+                        this->compressedCode = "000" + std::bitset<32>(_occurrences).to_string();
+                        this->isCompressed = true; // compression complete
                         _end = true;
                     }
                 }
-
-                // RLE encoding
-                this->compressedCode = "000" + std::bitset<32>(_occurrences).to_string();
-                this->isCompressed = true; // compression complete
+                
             }            
         }
 
