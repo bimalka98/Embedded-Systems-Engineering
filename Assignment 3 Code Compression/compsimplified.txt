@@ -1,3 +1,5 @@
+## rough work file to understand different behaviours of the comprerssion and decompression
+
 101 direct mapping
 000 dictionary index
 

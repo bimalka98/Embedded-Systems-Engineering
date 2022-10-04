@@ -13,9 +13,7 @@ banner () {
     echo "==========================================================="
     echo "|      © Copyright 2022 Bimalka Piyaruwan Thalagala       |"
     echo "|                           ---                           |"
-    echo "|         Author: Thalagala B. P.   180631J               |"                                  
-    echo "|         Github: https://github.com/bimalka98            |"                                  
-    echo "|         Email: bimalkapiyaruwan1998322@gmail.com        |"                                      
+    echo "|         Github: https://github.com/bimalka98            |"                                                                       
     echo "==========================================================="
     echo
 
@@ -68,6 +66,8 @@ test_decompression_unit () {
 # remove temporary files
 remove_temp_files () {
 
+    echo "[TEST-INFO] removing temporary files..."
+
     # remove generated compressed file
     rm cout.txt
 
@@ -75,6 +75,10 @@ remove_temp_files () {
     rm dout.txt
 
     # remove executable
+    rm SIM
+
+    echo "Done!"
+    echo
 }
 
 # main function to setup the environment for the LE Object Detector

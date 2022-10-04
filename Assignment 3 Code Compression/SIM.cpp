@@ -285,9 +285,7 @@ class Compressor
             if(!this->outputStream.is_open()){
                 std::cout << "[ERROR] file to save compressed data can not be opened." << std::endl;
                 exit(EXIT_FAILURE);
-            }
-
-            std::cout << "[INFO] encoding the stream..." << std::endl;
+            }            
                         
             std::string _currentline; // variables to store the currenly encoding line
                         
