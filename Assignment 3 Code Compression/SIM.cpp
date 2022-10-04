@@ -352,7 +352,8 @@ class Compressor
                     
                     // get where the bits are different
                     std::list<int> _mismatchlocations;  
-                    _mismatchlocations.clear();                 
+                    _mismatchlocations.clear(); 
+
                     for(int _index =0; _index <32; _index++){
                         
                         if(_it.second[_index] ^ this->originalWord[_index]){ // xor is 1 where the bits are different
@@ -365,8 +366,9 @@ class Compressor
 
                     // test consecutivity: https://cplusplus.com/reference/cmath/abs/
                     // https://cplusplus.com/reference/list/list/front/  
-                    // this method is benificial over twoBitMismatchAny(13): it can also be handled here                 
-                    if( 1 < abs(_mismatchlocations.front()-_mismatchlocations.back()) < 4){ // if all four are consecutive (last ML - first ML = x)
+                    // this method is benificial over twoBitMismatchAny(13): it can also be handled here    
+                    int _displacement = abs(_mismatchlocations.front()-_mismatchlocations.back());             
+                    if( (1 < _displacement) && (_displacement < 4)){ // 2, 3 displacement: (last ML - first ML = x)
                         
                         
                         _ismaskedfound = true; // set the flag to indicate a suitable mask found

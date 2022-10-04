@@ -47,9 +47,28 @@ xxxx
 110 - 00000000011111100000000000011100
 111 - 11111000000000000111111111111111
 
-original: 1110 0001 111111111111111111110111
-code :
-001
+[INFO] comprerssing 10100000011111100000000000011100
+[INFO] trying => runLengthEncoding
+[INFO] trying => directMatch
+[INFO] trying => oneBitMismatch
+[INFO] trying => twoBitMismatchCon
+[INFO] trying => fourBitMasked
+[INFO] hamming dist: 2
+[INFO] found a place to apply mask: mismatches 2
+[INFO] compressed code :001
+00000
+1010
+110 : 10100000011111100000000000011100
+
+[INFO] comprerssing 11100001111111111111111111110111
+[INFO] trying => runLengthEncoding
+[INFO] trying => directMatch
+[INFO] trying => oneBitMismatch
+[INFO] trying => twoBitMismatchCon
+[INFO] trying => fourBitMasked
+[INFO] hamming dist: 3
+[INFO] found a place to apply mask: mismatches 3
+[INFO] compressed code :001
 00100
-1110      0001
-101: 1110 1111 111111111111111111110111
+1110       0001
+101 : 11100001111111111111111111110111
