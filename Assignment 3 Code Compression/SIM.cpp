@@ -333,34 +333,52 @@ class Compressor
         void runLengthEncoding(){
             std::cout << "[INFO] trying => runLengthEncoding" << std::endl;
 
+            /*
+            The two bits in the RLE indicates the number of occurrences 
+            (00, 01, 10 and 11 imply 1, 2, 3 and 4 occurrences, respectively),
+            */
+            std::map<int, std::string> _ccurrences2bits = {
+                {1, "00"},
+                {2, "01"},
+                {3, "10"},
+                {4, "11"}
+            };
             if((this->originalWord.to_string() == this->previousWord) && (!this->isRLEUsed)){
                 
                 // RLE can be considered
                 this->isRLEUsed = true; // to avoid the use of RLE consecutively
 
-                int _occurrences = 1;   // number of similar occurences                
+                int _occurrences = 1;   // number of similar occurences max is 4               
                 std::string _currentline; // tempory vaiable to hold the current line
-                boo _end = false;
+                bool _end = false;
+
+                std::streampos _oldposition;
 
                 while(!_end){
-
+                    
+                    _oldposition = this->inputStream.tellg();
                     // read the next line to check whether it is equal as well                    
                     std::getline(this->inputStream, _currentline);                    
 
-                    if((_currentline == this->previousWord) && (_occurrences < 5)){
+                    if((_currentline == this->previousWord) && (_occurrences < 4)){
                         
                         _occurrences++;
 
                     }else{
-                        // get back to the previous position in the file: https://stackoverflow.com/a/27331411/15939357
-                        // this line must be encoded usig another method in the next run: otherwise it will be missed
-
-                        // RLE encoding
-                        this->compressedCode = "000" + std::bitset<32>(_occurrences).to_string();
-                        this->isCompressed = true; // compression complete
-                        _end = true;
+                       _end = true;                                                                     
                     }
                 }
+
+                if(_currentline != this->previousWord){
+                    // get back to the previous position in the file: https://stackoverflow.com/a/27331411/15939357
+                    // this line must be encoded usig another method in the next run: otherwise it will be missed 
+                    this->inputStream.seekg(_oldposition);
+                }
+
+                // RLE encoding
+                this->compressedCode = "000" + _ccurrences2bits[_occurrences];
+                this->isCompressed = true; // compression complete
+
                 
             }            
         }
@@ -460,7 +478,9 @@ class Compressor
                 this->compressedCode += std::bitset<5>(_selectedmask._mismatchlocation).to_string(); // concat the first ML from MSB
                 this->compressedCode += _selectedmask._mask.to_string();    // mask comes here
                 this->compressedCode += _selectedmask._dictionaryword;      // concatenating the dictionary entry
-                this->isCompressed = true;          // compression complete                                        
+                
+                this->isCompressed = true;          // compression complete 
+                this->isRLEUsed = false; // RLE comes only after some other encoding method. This flag is reset, to indicate that.                                       
                 return; // return from the fucntion
 
             }
@@ -486,7 +506,9 @@ class Compressor
                             // ML counted from MSB while bitset traverse from LSB:= Location from MSB = 31-index
                             this->compressedCode += std::bitset<5>(31-_index).to_string(); // concatenate the ML
                             this->compressedCode += _it.first;  // concatenating the dictionary entry
-                            this->isCompressed = true;          // compression complete                                        
+                            
+                            this->isCompressed = true;          // compression complete      
+                            this->isRLEUsed = false; // RLE comes only after some other encoding method. This flag is reset, to indicate that.                                  
                             return; // return from the fucntion since we have only one mismatch
 
                         }
@@ -525,7 +547,9 @@ class Compressor
 
                         this->compressedCode += std::bitset<5>(_mismatchlocations.back()).to_string(); // concat the first ML from MSB
                         this->compressedCode += _it.first;  // concatenating the dictionary entry
-                        this->isCompressed = true;          // compression complete                                        
+                        
+                        this->isCompressed = true;          // compression complete  
+                        this->isRLEUsed = false; // RLE comes only after some other encoding method. This flag is reset, to indicate that.                                      
                         return; // return from the fucntion
                     }
                             
@@ -556,7 +580,9 @@ class Compressor
                     }
 
                     this->compressedCode += _it.first;  // concatenating the dictionary entry
-                    this->isCompressed = true;          // compression complete                                        
+                    
+                    this->isCompressed = true;          // compression complete 
+                    this->isRLEUsed = false; // RLE comes only after some other encoding method. This flag is reset, to indicate that.                                       
                     return; // return from the fucntion
                     
                 }
@@ -573,9 +599,11 @@ class Compressor
             for(auto &_it: this->dictionary){
                 
                 if(_it.second == this->originalWord){
-                    
+                                        
+                    this->compressedCode = "101" + _it.first;
+
                     this->isCompressed = true; // compression complete
-                    this->compressedCode = "101" + _it.first;                    
+                    this->isRLEUsed = false; // RLE comes only after some other encoding method. This flag is reset, to indicate that.                    
                     return; // return from the fucntion
                     
                 }else{
@@ -591,7 +619,9 @@ class Compressor
         void originalBinary(){
             std::cout << "[INFO] trying => originalBinary" << std::endl;
             this->compressedCode = "110" + this->originalWord.to_string(); 
+            
             this->isCompressed = true; // compression complete
+            this->isRLEUsed = false; // RLE comes only after some other encoding method. This flag is reset, to indicate that.                    
         }
 
         // fucntion to get hamming distance between two bitsets
