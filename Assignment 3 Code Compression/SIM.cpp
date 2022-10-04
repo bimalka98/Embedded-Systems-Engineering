@@ -73,6 +73,7 @@ class Compressor
             &Compressor::originalBinary     // bits per compression: 32 
         };
 
+        int lineNumber = 0; // current line number for debugging purposes
         std::string previousWord = "xxxx";  // variable to hold previously compressed word (useful in RLE)
         bool isRLEUsed = false; // to check if the RLE is used if the similar occurences exceeds 5
 
@@ -279,12 +280,13 @@ class Compressor
             }
 
             std::cout << "[INFO] encoding the stream..." << std::endl;
-
+                        
             std::string _currentline; // variables to store the currenly encoding line
-
+            
             while(std::getline(this->inputStream, _currentline)){
                 
-                std::cout << "[INFO] comprerssing " << _currentline << std::endl;
+                this->lineNumber++;
+                std::cout << "[INFO] comprerssing " <<  _currentline  << ":  " << this->lineNumber << std::endl;
                 // TODO: compression code goes here
                 this->originalWord = std::bitset<32>(_currentline);
 
@@ -356,9 +358,14 @@ class Compressor
 
                 while(!_end){
                     
+                    // required when we need to get back to the previous line
                     _oldposition = this->inputStream.tellg();
+
                     // read the next line to check whether it is equal as well                    
                     std::getline(this->inputStream, _currentline);                    
+                    
+                    // [DEBUG]
+                    this->lineNumber++;
 
                     if((_currentline == this->previousWord) && (_occurrences < 4)){
                         
@@ -369,10 +376,13 @@ class Compressor
                     }
                 }
 
-                if(_currentline != this->previousWord){
+                if((_currentline != this->previousWord) || (_occurrences == 4)){
                     // get back to the previous position in the file: https://stackoverflow.com/a/27331411/15939357
                     // this line must be encoded usig another method in the next run: otherwise it will be missed 
                     this->inputStream.seekg(_oldposition);
+                    
+                    // [DEBUG]
+                    this->lineNumber--;
                 }
 
                 // RLE encoding
