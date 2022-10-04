@@ -114,9 +114,6 @@ class Compressor
                 
                 _word = std::bitset<32>(_currentline).to_ulong(); // convert binary to decimal
                 
-                // [DEBUG]
-                // std::cout << "[INFO] word: " << _word << std::endl;
-                
                 // check if this is found in the _distinctwords set
                 // https://cplusplus.com/reference/unordered_set/unordered_set/count/
                 if(_distinctwords.count(_word)){ // Average case: constant. Worst case: linear in container size.
@@ -145,12 +142,9 @@ class Compressor
 
                 this->frequencyStore.push_back(_dictionaryword);                
 
-                _index--; // increment
+                _index--; // decrement
                 
             } 
-
-            // [DEBUG]
-            // for(auto &_it : this->frequencyStore) {std::cout << "[INFO] w: " << _it._word << " f: " << _it._frequency << " p: " << _it._priority  << std::endl;}
             
             this->inputStream.close();
 
@@ -224,10 +218,7 @@ class Compressor
                 _it = _subvectorend + 1; // point iterator to next word with a different frequency
                                 
             }
-            
-            // [DEBUG]
-            // for(auto &_it : this->frequencyStore) {std::cout << "[INFO] w: " << _it._word << " f: " << _it._frequency << " p: " << _it._priority  << std::endl;}
-            
+      
             /*
             Dictionary ideally should have 8 indexes
             however, words count may be less than or equal to or greater than that.
@@ -877,9 +868,6 @@ class Decompressor
                         _cursorposition = (_cursorposition + _compressionlength) % 32;
                     }
                     
-                    // [DEBUG]                    
-                    // std::cout << "[INFO] format: " << _compressionformat << ", code: " << _compressedword << std::endl;
-
                     // get the decompressed code and write it to the output stream
                     this->compressionFormat = this->compressionFormats[_compressionformat].second; 
                     this->compressedWord = _compressedword;
