@@ -262,6 +262,17 @@ class Compressor
 
         }
 
+        void writeDictionary(){
+
+            // delimit the dictionary from the compressed code
+            this->outputStream << "xxxx" << std::endl;
+
+            // write the dictionary
+            for(auto &_it: this->dictionary){
+                this->outputStream << _it.second << std::endl;
+            }
+        }
+
         // compress the stream
         void compressStream(){
             
@@ -283,6 +294,9 @@ class Compressor
                         
             std::string _currentline; // variables to store the currenly encoding line
             
+            // variables related to file write
+            std::string _outputbuffer; // variables to store the line to write at a moment
+
             while(std::getline(this->inputStream, _currentline)){
                 
                 this->lineNumber++;
@@ -291,18 +305,7 @@ class Compressor
                 this->originalWord = std::bitset<32>(_currentline);
 
                 // iterate over the compression algorithms to find the optimal encoding
-                this->isCompressed = false;
-                             
-                /*  
-                    ----PRIORITY OF THE COMPRESSION ALGORITHM----
-                    runLengthEncoding, // bits per compression: 2     
-                    directMatch,       // bits per compression: 3
-                    oneBitMismatch,    // bits per compression: 8 
-                    twoBitMismatchCon, // bits per compression: 8     
-                    fourBitMasked,     // bits per compression: 12 
-                    twoBitMismatchAny, // bits per compression: 13     
-                    originalBinary     // bits per compression: 32 
-                */
+                this->isCompressed = false;                             
 
                 // get a poinet to the first compression algorithm
                 auto _pointertoalgorithm = this->compressionAlgorithms.begin(); 
@@ -322,14 +325,66 @@ class Compressor
                 std::cout << "------------------------" << std::endl;
                 
                 //[TODO] writing to the file comes here
+                
+                // add the compressedcode to the buffer
+                _outputbuffer += this->compressedCode;
 
+                if(_outputbuffer.length() > 32){
+                    
+                    std::string _line2write = _outputbuffer.substr(0, 32);
+                    _outputbuffer = _outputbuffer.substr(32);
+                    
+                    // write to the file
+                    this->outputStream << _line2write << std::endl;
+
+                }
 
                 //update the previous line to make use at RLE 
                 this->previousWord = _currentline;
     
             }
-                        
+
+            // check anything is left in the _outputbuffer
+            if(_outputbuffer.length() == 32){
+                
+                // write to the file
+                this->outputStream << _outputbuffer << std::endl;
+
+            }else{
+
+                while(_outputbuffer.length() < 32){
+                    _outputbuffer+="1";
+                }
+
+                // write to the file
+                this->outputStream << _outputbuffer << std::endl;
+            }
+
+            // write dictionary to the output stream
+            writeDictionary();
+
+            // closing the files
+            this->inputStream.close();
+            this->outputStream.close();
+            
+            // [DEBUG]
+            std::cout << "[INFO] compression complete." << std::endl;
+                      
         }
+
+        /*  
+            ----PRIORITY OF THE COMPRESSION ALGORITHM----
+            runLengthEncoding, // bits per compression: 2     
+            directMatch,       // bits per compression: 3
+            oneBitMismatch,    // bits per compression: 8 
+            twoBitMismatchCon, // bits per compression: 8     
+            fourBitMasked,     // bits per compression: 12 
+            twoBitMismatchAny, // bits per compression: 13     
+            originalBinary     // bits per compression: 32 
+
+            NOTE:
+            Above algorithms are implemeted in the order given in the assignment. Not in the above order.
+        */
 
         // {code: "000", # bits: 2,  index: 0} - RLE: run Length Encoding
         void runLengthEncoding(){
@@ -354,12 +409,12 @@ class Compressor
                 std::string _currentline; // tempory vaiable to hold the current line
                 bool _end = false;
 
-                std::streampos _oldposition;
+                std::streampos _oldposition; // https://cplusplus.com/reference/ios/streampos/
 
                 while(!_end){
                     
                     // required when we need to get back to the previous line
-                    _oldposition = this->inputStream.tellg();
+                    _oldposition = this->inputStream.tellg(); // https://cplusplus.com/reference/istream/istream/tellg/
 
                     // read the next line to check whether it is equal as well                    
                     std::getline(this->inputStream, _currentline);                    
@@ -377,7 +432,7 @@ class Compressor
 
                         // get back to the previous position in the file: https://stackoverflow.com/a/27331411/15939357
                         // this line must be encoded usig another method in the next run: otherwise it will be missed 
-                        this->inputStream.seekg(_oldposition);
+                        this->inputStream.seekg(_oldposition); // https://cplusplus.com/reference/istream/istream/seekg/
                         
                         // [DEBUG]
                         this->lineNumber--;                                                                     
