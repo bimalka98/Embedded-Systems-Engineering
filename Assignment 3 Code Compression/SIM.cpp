@@ -343,8 +343,12 @@ class Compressor
 
             // iterate over the dictionary and check if the word matches with any of its entries            
             for(auto &_it: this->dictionary){                
-                 
-                if( 1 < hammingDistance(_it.second, this->originalWord) < 5){ // capturing 2, 3, 4 mismatches
+                
+                int _hammingdistance = hammingDistance(_it.second, this->originalWord);
+
+                if( (1 < _hammingdistance ) && (_hammingdistance < 5)){ // capturing 2, 3, 4 mismatches
+                    
+                    std::cout << "[INFO] hamming dist: " << hammingDistance(_it.second, this->originalWord) << std::endl;
                     
                     // get where the bits are different
                     std::list<int> _mismatchlocations;  
