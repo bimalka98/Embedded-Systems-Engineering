@@ -37,6 +37,7 @@ class Compressor
             std::string _dictionaryword;
             std::bitset<4> _mask;
             int _mismatchlocation;
+            int _mismatches;
         };
 
         /*
@@ -346,7 +347,8 @@ class Compressor
                 if( 1 < hammingDistance(_it.second, this->originalWord) < 5){ // capturing 2, 3, 4 mismatches
                     
                     // get where the bits are different
-                    std::list<int> _mismatchlocations;                   
+                    std::list<int> _mismatchlocations;  
+                    _mismatchlocations.clear();                 
                     for(int _index =0; _index <32; _index++){
                         
                         if(_it.second[_index] ^ this->originalWord[_index]){ // xor is 1 where the bits are different
@@ -362,12 +364,14 @@ class Compressor
                     // this method is benificial over twoBitMismatchAny(13): it can also be handled here                 
                     if( 1 < abs(_mismatchlocations.front()-_mismatchlocations.back()) < 4){ // if all four are consecutive (last ML - first ML = x)
                         
-                        std::cout << "[INFO] found a place to apply mask" << std::endl;
+                        
                         _ismaskedfound = true; // set the flag to indicate a suitable mask found
 
                         FourBitMask _fourbitmask;
                         _fourbitmask._dictionaryword = _it.first; // dictionary entry
                         _fourbitmask._mismatchlocation = _mismatchlocations.back(); // closes to the MSB is the last elemet of the list
+                        _fourbitmask._mismatches = _mismatchlocations.size(); // number of mismatches
+                        std::cout << "[INFO] found a place to apply mask: mismatches " << _fourbitmask._mismatches  << std::endl;
                         // get the mask: recheck
                         _fourbitmask._mask = std::bitset<4>(_it.second.to_string().substr(_mismatchlocations.back(), 4)) ^ std::bitset<4>(this->originalWord.to_string().substr(_mismatchlocations.back(), 4));
 
@@ -382,10 +386,17 @@ class Compressor
             if(_ismaskedfound){
                 
                 // iterate to find the optimal mask
-                unsigned long _maxmask = 0; // (e.g., 11 is preferred over 01)-> just compare the int values
+                unsigned long _maxmask = -1; // (e.g., 11 is preferred over 01)-> just compare the int values of masks
+                int _mismatches = -1; // 4 > 3 > 2 prefered
                 FourBitMask _selectedmask;
+
                 for(auto _it = _masks.begin(); _it != _masks.end(); _it++){
-                    if((*_it)._mask.to_ulong() > _maxmask){
+                    
+                    // check # of mismatches 
+                    if((*_it)._mismatches > _mismatches){
+                        _selectedmask = *_it;
+
+                    }else if( ((*_it)._mismatches == _mismatches) && ((*_it)._mask.to_ulong() > _maxmask)){
                         _selectedmask = *_it;
                     }
                 }
