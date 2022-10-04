@@ -873,12 +873,23 @@ class Decompressor
             switch(_compressionformat){
 
                  // RLE: run Length Encoding
-                case 0:{                    
+                case 0:{      
+                    /*
+                    The two bits in the RLE indicates the number of occurrences 
+                    (00, 01, 10 and 11 imply 1, 2, 3 and 4 occurrences, respectively),
+                    */
+                    std::map<std::string, int> _bits2occurrences = {
+                        {"00", 1},
+                        {"01", 2},
+                        {"10", 3},
+                        {"11", 4}
+                    };
+
                     // nothing to decode in the RLE, just store the number of occurences
                     // https://en.cppreference.com/w/cpp/utility/bitset/to_ulong
-                    this->occurencesOfWord = (int)std::bitset<2>(_compressedword).to_ulong();
+                    this->occurencesOfWord = _bits2occurrences[_compressedword];
                     
-                    for(int i=0; i <= this->occurencesOfWord; i++) {
+                    for(int i=0; i < this->occurencesOfWord; i++) {
                         this->outputStream << this->decompressedWord << std::endl;
                     }
                     
