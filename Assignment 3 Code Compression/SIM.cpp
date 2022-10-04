@@ -35,7 +35,7 @@ class Compressor
 
         struct FourBitMask{
             std::string _dictionaryword;
-            std::string _mask;
+            std::bitset<4> _mask;
             int _mismatchlocation;
         };
 
@@ -326,7 +326,7 @@ class Compressor
             this->isCompressed = false; // compression complete
         }
 
-        // {code: "001", # bits: 12, index: 1} - 4 bit masked based compression
+        // {code: "001", # bits: 12, index: 1} - a 4 bit masked, based compression
         void fourBitMasked(){
             std::cout << "[INFO] trying => fourBitMasked" << std::endl;
             
@@ -343,7 +343,7 @@ class Compressor
             // iterate over the dictionary and check if the word matches with any of its entries            
             for(auto &_it: this->dictionary){                
                  
-                if(hammingDistance(_it.second, this->originalWord) == 4){
+                if( 1 < hammingDistance(_it.second, this->originalWord) < 5){ // capturing 2, 3, 4 mismatches
                     
                     // get where the bits are different
                     std::list<int> _mismatchlocations;                   
@@ -358,19 +358,21 @@ class Compressor
                     }
 
                     // test consecutivity: https://cplusplus.com/reference/cmath/abs/
-                    // https://cplusplus.com/reference/list/list/front/                    
-                    if(abs(_mismatchlocations.front()-_mismatchlocations.back())==3){ // if all four are consecutive (last ML - first ML = 3)
+                    // https://cplusplus.com/reference/list/list/front/  
+                    // this method is benificial over twoBitMismatchAny(13): it can also be handled here                 
+                    if( 1 < abs(_mismatchlocations.front()-_mismatchlocations.back()) < 4){ // if all four are consecutive (last ML - first ML = x)
                         
-                        std::cout << "[INFO] found 4 consecutive mismatch locations" << std::endl;
+                        std::cout << "[INFO] found a place to apply mask" << std::endl;
                         _ismaskedfound = true; // set the flag to indicate a suitable mask found
+
                         FourBitMask _fourbitmask;
                         _fourbitmask._dictionaryword = _it.first; // dictionary entry
                         _fourbitmask._mismatchlocation = _mismatchlocations.back(); // closes to the MSB is the last elemet of the list
+                        // get the mask: recheck
+                        _fourbitmask._mask = std::bitset<4>(_it.second.to_string().substr(_mismatchlocations.back(), 4)) ^ std::bitset<4>(this->originalWord.to_string().substr(_mismatchlocations.back(), 4));
 
-                        // get the mask
-
-                        
-                        
+                        // push to the vector
+                        _masks.push_back(_fourbitmask);                        
                     }
                             
                 }
@@ -380,14 +382,17 @@ class Compressor
             if(_ismaskedfound){
                 
                 // iterate to find the optimal mask
-                int _maxmask = 0; // (e.g., 11 is preferred over 01)-> just compare the int values
-                for(auto it = _masks.begin(); it != _masks.end(); it++){
-
+                unsigned long _maxmask = 0; // (e.g., 11 is preferred over 01)-> just compare the int values
+                FourBitMask _selectedmask;
+                for(auto _it = _masks.begin(); _it != _masks.end(); _it++){
+                    if((*_it)._mask.to_ulong() > _maxmask){
+                        _selectedmask = *_it;
+                    }
                 }
 
-                this->compressedCode += std::bitset<5>().to_string(); // concat the first ML from MSB
-                this->compressedCode += ; // mask comes here
-                this->compressedCode += ;  // concatenating the dictionary entry
+                this->compressedCode += std::bitset<5>(_selectedmask._mismatchlocation).to_string(); // concat the first ML from MSB
+                this->compressedCode += _selectedmask._mask.to_string();    // mask comes here
+                this->compressedCode += _selectedmask._dictionaryword;      // concatenating the dictionary entry
                 this->isCompressed = true;          // compression complete                                        
                 return; // return from the fucntion
 
