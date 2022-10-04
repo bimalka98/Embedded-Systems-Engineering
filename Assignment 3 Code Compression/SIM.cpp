@@ -296,6 +296,9 @@ class Compressor
             
             // variables related to file write
             std::string _outputbuffer; // variables to store the line to write at a moment
+            
+            // [DEBUG]
+            int _buffernumber = 0;
 
             while(std::getline(this->inputStream, _currentline)){
                 
@@ -337,6 +340,10 @@ class Compressor
                     // write to the file
                     this->outputStream << _line2write << std::endl;
 
+                    // [DEBUG]
+                    _buffernumber++;
+                    std::cout << "[INFO] \t\t\twriting the line: " << _buffernumber << std::endl;
+
                 }
 
                 //update the previous line to make use at RLE 
@@ -350,6 +357,11 @@ class Compressor
                 // write to the file
                 this->outputStream << _outputbuffer << std::endl;
 
+                // [DEBUG]
+                _buffernumber++;
+                std::cout << "[INFO] \t\t\twriting the line: " << _buffernumber << std::endl;
+
+
             }else{
 
                 while(_outputbuffer.length() < 32){
@@ -358,6 +370,11 @@ class Compressor
 
                 // write to the file
                 this->outputStream << _outputbuffer << std::endl;
+
+                // [DEBUG]
+                _buffernumber++;
+                std::cout << "[INFO] \t\t\twriting the line: " << _buffernumber << std::endl;
+
             }
 
             // write dictionary to the output stream
