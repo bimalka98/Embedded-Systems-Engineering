@@ -95,7 +95,7 @@ class Compressor
                 exit(EXIT_FAILURE);
             }
             
-            std::cout << "[INFO] calculating word frequencies while preserving their order..." << std::endl;
+            // std::cout << "[INFO] calculating word frequencies while preserving their order..." << std::endl;
             
             // an unordered set to hold distinct keys: https://cplusplus.com/reference/unordered_set/
             std::unordered_set<unsigned long> _distinctwords;  
@@ -172,7 +172,7 @@ class Compressor
             // https://www.geeksforgeeks.org/sorting-vector-of-pairs-in-c-set-1-sort-by-first-and-second/            
 
             // sorting the whole frequency store vector depending on the frequency of words
-            std::cout << "[INFO] sort by frequency..." << std::endl;
+            // std::cout << "[INFO] sort by frequency..." << std::endl;
             
             std::sort(this->frequencyStore.begin(), this->frequencyStore.end(), sortbyfrequency);
 
@@ -181,7 +181,7 @@ class Compressor
 
             // resort the subsections of the sorted frequency store depending on the priority of words
             // if two words has the same frequency, sort them by priority
-            std::cout << "[INFO] re-sort by priority for similar frequencies..." << std::endl;
+            // std::cout << "[INFO] re-sort by priority for similar frequencies..." << std::endl;
             
             auto _it = this->frequencyStore.begin();    // iterator initialization to loop over the full vctor
 
@@ -224,7 +224,7 @@ class Compressor
             however, words count may be less than or equal to or greater than that.
             These three cases needs to be handled.
             */
-            std::cout << "[INFO] generating the dictionary..." << std::endl;
+            // std::cout << "[INFO] generating the dictionary..." << std::endl;
 
             int _dictionaryentry = 0; // dictionary entry
 
@@ -353,7 +353,7 @@ class Compressor
             this->outputStream.close();
             
             // [DEBUG]
-            std::cout << "[INFO] compression complete." << std::endl;
+            // std::cout << "[INFO] compression complete." << std::endl;
                       
         }
 
@@ -680,18 +680,18 @@ class Compressor
 
         // default constructor
         Compressor(){
-            std::cout << "[INFO] compressor object created." << std::endl;
+            // std::cout << "[INFO] compressor object created." << std::endl;
         }
 
         // default destructor
         ~Compressor(){
-            std::cout << "[INFO] compressor object destroyed." << std::endl;
+            // std::cout << "[INFO] compressor object destroyed." << std::endl;
         }
 
         /*         Public Member Fucntions     
         *******************************************************/
         void Compress(std::string file2compress){
-            std::cout << "[INFO] compressing..." << std::endl;
+            // std::cout << "[INFO] compressing..." << std::endl;
             
             this->inputFileName = file2compress; // file with the original data
 
@@ -747,7 +747,7 @@ class Decompressor
                 exit(EXIT_FAILURE);
             }
             
-            std::cout << "[INFO] retrieving the dictionary..." << std::endl;
+            // std::cout << "[INFO] retrieving the dictionary..." << std::endl;
 
             // loop over the file
             short _dictionaryentry = 0;
@@ -799,7 +799,7 @@ class Decompressor
                 exit(EXIT_FAILURE);
             }
 
-            std::cout << "[INFO] decoding the stream..." << std::endl;
+            // std::cout << "[INFO] decoding the stream..." << std::endl;
 
             std::string _currentline, _nextline; // variables to store the currenly decoding line and the next line
             std::string _compressionformat, _compressedword; // variables to store the compressed data and compression method
@@ -884,7 +884,7 @@ class Decompressor
             this->outputStream.close();
             
             // [DEBUG]
-            std::cout << "[INFO] decompression complete. " << _currentline << std::endl;
+            // std::cout << "[INFO] decompression complete. " << _currentline << std::endl;
         }
 
         // fucntion to decompress a given compressed code
@@ -1004,19 +1004,19 @@ class Decompressor
 
         // default constructor
         Decompressor(){
-            std::cout << "[INFO] decompressor object created." << std::endl;
+            // std::cout << "[INFO] decompressor object created." << std::endl;
         }
 
         // default destructor
         ~Decompressor(){
-            std::cout << "[INFO] decompressor object destroyed." << std::endl;
+            // std::cout << "[INFO] decompressor object destroyed." << std::endl;
         }
 
         /*         Public Member Fucntion    
         *******************************************************/
         void Decompress(std::string file2decompress){
             
-            std::cout << "[INFO] decompressing..." << std::endl;
+            // std::cout << "[INFO] decompressing..." << std::endl;
 
             this->inputFileName = file2decompress; // file with the compressed data
 
