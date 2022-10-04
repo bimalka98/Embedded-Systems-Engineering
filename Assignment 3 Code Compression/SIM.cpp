@@ -339,7 +339,7 @@ class Compressor
             The two bits in the RLE indicates the number of occurrences 
             (00, 01, 10 and 11 imply 1, 2, 3 and 4 occurrences, respectively),
             */
-            std::map<int, std::string> _ccurrences2bits = {
+            std::map<int, std::string> _occurrences2bits = {
                 {1, "00"},
                 {2, "01"},
                 {3, "10"},
@@ -372,21 +372,20 @@ class Compressor
                         _occurrences++;
 
                     }else{
-                       _end = true;                                                                     
+                       
+                        _end = true; // exiting the loop
+
+                        // get back to the previous position in the file: https://stackoverflow.com/a/27331411/15939357
+                        // this line must be encoded usig another method in the next run: otherwise it will be missed 
+                        this->inputStream.seekg(_oldposition);
+                        
+                        // [DEBUG]
+                        this->lineNumber--;                                                                     
                     }
                 }
 
-                if((_currentline != this->previousWord) || (_occurrences == 4)){
-                    // get back to the previous position in the file: https://stackoverflow.com/a/27331411/15939357
-                    // this line must be encoded usig another method in the next run: otherwise it will be missed 
-                    this->inputStream.seekg(_oldposition);
-                    
-                    // [DEBUG]
-                    this->lineNumber--;
-                }
-
                 // RLE encoding
-                this->compressedCode = "000" + _ccurrences2bits[_occurrences];
+                this->compressedCode = "000" + _occurrences2bits[_occurrences];
                 this->isCompressed = true; // compression complete
 
                 
