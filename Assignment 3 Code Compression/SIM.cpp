@@ -72,6 +72,10 @@ class Compressor
             &Compressor::twoBitMismatchAny, // bits per compression: 13     
             &Compressor::originalBinary     // bits per compression: 32 
         };
+
+        std::string previousWord = "xxxx";  // variable to hold previously compressed word (useful in RLE)
+        bool isRLEUsed = false; // to check if the RLE is used if the similar occurences exceeds 5
+
         std::bitset<32> originalWord; // varibales to hold the original word
         std::string compressedCode; // varibales to hold the compressed word
         bool isCompressed = false; // flag to check if the word is compressed 
@@ -314,6 +318,12 @@ class Compressor
                 
                 std::cout << "[INFO] compressed code :" << this->compressedCode << std::endl;
                 std::cout << "------------------------" << std::endl;
+                
+                //[TODO] writing to the file comes here
+
+
+                //update the previous line to make use at RLE 
+                this->previousWord = _currentline;
     
             }
                         
@@ -323,8 +333,36 @@ class Compressor
         void runLengthEncoding(){
             std::cout << "[INFO] trying => runLengthEncoding" << std::endl;
 
+            if((this->originalWord.to_string() == this->previousWord) && (!this->isRLEUsed)){
+                
+                // RLE can be considered
+                this->isRLEUsed = true; // to avoid the use of RLE consecutively
 
-            this->isCompressed = false; // compression complete
+                int _occurrences = 1; // number of similar occurences
+                bool _end = false; // only 4 instructions can be encoded at a time, as we use only 2 bits 00, 01, 10, 11
+
+                while(!_end){
+
+                    // read the next line to check whether it is equal as well
+                    std::string _currentline;
+                    std::getline(this->inputStream, _currentline);
+                    this->originalWord = std::bitset<32>(_currentline); // updating the current line
+
+                    if((_currentline == this->previousWord) && (_occurrences < 5)){
+                        _occurrences++;
+                    }else{
+                        // this line must be encoded usig another method in the next run: otherwise it will be missed
+                        if(_currentline != this->previousWord){
+
+                        }
+                        _end = true;
+                    }
+                }
+
+                // RLE encoding
+                this->compressedCode = "000" + std::bitset<32>(_occurrences).to_string();
+                this->isCompressed = true; // compression complete
+            }            
         }
 
         // {code: "001", # bits: 12, index: 1} - a 4 bit masked, based compression
