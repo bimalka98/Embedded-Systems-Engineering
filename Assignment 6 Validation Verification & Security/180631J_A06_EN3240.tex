@@ -35,6 +35,8 @@
 \usepackage{amsthm,amsmath}
 \usepackage{amsfonts}
 
+\usepackage{float}
+
 \newcommand{\mc}[1]{\mathcal{#1}}	% Mechanisms / Algorithms
 \newcommand{\rv}[1]{\mathbf{#1}}    % Random variable
 
@@ -130,7 +132,7 @@
 	%%%%%%%%%%%%%%%%%%%%%
 	%%%%%%%%%%%%%%%%%%%%%
 	%%%%%%%%%%%%%%%%%%%%%
-	
+	\pagebreak
 	\section*{Problem 5 (8 Points)}
 	
 	\begin{enumerate}
@@ -145,17 +147,43 @@
 		\end{figure}
 		
 		
-		\vspace{25mm}
 		
-		%%%%%%%%%%%%%%%%%%%%%
-		%%%%%%%%%%%%%%%%%%%%%
-		%%%%%%%%%%%%%%%%%%%%%
+		\item Run ``John the Ripper'' password cracking utility to crack the passwords in the decrypted shadow file with the help of the dictionary ``rockyou.txt''(\href{https://uniofmora-my.sharepoint.com/:t:/g/personal/scharles_uom_lk/EQvMHge3CrZNpeE7WGXpapoBslFMMcgHih0teepNIwDVIg?e=9aEjJd}{Link}). What is the command you used to crack the passwords in the shadow file?\\		
 		
-		\item Run ``John the Ripper'' password cracking utility to crack the passwords in the decrypted shadow file with the help of the dictionary ``rockyou.txt''(\href{https://uniofmora-my.sharepoint.com/:t:/g/personal/scharles_uom_lk/EQvMHge3CrZNpeE7WGXpapoBslFMMcgHih0teepNIwDVIg?e=9aEjJd}{Link}). What is the command you used to crack the passwords in the shadow file? 
+		``\textit{Note that John can't crack hashes of different
+			types at the same time.  If you happen to get a password file that has more than one hash type, you have to invoke John once for each hash type and you need to use this option to make John crack hashes of types other than the one it would auto-detect by default.}'' - abstracted from \href{https://github.com/openwall/john/blob/bleeding-jumbo/doc/OPTIONS}{here}.\\
 		
 		%% TODO: add answer here
+		\begin{table}[!h]
+			\centering
+			\begin{tabular}{|c | l | l |}
+				\hline
+		\textbf{Hash ID} & \textbf{Hash format in John} & \textbf{Users}\\\hline
+		{\tt \$6\$} & {\tt sha512crypt} & root, bob, administrator\\
+		{\tt \$5\$} & {\tt sha256crypt} & ashleigh, penguin\\
+		{\tt \$1\$, \$apr1\$} & {\tt md5crypt} & alice, eve, claire\\
+		\hline\hline		
+			\end{tabular}
+		\caption{Additional {\tt --format} argument that should be passed to crack password}
+		\end{table}
 		
-		\vspace{10mm}
+		\textbf{Note}:  ``{\tt resources}'' in the following command is a user created directory to keep the password list and the decrypted shadow file.\\
+	
+		Therefore, following commands were invoked one after the other to crack all the possible passwords in the given shadow file.\\
+		
+		{\footnotesize \tt \$ ./john --wordlist=resources/rockyou.txt --rules resources/Cry-RC4-shadow.txt --format=md5crypt}\\
+		{\footnotesize \tt \$ ./john --wordlist=resources/rockyou.txt --rules resources/Cry-RC4-shadow.txt --format=sha256crypt}\\
+		{\footnotesize \tt \$ ./john --wordlist=resources/rockyou.txt --rules resources/Cry-RC4-shadow.txt --format=sha512crypt}
+		
+		 \begin{figure}[H]
+		 	\centering
+		 	\fbox{
+		 		\includegraphics[width=0.85\columnwidth]{problem5/cracked.PNG}
+		 	}
+		 	\caption{Status of \textit{John the Ripper} while cracking the passwords }
+		 \end{figure}
+		
+		It was observed that, the Estimated Time of Arrival(ETA) to crack the password of the \textit{root} is 2023-01-XX and its progress increment really slowly. Therefore the program was aborted without trying to crack it.
 		
 		%%%%%%%%%%%%%%%%%%%%%
 		%%%%%%%%%%%%%%%%%%%%%
@@ -165,11 +193,13 @@
 		
 		%% TODO: add answer here
 		
-		\vspace{35mm}
-		
-		%%%%%%%%%%%%%%%%%%%%%
-		%%%%%%%%%%%%%%%%%%%%%
-		%%%%%%%%%%%%%%%%%%%%%
+		\begin{figure}[H]
+			\centering
+			\fbox{
+				\includegraphics[width=0.85\columnwidth]{problem5/johnshow.PNG}
+			}
+			\caption{Status of \textit{John the Ripper} while cracking the passwords }
+		\end{figure}
 		
 		\item Provide recommendations to enhance the strength of the passwords.
 		
