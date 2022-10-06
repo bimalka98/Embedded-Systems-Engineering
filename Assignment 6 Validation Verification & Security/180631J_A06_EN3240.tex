@@ -169,7 +169,7 @@
 		
 		\textbf{Note}:  ``{\tt resources}'' in the following command is a user created directory to keep the password list and the decrypted shadow file.\\
 	
-		Therefore, following commands were invoked one after the other to crack all the possible passwords in the given shadow file.\\
+		Following commands were invoked one after the other to crack all the possible passwords in the given shadow file.\\
 		
 		{\footnotesize \tt \$ ./john --wordlist=resources/rockyou.txt --rules resources/Cry-RC4-shadow.txt --format=md5crypt}\\
 		{\footnotesize \tt \$ ./john --wordlist=resources/rockyou.txt --rules resources/Cry-RC4-shadow.txt --format=sha256crypt}\\
@@ -183,7 +183,7 @@
 		 	\caption{Status of \textit{John the Ripper} while cracking the passwords }
 		 \end{figure}
 		
-		It was observed that, the Estimated Time of Arrival(ETA) to crack the password of the \textit{root} is 2023-01-XX and its progress increment really slowly. Therefore the program was aborted without trying to crack it.
+		It was observed that, the Estimated Time of Arrival(ETA) to crack the password of the \textit{root} user is 2023-01-XX and its progress increments really slowly. Therefore the program was aborted without trying to crack it.
 		
 		%%%%%%%%%%%%%%%%%%%%%
 		%%%%%%%%%%%%%%%%%%%%%
@@ -200,14 +200,22 @@
 			}
 			\caption{Status of \textit{John the Ripper} while cracking the passwords }
 		\end{figure}
-		
+		\pagebreak
 		\item Provide recommendations to enhance the strength of the passwords.
 		
-		%% TODO: add answer here
+		By observing time duration the program took to crack each password, following recommendations can be provided.
 		
-		%%%%%%%%%%%%%%%%%%%%%
-		%%%%%%%%%%%%%%%%%%%%%
-		%%%%%%%%%%%%%%%%%%%%%
+		\begin{itemize}
+			\item When creating a password a combination of numbers, letters (upper case and/or lower case)  and special characters must be used and the password must be sufficiently long to make it stronger.
+			
+			\item When selecting an encryption method, SHA-512 is preferred over SHA-256 and the MD5. Because the latter two methods were comparably weak and the passwords of the \textit{ashleigh, penguin, alice, eve} and \textit{claire} were cracked in less than 10 seconds. Whereas it took 50 seconds to guess the password of \textit{administrator} and nearly two minutes to crack the password of the \textit{bob}.
+			
+			\item When creating a password common words (such as \textit{simple, cyber,labs (found above)  and etc} ) and patterns (such as \textit{123, 12345 (found above) and etc} ) must be strictly avoided. As these words can be easily guessed and cracked in no time as seen in the above scenario.					
+			
+			\item A password must not contain personal information such as name, birth year and etc. as those can easily be combined to form a candidate set of passwords easily.
+		\end{itemize}
+		
+		
 		
 		\clearpage
 		
