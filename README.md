@@ -10,6 +10,8 @@
 ---
 ## *Assignments*
 
+> Linked project directories contain extensive explanations (pdf and/or readme) of the projects mentioned below.
+
 |Figure|Desciption|
 |:---:|:---|
 |<img src="Assignment%201%20Modeling%20%26%20Specification/Figures/library.png"  width="800" />|**Modeling & Specification** <br>*Drawing a condition/event Petri net model for a library system* [[project]](Assignment%201%20Modeling%20%26%20Specification)|
