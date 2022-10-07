@@ -105,15 +105,21 @@
 	
 	\section*{Problem 3 (2 Points)}
 	
-	There are two types of processor simulation techniques - functional and cycle-accurate. Given an input assembly program, the functional simulation produces the correct output but does not provide cycle-by-cycle  details. On  the  other  hand,  the  pipelined  simulation  provides  a cycle-by-cycle  simulation  of  the pipeline  to  eventually  produce  the  final  result. Which one  is  faster  in  terms  of  performance  (simulation time) and why? Why do people use the slower one, then?
+	There are two types of processor simulation techniques - functional and cycle-accurate. Given an input assembly program, the functional simulation produces the correct output but does not provide cycle-by-cycle  details. On  the  other  hand,  the  pipelined  simulation  provides  a cycle-by-cycle  simulation  of  the pipeline  to  eventually  produce  the  final  result. Which one  is  faster  in  terms  of  performance  (simulation time) and why? Why do people use the slower one, then?\\
 	
-	%% TODO: add answer here
+	\textbf{\Large Answer}:
+	\begin{enumerate}
+		\item In terms of simulation time, Functional Simulator is faster than the Cycle-Accurate Simulator. Because functional simulators  are used only to validate the correctness of the design rather than performance characteristics of the design. Their simulation results may not provide accurate timing details such as the delays and the latencies. This is because functional simulators either have no or only a limited model of the microarchitecture. As an example a simple {\tt ADD} instruction of the target processor, may be translated to an {\tt ADD} instruction on the host, and be simulated that way.
+		
+		\item In contrast to the functional simulators, cycle-accurate simulators include a model of the target microarchitecture and simulation happens on a cycle-by-cycle basis. Theses  simulations are chosen over the aforementioned functional simulators when the performance characteristics such as precision in timing are of the interest. Moreover they provide more complex simulation metrics such as  Cycles Per Instructions (CPI), Cache hit/miss rates and are capable of simulating Branch Prediction and Out-of-order Execution of the target microarchitecture.
+		
+	\end{enumerate}
 	
 	%%%%%%%%%%%%%%%%%%%%%
 	%%%%%%%%%%%%%%%%%%%%%
 	%%%%%%%%%%%%%%%%%%%%%
 	
-	\newpage
+
 	\section*{Problem 4 (2 Points)}
 	
 	There are only two ways of combining compression and encryption: 
@@ -125,7 +131,7 @@
 	
 	Please  indicate  which  is beneficial for both  code  size  reduction  and  security  improvement.  Please explain why the other one is not suitable.\\
 	
-	\textbf{\Large Answer}: \textit{compression followed by encryption}, is beneficial.\\
+	\textbf{\Large Answer}: \textit{compression followed by encryption} (compression first, then encryption), is beneficial.\\
 	
 	Encryption followed by compression is not beneficial in terms of code size reduction and security improvement because of the following two simple facts.
 	
@@ -136,11 +142,14 @@
 		
 	\end{itemize}
 
-	Therefore, encrypting the data at first place destroys the patterns that can be used to effectively compress the data. This eventually make the compression not valuable as it does not yield a significant reduction in code size. Therefore, it can be concluded that compression followed by encryption is the more beneficial in terms of code size reduction and security improvement at the same time.
+	Therefore, encrypting the data at first place destroys the patterns that can be used to effectively compress the data. This eventually make the compression not valuable as it does not yield a significant reduction in code size. Therefore, it can be concluded that compression should be done prior to encryption  to get more benefits in terms of code size reduction and security improvement at the same time.
 	
 	%%%%%%%%%%%%%%%%%%%%%
 	%%%%%%%%%%%%%%%%%%%%%
 	%%%%%%%%%%%%%%%%%%%%%
+	
+	
+	
 	\pagebreak
 	\section*{Problem 5 (8 Points)}
 	
@@ -161,7 +170,8 @@
 		
 		``\textit{Note that John can't crack hashes of different
 			types at the same time.  If you happen to get a password file that has more than one hash type, you have to invoke John once for each hash type and you need to use this option to make John crack hashes of types other than the one it would auto-detect by default.}'' - abstracted from \href{https://github.com/openwall/john/blob/bleeding-jumbo/doc/OPTIONS}{here}.\\
-		
+
+		\textbf{\Large Answer}:
 		%% TODO: add answer here
 		\begin{table}[!h]
 			\centering
@@ -212,7 +222,7 @@
 		\pagebreak
 		\item Provide recommendations to enhance the strength of the passwords.
 		
-		By observing time duration the program took to crack each password, following recommendations can be provided.
+		\textbf{\Large Answer}: By observing time duration the program took to crack each password, following recommendations can be provided.
 		
 		\begin{itemize}
 			\item When creating a password a combination of numbers, letters (upper case and/or lower case)  and special characters must be used and the password must be sufficiently long to make it stronger.
