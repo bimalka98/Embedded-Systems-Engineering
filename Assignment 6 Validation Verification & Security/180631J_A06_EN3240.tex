@@ -123,11 +123,20 @@
 		\item CASE II: encryption followed by compression.
 	\end{itemize}
 	
-	Please  indicate  which  is beneficial for both  code  size  reduction  and  security  improvement.  Please explain why the other one is not suitable.
+	Please  indicate  which  is beneficial for both  code  size  reduction  and  security  improvement.  Please explain why the other one is not suitable.\\
 	
-	%% TODO: add answer here
+	\textbf{\Large Answer}: \textit{compression followed by encryption}, is beneficial.\\
 	
-	\vspace{25mm}
+	Encryption followed by compression is not beneficial in terms of code size reduction and security improvement because of the following two simple facts.
+	
+	\begin{itemize}
+		\item \textbf{Compression relies on patterns} found in the original data. Therefore, for optimal compression original data must contain more patterns than random data. Higher the randomness of data, lower the value of compression.
+		
+		\item \textbf{Purpose of encryption is to destroy any pattern} in the data and make it non-vulnerable to various attacks. Therefore, encryption essentially increases the randomness of data.
+		
+	\end{itemize}
+
+	Therefore, encrypting the data at first place destroys the patterns that can be used to effectively compress the data. This eventually make the compression not valuable as it does not yield a significant reduction in code size. Therefore, it can be concluded that compression followed by encryption is the more beneficial in terms of code size reduction and security improvement at the same time.
 	
 	%%%%%%%%%%%%%%%%%%%%%
 	%%%%%%%%%%%%%%%%%%%%%
@@ -198,7 +207,7 @@
 			\fbox{
 				\includegraphics[width=0.85\columnwidth]{problem5/johnshow.PNG}
 			}
-			\caption{Status of \textit{John the Ripper} while cracking the passwords }
+			\caption{All the cracked passwords}
 		\end{figure}
 		\pagebreak
 		\item Provide recommendations to enhance the strength of the passwords.
