@@ -16,6 +16,7 @@
 |<img src="Assignment%202%20IoT%20Project/images/iotui.png"  width="600" />| **IoT Project** <br>*Building a node-red application to get the weather data in an user-provided location from OpenWeather; Extend that Weather Application to include a Weather Warning Device implemented with the NodeMCU* [[project]](Assignment%202%20IoT%20Project)|
 |<img src="Assignment%204%20Real-time%20Scheduling/images/rmsed.png"  width="600" />| **Real-time Scheduling** <br>*Testing whether a given set of tasks are schedulable on a single processor using Rate-Monotonic (RM) scheduling by applying both necessary and sufficiency tests; Rate Monotonic Scheduling; Earliest Deadline First Scheduling* [[project]](Assignment%204%20Real-time%20Scheduling)|
 |<img src="figures/cdu.PNG"  width="600" />| **Code Compression** <br>*Implementation of both code compression and decompression using  C++. The dictionary can have eight entries (index 3 bits) and the eight entries are selected based on frequency. TBC. Refer the **Assignment 3 - Instructions.pdf** in the linked project directory for all the instructions* [[project]](Assignment%203%20Code%20Compression)|
+|<img src="figures/john.png"  width="600" />| **Validation/Verifcation & Security** <br>*Decrypting a given `shadow.hex` file which has been encrypted using `RC4` encryption, using CrypTool; Crack the passwords in the decrypted shadow file with the help of the dictionary `rockyou.txt` by using `John the Ripper` password cracking utility* [[project]](Assignment%206%20Validation%20Verification%20%26%20Security)|
 
 ---
 
