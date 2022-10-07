@@ -81,11 +81,26 @@
 	
 	\section*{Problem 1 (1 Point)}
 	
-	How many input patterns (tests) are required (minimum) to verify a 3-input OR gate completely when only binary inputs are allowed (each input can be 0 or 1)? List the inputs and expected outputs.
+	How many input patterns (tests) are required (minimum) to verify a 3-input OR gate completely when only binary inputs are allowed (each input can be 0 or 1)? List the inputs and expected outputs.\\
 	
-	%% TODO: add answer here
+	\textbf{\Large Answer}: 8 binary inputs
 	
-	\vspace{50mm}
+	\begin{table}[H]
+		\centering
+		\begin{tabular}{|c |c | c | c|}
+			\hline
+			A & B & C & Output\\ \hline
+			0 & 0 & 0 & 0 \\ \hline
+			0 & 0 & 1 & 1 \\ \hline
+			0 & 1 & 0 & 1 \\ \hline
+			0 & 1 & 1 & 1 \\ \hline
+			1 & 0 & 0 & 1 \\ \hline
+			1 & 0 & 1 & 1 \\ \hline
+			1 & 1 & 0 & 1 \\ \hline
+			1 & 1 & 1 & 1 \\ \hline\hline
+		\end{tabular}
+	\caption{Input patterns required to verify a 3-input OR gate}
+	\end{table}
 	
 	%%%%%%%%%%%%%%%%%%%%%
 	%%%%%%%%%%%%%%%%%%%%%
@@ -93,11 +108,22 @@
 	
 	\section*{Problem 2 (2 Points)}
 	
-	How many input patterns (tests) are required (minimum) to verify a 3-input OR gate completely when only ternary inputs are allowed (each input can be 0 or 1 or x;  x implies unknown which can be 0 or 1)? List the inputs.
+	How many input patterns (tests) are required (minimum) to verify a 3-input OR gate completely when only ternary inputs are allowed (each input can be 0 or 1 or x;  x implies unknown which can be 0 or 1)? List the inputs.\\
 	
-	%% TODO: add answer here
+	\textbf{\Large Answer}: 4 ternary inputs
 	
-	\vspace{40mm}
+	\begin{table}[H]
+		\centering
+		\begin{tabular}{|c |c | c | c|}
+			\hline
+			A & B & C & Output\\\hline
+			0 & 0 & 0 & 0 \\\hline
+			1 & x & x & 1 \\\hline
+			x & 1 & x & 1 \\\hline
+			x & x & 1 & 1 \\\hline\hline		
+		\end{tabular}
+	\caption{Input patterns required to verify a 3-input OR gate}
+	\end{table}
 	
 	%%%%%%%%%%%%%%%%%%%%%
 	%%%%%%%%%%%%%%%%%%%%%
@@ -111,7 +137,7 @@
 	\begin{enumerate}
 		\item In terms of simulation time, Functional Simulator is faster than the Cycle-Accurate Simulator. Because functional simulators  are used only to validate the correctness of the design rather than performance characteristics of the design. Their simulation results may not provide accurate timing details such as the delays and the latencies. This is because functional simulators either have no or only a limited model of the microarchitecture. As an example a simple {\tt ADD} instruction of the target processor, may be translated to an {\tt ADD} instruction on the host, and be simulated that way.
 		
-		\item In contrast to the functional simulators, cycle-accurate simulators include a model of the target microarchitecture and simulation happens on a cycle-by-cycle basis. Theses  simulations are chosen over the aforementioned functional simulators when the performance characteristics such as precision in timing are of the interest. Moreover they provide more complex simulation metrics such as  Cycles Per Instructions (CPI), Cache hit/miss rates and are capable of simulating Branch Prediction and Out-of-order Execution of the target microarchitecture.
+		\item In contrast to the functional simulators, cycle-accurate simulators include a model of the target microarchitecture and simulation happens on a cycle-by-cycle basis. Theses  simulations are chosen over the aforementioned functional simulators when the performance characteristics such as precision in timing are of the interest. Moreover they provide more complex simulation metrics such as  Cycles Per Instructions (CPI), Cache hit/miss rates and are capable of simulating more advanced features such as Branch Prediction and Out-of-order Execution of the target microarchitecture.
 		
 	\end{enumerate}
 	
