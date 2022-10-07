@@ -1,5 +1,11 @@
 # Code Compression and Decompression
 
+## Used Software 
+1. **For coding** : [Visual Studio Code](https://code.visualstudio.com/)
+2. **For Compilation** : [GCC C++ compiler (g++) and GDB debugger on Ubuntu in the Windows Subsystem for Linux (WSL)](https://learn.microsoft.com/en-us/windows/wsl/)
+
+![](figures/code.png)
+
 ## Automated Testing
 
 **Open the terminal in this directory and Execute the test.sh script!**
